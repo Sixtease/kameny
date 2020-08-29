@@ -1,28 +1,30 @@
 import 'phaser';
+import MoveTo from 'phaser3-rex-plugins/plugins/moveto.js';
 
 import {
-  map_center,
   map_height,
   map_width,
   viewport_height,
   viewport_width,
 } from '../constants';
+import { map_center } from '../constants/coords';
+import { game_config } from '../game_config';
+import { avatar_step } from '../game/logic';
+import { process_events } from '../game/render';
 
 export class Main_scene extends Phaser.Scene {
   panning = false;
   panning_origin_x: null | number = null;
   panning_origin_y: null | number = null;
+  avatar_move: null | MoveTo = null;
 
   constructor () {
-    super('demo');
-  }
-
-  cam() {
-    return this.cameras.main;
+    super('Kameny');
   }
 
   preload() {
     this.load.image('map', 'assets/map.jpg');
+    this.load.image('avatar', 'assets/avatars/mother.png');
   }
 
   create() {
@@ -30,15 +32,38 @@ export class Main_scene extends Phaser.Scene {
     this.cam().setScroll(map_center.x - viewport_width / 2, map_center.y - viewport_height / 2);
     this.cam().setBackgroundColor('#FFFFFF');
 
-    const map = this.add.image(0, 0, 'map').setOrigin(0);
+    this.add.image(0, 0, 'map').setOrigin(0);
+    this.setup_avatar();
 
-    this.input.on('pointerdown', (pointer) => {
+    this.input.on('pointerdown', (pointer, objects) => {
+      if (objects.length > 0) {
+        return;
+      }
       this.panning = true;
       this.panning_origin_x = pointer.downX + this.cam().scrollX;
       this.panning_origin_y = pointer.downY + this.cam().scrollY;
     });
     this.input.on('pointermove', (evt) => this.handle_mouse_move(evt));
     this.input.on('wheel', (pointer, objs, dx, dy, dz) => this.handle_mousewheel(pointer, objs, dx, dy, dz));
+  }
+
+  update() {
+    process_events();
+  }
+
+  setup_avatar() {
+    const avatar = this.add.sprite(map_center.x, map_center.y, 'avatar');
+    avatar.setScale(0.3);
+    avatar.setInteractive();
+    this.input.setDraggable(avatar);
+    this.avatar_move = new MoveTo(avatar, game_config);
+    avatar.on('pointerup', () => {
+      avatar_step();
+    });
+  }
+
+  cam() {
+    return this.cameras.main;
   }
 
   handle_mouse_move(evt) {

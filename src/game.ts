@@ -1,15 +1,8 @@
 import 'phaser';
-
 import './game.scss';
 
-import { viewport_width, viewport_height } from './constants';
+import { game_config } from './game_config';
 import { Main_scene } from './scenes/Main_scene';
 
-const config = {
-  type: Phaser.AUTO,
-  width: viewport_width,
-  height: viewport_height,
-  scene: Main_scene,
-};
-
-const game = new Phaser.Game(config);
+export const game = new Phaser.Game(game_config);
+export const get_scene = () => game.scene.getScene('Kameny') as Main_scene;
