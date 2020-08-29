@@ -1,47 +1,62 @@
 import 'phaser';
 
-export default class Demo extends Phaser.Scene
-{
-    constructor ()
-    {
-        super('demo');
+import './game.scss';
+
+import { map_width, map_height, map_center } from './constants';
+const viewport_width = window.innerWidth;
+const viewport_height = window.innerHeight;
+
+export default class Main_scene extends Phaser.Scene {
+  panning = false;
+  panning_origin_x: null | number = null;
+  panning_origin_y: null | number = null;
+
+  constructor () {
+    super('demo');
+  }
+
+  preload() {
+    this.load.image('map', 'assets/map.jpg');
+  }
+
+  create() {
+    const camera = this.cameras.main;
+    camera.setBounds(0, 0, map_width, map_height);
+    camera.setScroll(map_center.x - viewport_width / 2, map_center.y - viewport_height / 2);
+
+    const map = this.add.image(0, 0, 'map').setOrigin(0);
+
+    this.input.on('pointerdown', (pointer) => {
+      this.panning = true;
+      this.panning_origin_x = pointer.downX + camera.scrollX;
+      this.panning_origin_y = pointer.downY + camera.scrollY;
+    });
+    this.input.on('pointermove', (evt) => this.handle_mouse_move(evt));
+  }
+
+  handle_mouse_move(evt) {
+    const pointer = this.input.activePointer;
+    if (this.panning && !pointer.isDown) {
+      this.panning = false;
+      this.panning_origin_x = null;
+      this.panning_origin_y = null;
     }
-
-    preload ()
-    {
-        this.load.image('logo', 'assets/phaser3-logo.png');
-        this.load.image('libs', 'assets/libs.png');
-        this.load.glsl('bundle', 'assets/plasma-bundle.glsl.js');
-        this.load.glsl('stars', 'assets/starfields.glsl.js');
+    if (!this.panning) {
+      return;
     }
-
-    create ()
-    {
-        this.add.shader('RGB Shift Field', 0, 0, 800, 600).setOrigin(0);
-
-        this.add.shader('Plasma', 0, 412, 800, 172).setOrigin(0);
-
-        this.add.image(400, 300, 'libs');
-
-        const logo = this.add.image(400, 70, 'logo');
-
-        this.tweens.add({
-            targets: logo,
-            y: 350,
-            duration: 1500,
-            ease: 'Sine.inOut',
-            yoyo: true,
-            repeat: -1
-        })
-    }
+    const pos = evt.position;
+    const dx = this.panning_origin_x - pos.x;
+    const dy = this.panning_origin_y - pos.y;
+    this.cameras.main.scrollX = dx;
+    this.cameras.main.scrollY = dy;
+  }
 }
 
 const config = {
-    type: Phaser.AUTO,
-    backgroundColor: '#125555',
-    width: 800,
-    height: 600,
-    scene: Demo
+  type: Phaser.AUTO,
+  width: viewport_width,
+  height: viewport_height,
+  scene: Main_scene,
 };
 
 const game = new Phaser.Game(config);
