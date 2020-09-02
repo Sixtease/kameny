@@ -1,5 +1,5 @@
 import { Birth_gate_select, Game_event, history } from './logic';
-import { entrances } from '../constants/coords';
+import { gates } from '../constants/coords';
 import { Main_scene } from '../scenes/Main_scene';
 import { get_scene } from '../game';
 let seen_i = 0;
@@ -20,6 +20,6 @@ function process_event(evt: Game_event) {
 }
 
 function go_to_birth_gate(gate_index) {
-  const gate_coord = entrances[gate_index];
+  const gate_coord = gates[gate_index];
   get_scene().avatar_move.moveTo(gate_coord.x, gate_coord.y);
 }

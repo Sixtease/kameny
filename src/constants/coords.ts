@@ -155,6 +155,10 @@ export const fields = {
     { x: 1375, y: 1898 },
   ],
 
+  crossroad_1_to_crossroad_5: [
+    { x: 2019, y: 825 },
+  ],
+
   crossroad_1_to_crossroad_6: [
     { x: 2200, y: 920 },
     { x: 2280, y: 796 },
@@ -167,10 +171,6 @@ export const fields = {
     { x: 1420, y: 696 },
     { x: 1272, y: 748 },
     { x: 1128, y: 828 },
-  ],
-
-  crossroad_1_to_crossroad_5: [
-    { x: 2019, y: 825 },
   ],
 
   crossroad_2_to_crossroad_3: [
