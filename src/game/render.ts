@@ -12,7 +12,7 @@ export function process_events() {
 
 function process_event(evt: Game_event) {
   switch (evt.evt_name) {
-    case 'birth_gate_select':
+    case 'Birth_gate_select':
       go_to_birth_gate((evt as Birth_gate_select).payload.gate_index);
       break;
   }
