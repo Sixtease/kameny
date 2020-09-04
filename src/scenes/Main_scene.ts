@@ -8,14 +8,23 @@ import {
   viewport_width,
 } from '../constants';
 import { map_center } from '../constants/coords';
-import { game_config } from '../game_config';
 import { avatar_step } from '../game/logic';
 import { process_events } from '../game/render';
 
+function get_game_config() { return {
+  type: Phaser.AUTO,
+  width: viewport_width,
+  height: viewport_height,
+  scene: Main_scene,
+  plugins: {
+    global: [
+      { key: 'rexMoveTo', plugin: MoveTo, start: true },
+    ],
+  },
+}};
+
 export class Main_scene extends Phaser.Scene {
-  panning = false;
-  panning_origin_x: null | number = null;
-  panning_origin_y: null | number = null;
+  panning: null | { origin_x: number; origin_y: number } = null;
   avatar_move: null | MoveTo = null;
 
   constructor () {
@@ -39,9 +48,10 @@ export class Main_scene extends Phaser.Scene {
       if (objects.length > 0) {
         return;
       }
-      this.panning = true;
-      this.panning_origin_x = pointer.downX + this.cam().scrollX;
-      this.panning_origin_y = pointer.downY + this.cam().scrollY;
+      this.panning = {
+        origin_x: pointer.downX + this.cam().scrollX,
+        origin_y: pointer.downY + this.cam().scrollY,
+      };
     });
     this.input.on('pointermove', (evt) => this.handle_mouse_move(evt));
     this.input.on('wheel', (pointer, objs, dx, dy, dz) => this.handle_mousewheel(pointer, objs, dx, dy, dz));
@@ -56,7 +66,7 @@ export class Main_scene extends Phaser.Scene {
     avatar.setScale(0.3);
     avatar.setInteractive();
     this.input.setDraggable(avatar);
-    this.avatar_move = new MoveTo(avatar, game_config);
+    this.avatar_move = new MoveTo(avatar, get_game_config());
     avatar.on('pointerup', () => {
       avatar_step();
     });
@@ -69,16 +79,14 @@ export class Main_scene extends Phaser.Scene {
   handle_mouse_move(evt) {
     const pointer = this.input.activePointer;
     if (this.panning && !pointer.isDown) {
-      this.panning = false;
-      this.panning_origin_x = null;
-      this.panning_origin_y = null;
+      this.panning = null;
     }
     if (!this.panning) {
       return;
     }
     const pos = evt.position;
-    const dx = this.panning_origin_x - pos.x;
-    const dy = this.panning_origin_y - pos.y;
+    const dx = this.panning.origin_x - pos.x;
+    const dy = this.panning.origin_y - pos.y;
     this.cam().scrollX = dx;
     this.cam().scrollY = dy;
   }
@@ -97,3 +105,5 @@ export class Main_scene extends Phaser.Scene {
     this.cam().setZoom(clamped_new_zoom);
   }
 }
+
+export const game_config = get_game_config();

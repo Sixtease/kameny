@@ -1,9 +1,18 @@
 {
-    "compilerOptions": {
-        "target": "es5",
-        "moduleResolution": "node"
-    },
-    "include": [
-        "./src/**/*"
-    ]
+  "compilerOptions": {
+    "target": "es6",
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "noImplicitAny": false,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "noFallthroughCasesInSwitch": false,
+    "strict": true
+  },
+  "include": [
+    "./src"
+  ],
+  "exclude": ["node_modules"]
 }

@@ -1,25 +1,34 @@
-import { Birth_gate_select, Game_event, history } from './logic';
-import { gates } from '../constants/coords';
-import { Main_scene } from '../scenes/Main_scene';
+import { is_Birth_gate_select, is_Enter_road, is_Enter_spot, is_Field_progress, Game_event, hist } from './logic';
+import * as Coords from '../constants/coords';
+import { Road_name, Spot_name } from '../constants/places';
 import { get_scene } from '../game';
 let seen_i = 0;
 
 export function process_events() {
-  while (history[seen_i]) {
-    process_event(history[seen_i++]);
+  while (hist[seen_i]) {
+    process_event(hist[seen_i++]);
   }
 };
 
 function process_event(evt: Game_event) {
-  switch (evt.evt_name) {
-    case 'Birth_gate_select':
-      go_to_birth_gate((evt as Birth_gate_select).payload.gate_index);
-      break;
+  console.log('processing event', evt);
+  if (is_Field_progress(evt) || is_Enter_road(evt)) {
+    go_to_field(evt.payload.place_name, evt.payload.field_index);
+  } else if (is_Enter_spot(evt) || is_Birth_gate_select(evt)) {
+    go_to_spot(evt.payload.place_name);
+  } else {
+    console.warn(`unknown event ${evt.evt_name}`);
   }
   evt.processed = true;
 }
 
-function go_to_birth_gate(gate_index) {
-  const gate_coord = gates[gate_index];
-  get_scene().avatar_move.moveTo(gate_coord.x, gate_coord.y);
+function go_to_spot(spot_name: Spot_name) {
+  const spot_coord = Coords.spots[spot_name];
+  get_scene().avatar_move.moveTo(spot_coord.x, spot_coord.y);
+}
+
+function go_to_field(road_name: Road_name, field_index: number) {
+  const road = Coords.roads[road_name];
+  const field_coord = road[field_index];
+  get_scene().avatar_move.moveTo(field_coord.x, field_coord.y);
 }

@@ -1,51 +1,55 @@
+import * as Places from './places';
+
 export const map_center = {
   x: 1953,
   y: 2013,
 };
-export const gates = [
-  { x: 1953, y: 1557 },
-  { x: 1755, y: 1590 },
-  { x: 2569, y: 1931 },
-  { x: 1392, y: 2019 },
-  { x: 2349, y: 1667 },
-  { x: 2288, y: 2376 },
-  { x: 1634, y: 2409 },
-];
+export const gates = {
+  [Places.gate_1]: { x: 1953, y: 1557 },
+  [Places.gate_2]: { x: 1755, y: 1590 },
+  [Places.gate_3]: { x: 2569, y: 1931 },
+  [Places.gate_4]: { x: 1392, y: 2019 },
+  [Places.gate_5]: { x: 2349, y: 1667 },
+  [Places.gate_6]: { x: 2288, y: 2376 },
+  [Places.gate_7]: { x: 1634, y: 2409 },
+};
 
-export const crossroads = [
-  { x: 2020, y:  964 },
-  { x: 1184, y: 2592 },
-  { x:  528, y: 1732 },
-  { x: 3388, y: 1680 },
-  { x: 1888, y:  736 },
-  { x:  916, y:  936 },
-  { x: 2624, y: 2420 },
-  { x: 1280, y: 3020 },
-  { x: 2668, y: 3032 },
-  { x:  944, y: 2968 },
-  { x: 2632, y:  556 },
-  { x: 2992, y: 1444 },
-];
+export const crossroads = {
+  [Places.crossroad_1 ]: { x: 2020, y:  964 },
+  [Places.crossroad_2 ]: { x: 1184, y: 2592 },
+  [Places.crossroad_3 ]: { x:  528, y: 1732 },
+  [Places.crossroad_4 ]: { x: 3388, y: 1680 },
+  [Places.crossroad_5 ]: { x: 1888, y:  736 },
+  [Places.crossroad_6 ]: { x:  916, y:  936 },
+  [Places.crossroad_7 ]: { x: 2624, y: 2420 },
+  [Places.crossroad_8 ]: { x: 1280, y: 3020 },
+  [Places.crossroad_9 ]: { x: 2668, y: 3032 },
+  [Places.crossroad_10]: { x:  944, y: 2968 },
+  [Places.crossroad_11]: { x: 2632, y:  556 },
+  [Places.crossroad_12]: { x: 2992, y: 1444 },
+};
 
-export const white_crossroads = [
-  null, null, null, null, null, null,
-  { x: 629, y:  1308 },
-  null, null, null, null,
-  { x: 1468, y: 1764 },
-];
+export const white_crossroads = {
+  [Places.white_crossroad_7 ]: { x: 629, y:  1308 },
+  [Places.white_crossroad_12]: { x: 1468, y: 1764 },
+};
 
-export const teleports = [
-  { x: 2888, y: 1595 },
-  { x: 2712, y: 1073 },
-  { x:  974, y: 2459 },
-  { x: 3152, y: 1799 },
-  { x: 1183, y: 2794 },
-  { x: 3075, y: 1920 },
-];
+export const teleports = {
+  [Places.teleport_1]: { x: 2888, y: 1595 },
+  [Places.teleport_2]: { x: 2712, y: 1073 },
+  [Places.teleport_3]: { x:  974, y: 2459 },
+  [Places.teleport_4]: { x: 3152, y: 1799 },
+  [Places.teleport_5]: { x: 1183, y: 2794 },
+  [Places.teleport_6]: { x: 3075, y: 1920 },
+};
+
+export const spots = {
+  ...gates, ...crossroads, ...white_crossroads, ...teleports,
+};
 
 const K = 1;
-export const fields = {
-  gate_1_to_crossroad_1: [
+export const roads: { [road_name in Places.Road_name]: { x: number; y: number; K?: number }[] } = {
+  [Places.gate_1_to_crossroad_1]: [
     { x: 1968, y: 1420 },
     { x: 2072, y: 1380, K },
     { x: 2200, y: 1388 },
@@ -59,7 +63,7 @@ export const fields = {
     { x: 1904, y: 1080 },
   ],
 
-  gate_2_to_crossroad_5: [
+  [Places.gate_2_to_crossroad_5]: [
     { x: 1749, y: 1419 },
     { x: 1810, y: 1320, K },
     { x: 1958, y: 1276 },
@@ -77,7 +81,7 @@ export const fields = {
     { x: 1810, y:  875 },
   ],
 
-  gate_3_to_crossroad_7: [
+  [Places.gate_3_to_crossroad_7]: [
     { x: 2662, y: 1815 },
     { x: 2640, y: 1694 },
     { x: 2706, y: 1623 },
@@ -89,7 +93,7 @@ export const fields = {
     { x: 2712, y: 2255 },
   ],
 
-  gate_4_to_crossroad_6: [
+  [Places.gate_4_to_crossroad_6]: [
     { x: 1287, y: 1975 },
     { x: 1276, y: 1859 },
     { x: 1342, y: 1749 },
@@ -107,14 +111,14 @@ export const fields = {
     { x:  825, y: 1078 },
   ],
 
-  gate_5_to_crossroad_12: [
+  [Places.gate_5_to_crossroad_12]: [
     { x: 2475, y: 1595 },
     { x: 2574, y: 1524 },
     { x: 2684, y: 1480 },
     { x: 2811, y: 1480 },
   ],
 
-  gate_6_to_crossroad_9: [
+  [Places.gate_6_to_crossroad_9]: [
     { x: 2299, y: 2569 },
     { x: 2184, y: 2629 },
     { x: 2035, y: 2624 },
@@ -135,7 +139,7 @@ export const fields = {
     { x: 2750, y: 2871 },
   ],
 
-  gate_7_to_crossroad_3: [
+  [Places.gate_7_to_crossroad_3]: [
     { x: 1573, y: 2547 },
     { x: 1436, y: 2530 },
     { x: 1342, y: 2442 },
@@ -148,18 +152,18 @@ export const fields = {
     { x:  759, y: 1678 },
    ],
 
-  gate_7_to_white_crossroad_12: [
+  [Places.gate_7_to_white_crossroad_12]: [
     { x: 1529, y: 2376 },
     { x: 1430, y: 2261 },
     { x: 1364, y: 2134 },
     { x: 1375, y: 1898 },
   ],
 
-  crossroad_1_to_crossroad_5: [
+  [Places.crossroad_1_to_crossroad_5]: [
     { x: 2019, y: 825 },
   ],
 
-  crossroad_1_to_crossroad_6: [
+  [Places.crossroad_1_to_crossroad_6]: [
     { x: 2200, y: 920 },
     { x: 2280, y: 796 },
     { x: 2232, y: 680 },
@@ -173,7 +177,7 @@ export const fields = {
     { x: 1128, y: 828 },
   ],
 
-  crossroad_2_to_crossroad_3: [
+  [Places.crossroad_2_to_crossroad_3]: [
     { x: 1001, y: 2640 },
     { x:  869, y: 2662 },
     { x:  748, y: 2651 },
@@ -184,12 +188,12 @@ export const fields = {
     { x:  495, y: 1980 },
   ],
 
-  crossroad_2_to_crossroad_8: [
+  [Places.crossroad_2_to_crossroad_8]: [
     { x: 1320, y: 2712 },
     { x: 1353, y: 2855 },
   ],
 
-  crossroad_2_to_teleport_3: [
+  [Places.crossroad_2_to_teleport_3]: [
     { x: 1150, y: 2426 },
     { x: 1122, y: 2343 },
     { x: 1051, y: 2244 },
@@ -203,7 +207,7 @@ export const fields = {
     { x:  864, y: 2387 },
   ],
 
-  crossroad_3_to_crossroad_6: [
+  [Places.crossroad_3_to_crossroad_6]: [
     { x: 418, y: 1590 },
     { x: 396, y: 1469 },
     { x: 429, y: 1309, K: 2 },
@@ -212,7 +216,7 @@ export const fields = {
     { x: 715, y: 924 },
   ],
 
-  crossroad_4_to_crossroad_7: [
+  [Places.crossroad_4_to_crossroad_7]: [
     { x: 3438, y: 1865 },
     { x: 3460, y: 1991 },
     { x: 3454, y: 2145 },
@@ -228,7 +232,7 @@ export const fields = {
     { x: 2728, y: 2536 },
   ],
 
-  crossroad_4_to_crossroad_11: [
+  [Places.crossroad_4_to_crossroad_11]: [
     { x: 3449, y: 1507 },
     { x: 3460, y: 1359 },
     { x: 3432, y: 1210 },
@@ -240,7 +244,7 @@ export const fields = {
     { x: 2789, y: 495 },
   ],
 
-  crossroad_4_to_teleport_6: [
+  [Places.crossroad_4_to_teleport_6]: [
     { x: 3234, y: 1634 },
     { x: 3130, y: 1623 },
     { x: 3025, y: 1672 },
@@ -248,7 +252,7 @@ export const fields = {
     { x: 2981, y: 1898 },
   ],
 
-  crossroad_5_to_crossroad_11: [
+  [Places.crossroad_5_to_crossroad_11]: [
     { x: 1711, y:  726 },
     { x: 1584, y:  754 },
     { x: 1458, y:  792 },
@@ -284,7 +288,7 @@ export const fields = {
     { x: 2426, y:  523 },
   ],
 
-  crossroad_7_to_teleport_4: [
+  [Places.crossroad_7_to_teleport_4]: [
     { x: 2470, y: 2530 },
     { x: 2475, y: 2629 },
     { x: 2778, y: 2761 },
@@ -306,7 +310,7 @@ export const fields = {
     { x: 3240, y: 1870 },
   ],
 
-  crossroad_8_to_crossroad_9: [
+  [Places.crossroad_8_to_crossroad_9]: [
     { x: 1436, y: 3124 },
     { x: 1518, y: 3135 },
     { x: 1672, y: 3124 },
@@ -318,12 +322,12 @@ export const fields = {
     { x: 2580, y: 2915 },
   ],
 
-  crossroad_8_to_crossroad_10: [
+  [Places.crossroad_8_to_crossroad_10]: [
     { x: 1139, y: 3069 },
-    { x: 1040, y:  306 },9
+    { x: 1040, y: 3069 },
   ],
 
-  crossroad_9_to_crossroad_10: [
+  [Places.crossroad_9_to_crossroad_10]: [
     { x: 2508, y: 3141 },
     { x: 2382, y: 3179 },
     { x: 2228, y: 3218 },
@@ -342,11 +346,11 @@ export const fields = {
     { x:  770, y: 2932 },
   ],
 
-  crossroad_10_to_teleport_8: [
+  [Places.crossroad_10_to_teleport_5]: [
     { x: 1106, y: 2899 },
   ],
 
-  crossroad_11_to_crossroad_12: [
+  [Places.crossroad_11_to_crossroad_12]: [
     { x: 2789, y:  677 },
     { x: 2904, y:  754 },
     { x: 3014, y:  858 },
@@ -356,7 +360,7 @@ export const fields = {
     { x: 3179, y: 1381 },
   ],
 
-  crossroad_12_to_teleport_2: [
+  [Places.crossroad_12_to_teleport_2]: [
     { x: 3042, y: 1276 },
     { x: 3014, y: 1155 },
     { x: 2954, y: 1051 },
@@ -380,7 +384,7 @@ export const fields = {
     { x: 2629, y: 1045 },
   ],
 
-  white_crossroad_7_to_crossroad_8: [
+  [Places.white_crossroad_7_to_crossroad_8]: [
     { x:  484, y: 1425 },
     { x:  358, y: 1612 },
     { x:  330, y: 1744 },
@@ -398,7 +402,7 @@ export const fields = {
     { x: 1210, y: 2937 },
   ],
 
-  white_crossroad_7_to_teleport_1: [
+  [Places.white_crossroad_7_to_teleport_1]: [
     { x:  677, y: 1128 },
     { x:  726, y: 1012 },
     { x:  831, y:  798 },
@@ -425,7 +429,7 @@ export const fields = {
     { x: 2992, y: 1579 },
   ],
 
-  white_crossroad_7_to_white_crossroad_12: [
+  [Places.white_crossroad_7_to_white_crossroad_12]: [
     { x:  726, y: 1463 },
     { x:  803, y: 1557 },
     { x:  924, y: 1634 },
@@ -435,7 +439,7 @@ export const fields = {
     { x: 1441, y: 1540 },
   ],
 
-  white_crossroad_12_to_gate_6: [
+  [Places.white_crossroad_12_to_gate_6]: [
     { x: 1617, y: 1645 },
     { x: 1755, y: 1557 },
     { x: 1958, y: 1535 },
