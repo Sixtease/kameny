@@ -106,7 +106,16 @@ export function go_to_next_field(): Field_progress | null {
   let direction: DIRECTION | undefined = undefined;
   for (let i = hist.length - 1; i >= 0; i--) {
     const evt = hist[i];
-    if (is_Movement_event(evt)) {
+    if (is_Field_progress(evt)) {
+      if (field_index !== undefined) {
+        continue;
+      }
+      if (evt.payload.direction === DIRECTION.FORWARD) {
+        field_index = evt.payload.field_index + 1;
+      } else {
+        field_index = evt.payload.field_index - 1;
+      }
+    } else if (is_Movement_event(evt)) {
       if (is_Enter_road(evt)) {
         if (field_index === undefined) {
           if (evt.payload.direction === DIRECTION.FORWARD) {
@@ -120,15 +129,6 @@ export function go_to_next_field(): Field_progress | null {
         break;
       } else {
         return null;
-      }
-    } else if (is_Field_progress(evt)) {
-      if (field_index !== undefined) {
-        continue;
-      }
-      if (evt.payload.direction === DIRECTION.FORWARD) {
-        field_index = evt.payload.field_index + 1;
-      } else {
-        field_index = evt.payload.field_index - 1;
       }
     }
   }
