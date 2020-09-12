@@ -11,24 +11,14 @@ import { map_center } from '../constants/coords';
 import { avatar_step } from '../game/logic';
 import { process_events } from '../game/render';
 
-function get_game_config() { return {
-  type: Phaser.AUTO,
-  width: viewport_width,
-  height: viewport_height,
-  scene: Main_scene,
-  plugins: {
-    global: [
-      { key: 'rexMoveTo', plugin: MoveTo, start: true },
-    ],
-  },
-}};
+import { get_game_config } from '../game/config';
 
 export class Main_scene extends Phaser.Scene {
   panning: null | { origin_x: number; origin_y: number } = null;
   avatar_move: null | MoveTo = null;
 
   constructor () {
-    super('Kameny');
+    super('Main');
   }
 
   preload() {
@@ -105,5 +95,3 @@ export class Main_scene extends Phaser.Scene {
     this.cam().setZoom(clamped_new_zoom);
   }
 }
-
-export const game_config = get_game_config();
