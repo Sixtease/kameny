@@ -1,7 +1,7 @@
 import * as Places from '../constants/places';
 import { DIRECTION, is_road, is_spot, road_connects, get_road_length } from './place_info';
 import { transitions } from './transition';
-import { CARD_SET, Card, card_sets } from '../constants/cards';
+import { CARD_SET, Card, GlobalCard, card_sets } from '../constants/cards';
 
 import {
   Birth_gate_select,
@@ -149,7 +149,7 @@ function select_place(candidate_places: Places.Place_name[]): Promise<Places.Pla
         cards: shift_cards(candidate_places.length, CARD_SET.mother),
         set: CARD_SET.mother,  // TODO: set set
         permutation: Array(candidate_places.length).map((_, i) => i).sort(Math.random),
-        on_select: resolve,
+        on_select: (card: GlobalCard) => resolve(candidate_places[0]),
       }
     });
   });
