@@ -21,7 +21,7 @@ function get_game_config() { return {
       { key: 'rexMoveTo', plugin: MoveTo, start: true },
     ],
   },
-}};
+}}
 
 export class Main_scene extends Phaser.Scene {
   panning: null | { origin_x: number; origin_y: number } = null;
@@ -66,7 +66,7 @@ export class Main_scene extends Phaser.Scene {
     avatar.setScale(0.3);
     avatar.setInteractive();
     this.input.setDraggable(avatar);
-    this.avatar_move = new MoveTo(avatar, get_game_config());
+    this.avatar_move = new MoveTo(avatar);
     avatar.on('pointerup', () => {
       avatar_step();
     });

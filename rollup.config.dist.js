@@ -4,7 +4,6 @@ import resolve from 'rollup-plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
 import scss from 'rollup-plugin-scss';
 import typescript from 'rollup-plugin-typescript2';
-import { uglify } from 'rollup-plugin-uglify';
 
 export default {
 
@@ -67,9 +66,11 @@ export default {
     scss(),
 
     //  See https://www.npmjs.com/package/rollup-plugin-uglify for config options
+    /*
     uglify({
       mangle: false,
     }),
+    */
 
   ],
 };

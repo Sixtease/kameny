@@ -24,11 +24,11 @@ function process_event(evt: Game_event) {
 
 function go_to_spot(spot_name: Spot_name) {
   const spot_coord = Coords.spots[spot_name];
-  get_scene().avatar_move.moveTo(spot_coord.x, spot_coord.y);
+  get_scene().avatar_move?.moveTo(spot_coord.x, spot_coord.y);
 }
 
 function go_to_field(road_name: Road_name, field_index: number) {
   const road = Coords.roads[road_name];
   const field_coord = road[field_index];
-  get_scene().avatar_move.moveTo(field_coord.x, field_coord.y);
+  get_scene().avatar_move?.moveTo(field_coord.x, field_coord.y);
 }

@@ -64,7 +64,7 @@ export default {
 
     //  See https://www.npmjs.com/package/rollup-plugin-typescript2 for config options
     typescript({
-      objectHashIgnoreUnknownHack: true,
+      // objectHashIgnoreUnknownHack: true,
     }),
 
     //  See https://www.npmjs.com/package/rollup-plugin-serve for config options
