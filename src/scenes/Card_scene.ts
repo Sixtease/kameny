@@ -24,7 +24,7 @@ export class Card_scene extends Phaser.Scene {
   mkgroup() {
     if (!this.group) {
       this.group = this.add.group();
-      this.group.inputEnableChildren = true;
+      // this.group.inputEnableChildren = true;
     }
   }
 

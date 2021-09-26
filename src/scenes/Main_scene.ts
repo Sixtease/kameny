@@ -11,18 +11,6 @@ import { map_center } from '../constants/coords';
 import { avatar_step } from '../game/logic';
 import { process_events } from '../game/render';
 
-function get_game_config() { return {
-  type: Phaser.AUTO,
-  width: viewport_width,
-  height: viewport_height,
-  scene: Main_scene,
-  plugins: {
-    global: [
-      { key: 'rexMoveTo', plugin: MoveTo, start: true },
-    ],
-  },
-}}
-
 export class Main_scene extends Phaser.Scene {
   panning: null | { origin_x: number; origin_y: number } = null;
   avatar_move: null | MoveTo = null;
