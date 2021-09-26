@@ -28,7 +28,7 @@ export class Main_scene extends Phaser.Scene {
   avatar_move: null | MoveTo = null;
 
   constructor () {
-    super('Kameny');
+    super('Main');
   }
 
   preload() {
@@ -105,5 +105,3 @@ export class Main_scene extends Phaser.Scene {
     this.cam().setZoom(clamped_new_zoom);
   }
 }
-
-export const game_config = get_game_config();
