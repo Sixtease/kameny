@@ -5,6 +5,7 @@ import { CARD_SET, Card, GlobalCard, card_sets } from '../constants/cards';
 
 import {
   Birth_gate_select,
+  End_game,
   Enter_road,
   Enter_spot,
   Field_progress,
@@ -129,6 +130,13 @@ function shift_cards(count: number, set: CARD_SET): Card[] {
 }
 
 function select_place(candidate_places: Places.Place_name[]): Promise<Places.Place_name> {
+  if (candidate_places.length === 0) {
+    add_evt<End_game>({
+      evt_name: 'End_game',
+      processed: false,
+      payload: {},
+    });
+  }
   if (candidate_places.length === 1) {
     const selected_place = candidate_places[0];
     add_evt<Select_place>({
@@ -141,15 +149,19 @@ function select_place(candidate_places: Places.Place_name[]): Promise<Places.Pla
     })
     return Promise.resolve(selected_place);
   }
+  const cards = shift_cards(candidate_places.length, CARD_SET.mother);
   return new Promise<Places.Place_name>((resolve) => {
     add_evt<Present_cards>({
       evt_name: 'Present_cards',
       processed: false,
       payload: {
-        cards: shift_cards(candidate_places.length, CARD_SET.mother),
+        cards,
         set: CARD_SET.mother,  // TODO: set set
         permutation: Array(candidate_places.length).map((_, i) => i).sort(Math.random),
-        on_select: (card: GlobalCard) => resolve(candidate_places[0]),
+        on_select: (selected_card: GlobalCard) => {
+          const selected_card_index = cards.indexOf(selected_card.id);
+          resolve(candidate_places[selected_card_index]);
+        },
       }
     });
   });

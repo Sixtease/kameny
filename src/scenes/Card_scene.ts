@@ -17,14 +17,9 @@ export class Card_scene extends Phaser.Scene {
   group?: Phaser.GameObjects.Group;
   initialized = false;
 
-  preload() {
-    //this.load.image('map', 'assets/cards/child/amethyst.jpg');
-  }
-
   mkgroup() {
     if (!this.group) {
       this.group = this.add.group();
-      // this.group.inputEnableChildren = true;
     }
   }
 
@@ -32,9 +27,9 @@ export class Card_scene extends Phaser.Scene {
     if (this.initialized) {
       return;
     }
+    this.scene.start('Cards');
     this.cam().setBackgroundColor('rgba(255,255,255,0.5)');
     this.mkgroup();
-    this.input.on('pointerdown', console.log);
     this.initialized = true;
 
     //this.input.on('pointermove', (evt) => this.handle_mouse_move(evt));
@@ -48,39 +43,41 @@ export class Card_scene extends Phaser.Scene {
     return this.cameras.main;
   }
 
-  handle_card_click(card: GlobalCard) {
-    console.log('clicked card', card);
+  handle_card_click(card: GlobalCard, resolve) {
     if (!this.group) return;
     this.group.clear(true, true);
     this.scene.setActive(false);
     this.scene.sendToBack();
     this.scene.setVisible(false);
-    this.scene.switch('Main');
+    this.scene.wake('Main');
+    resolve(card);
   }
 
-  show_cards(cards: GlobalCard[]) {
-    this.initialize();
-    cards.forEach((card) => {
-      this.load.image(get_img_key(card.set, card.id), `assets/cards/${card.set}/${card.id}.jpg`);
+  show_cards(cards: GlobalCard[]): Promise<GlobalCard> {
+    return new Promise<GlobalCard>((resolve, reject) => {
+      this.initialize();
+      cards.forEach((card) => {
+        this.load.image(get_img_key(card.set, card.id), `assets/cards/${card.set}/${card.id}.jpg`);
+      });
+      this.load.once('complete', () => {
+        this.mkgroup();
+        cards.forEach(card => {{
+          const key = get_img_key(card.set, card.id);
+          const sprite = this.add.sprite(0, 0, key);
+          sprite.setInteractive();
+          sprite.on('pointerup', () => this.handle_card_click(card, resolve));
+          sprite.setScale(0.2);
+          this.group!.add(sprite);
+        }});
+        Phaser.Actions.PlaceOnCircle(this.group!.getChildren(), this.circle);
+        this.scene.setActive(true);
+        this.scene.bringToTop();
+        this.scene.setVisible(true);
+        this.scene.pause('Main');
+        this.scene.wake('Cards');
+      });
+      this.load.start();
     });
-    this.load.on('complete', () => {
-      this.mkgroup();
-      cards.forEach(card => {{
-        const key = get_img_key(card.set, card.id);
-        const sprite = this.add.sprite(0, 0, key);
-        sprite.setInteractive();
-        sprite.on('pointerdown', () => this.handle_card_click(card));
-        sprite.setScale(0.2);
-        this.group!.add(sprite);
-      }});
-      Phaser.Actions.PlaceOnCircle(this.group!.getChildren(), this.circle);
-      this.scene.setActive(true);
-      this.scene.bringToTop();
-      this.scene.setVisible(true);
-      this.scene.pause('Main');
-      this.scene.wake('Cards');
-    });
-    this.load.start();
   }
 }
 

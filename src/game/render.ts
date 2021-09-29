@@ -1,5 +1,6 @@
 import {
   is_Birth_gate_select,
+  is_End_game,
   is_Enter_road,
   is_Enter_spot,
   is_Field_progress,
@@ -9,7 +10,7 @@ import {
 } from './events';
 import { CARD_SET, Card, GlobalCard } from '../constants/cards';
 import * as Coords from '../constants/coords';
-import { Road_name, Spot_name } from '../constants/places';
+import { Road_name, Spot_name, map_center } from '../constants/places';
 import { get_main_scene, get_card_scene } from '../game';
 let seen_i = 0;
 
@@ -27,6 +28,8 @@ function process_event(evt: Game_event) {
     go_to_spot(evt.payload.place_name);
   } else if (is_Present_cards(evt)) {
     present_cards(evt.payload.cards, evt.payload.set, evt.payload.on_select);
+  } else if (is_End_game(evt)) {
+    go_to_spot(map_center);
   } else {
     console.warn(`unknown event ${evt.evt_name}`);
   }
@@ -45,5 +48,5 @@ function go_to_field(road_name: Road_name, field_index: number) {
 }
 
 function present_cards(cards: Card[], set: CARD_SET, onSelect: (card: GlobalCard) => void) {
-  get_card_scene().show_cards(cards.map(card => ({ id: card, set })));
+  get_card_scene().show_cards(cards.map(card => ({ id: card, set }))).then(onSelect);
 }

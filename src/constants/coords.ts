@@ -44,7 +44,7 @@ export const teleports = {
 };
 
 export const spots = {
-  ...gates, ...crossroads, ...white_crossroads, ...teleports,
+  ...gates, ...crossroads, ...white_crossroads, ...teleports, map_center,
 };
 
 const K = 1;
