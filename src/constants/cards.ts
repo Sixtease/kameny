@@ -246,4 +246,17 @@ export const card_sets = {
 export type Card = Mother_card | Child_card | Melchisedech_card;
 export type Single_set_cards = Mother_card[] | Child_card[] | Melchisedech_card[];
 
+export function is_mother_card(card: Card): card is Mother_card {
+  return mother.includes(card);
+}
+export function is_child_card(card: Card): card is Child_card {
+  return child.includes(card);
+}
+export function is_melchisedech_card(card: Card): card is Melchisedech_card {
+  return melchisedech.includes(card);
+}
+export function is_card_type<T extends Card>(card: Card): card is T {
+  
+}
+
 export type GlobalCard = { id: Card, set: CARD_SET };

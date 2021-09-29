@@ -8,12 +8,12 @@ import {
   viewport_width,
 } from '../constants';
 import { map_center } from '../constants/coords';
-import { avatar_step } from '../game/logic';
+import { avatar_step, select_player } from '../game/logic';
 import { process_events } from '../game/render';
 
 export class Main_scene extends Phaser.Scene {
-  panning: null | { origin_x: number; origin_y: number } = null;
-  avatar_move: null | MoveTo = null;
+  panning: { origin_x: number; origin_y: number } = null;
+  avatar_move: MoveTo = null;
 
   constructor () {
     super('Main');
@@ -22,6 +22,7 @@ export class Main_scene extends Phaser.Scene {
   preload() {
     this.load.image('map', 'assets/map.jpg');
     this.load.image('avatar', 'assets/avatars/mother.png');
+    select_player();
   }
 
   create() {

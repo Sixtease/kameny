@@ -30,6 +30,8 @@ function process_event(evt: Game_event) {
     present_cards(evt.payload.cards, evt.payload.set, evt.payload.on_select);
   } else if (is_End_game(evt)) {
     go_to_spot(map_center);
+  } else if (is_Select_player(evt)) {
+    set_player_deck(evt.payload.card_set);
   } else {
     console.warn(`unknown event ${evt.evt_name}`);
   }
@@ -38,13 +40,13 @@ function process_event(evt: Game_event) {
 
 function go_to_spot(spot_name: Spot_name) {
   const spot_coord = Coords.spots[spot_name];
-  get_main_scene().avatar_move?.moveTo(spot_coord.x, spot_coord.y);
+  get_main_scene().avatar_move.moveTo(spot_coord.x, spot_coord.y);
 }
 
 function go_to_field(road_name: Road_name, field_index: number) {
   const road = Coords.roads[road_name];
   const field_coord = road[field_index];
-  get_main_scene().avatar_move?.moveTo(field_coord.x, field_coord.y);
+  get_main_scene().avatar_move.moveTo(field_coord.x, field_coord.y);
 }
 
 function present_cards(cards: Card[], set: CARD_SET, onSelect: (card: GlobalCard) => void) {

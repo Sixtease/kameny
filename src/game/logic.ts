@@ -2,6 +2,7 @@ import * as Places from '../constants/places';
 import { DIRECTION, is_road, is_spot, road_connects, get_road_length } from './place_info';
 import { transitions } from './transition';
 import { CARD_SET, Card, GlobalCard, card_sets } from '../constants/cards';
+import { CardDeck } from '../cards';
 
 import {
   Birth_gate_select,
@@ -124,9 +125,8 @@ function go_to_start_gate(gate_name: Places.Gate_name): Game_event {
   });
 };
 
-function shift_cards(count: number, set: CARD_SET): Card[] {
-  // TODO: shuffle and keep track of position
-  return card_sets[set].slice(0, count);
+function shift_cards(count: number): Card[] {
+  return get_player_deck().draw(count);
 }
 
 function select_place(candidate_places: Places.Place_name[]): Promise<Places.Place_name> {
@@ -149,7 +149,7 @@ function select_place(candidate_places: Places.Place_name[]): Promise<Places.Pla
     })
     return Promise.resolve(selected_place);
   }
-  const cards = shift_cards(candidate_places.length, CARD_SET.mother);
+  const cards = shift_cards(candidate_places.length);
   return new Promise<Places.Place_name>((resolve) => {
     add_evt<Present_cards>({
       evt_name: 'Present_cards',
@@ -210,4 +210,11 @@ export function avatar_step(): void {
   }
   const candidate_places = transitions(current_place, previous_place);
   select_place(candidate_places).then(selected_place => go_to_place(selected_place));
+}
+
+export function select_player(set?: CARD_SET = CARD_SET.mother) {
+  add_evt<Select_player>({
+    evt_name: 'Select_player',
+    payload: { set },
+  });
 }

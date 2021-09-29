@@ -92,6 +92,15 @@ export interface End_game extends Game_event {
 export function is_End_game(evt: Game_event): evt is End_game {
   return evt.evt_name === 'End_game';
 }
+export interface Select_player extends Game_event {
+  evt_name: 'Select_player';
+  payload: {
+    card_set: CARD_SET;
+  };
+}
+export function is_Select_player(evt: Game_event): evt is Select_player {
+  return evt.evt_name === 'Select_player';
+}
 
 export const hist: Game_event[] = [];
 export function add_evt<T extends Game_event>(e: T): T {
