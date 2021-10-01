@@ -1,9 +1,8 @@
 import * as Places from '../constants/places';
 import { DIRECTION, is_road, is_spot, road_connects, get_road_length } from './place_info';
 import { transitions } from './transition';
-import { CARD_SET, Card, GlobalCard, card_sets } from '../constants/cards';
-import { CardDeck } from '../cards';
-
+import { get_player_deck } from '../game';
+import { CARD_SET, Card, GlobalCard } from '../constants/cards';
 import {
   Birth_gate_select,
   End_game,
@@ -14,6 +13,7 @@ import {
   Movement_event,
   Present_cards,
   Select_place,
+  Select_player,
   add_evt,
   hist,
   is_Enter_road,
@@ -212,9 +212,10 @@ export function avatar_step(): void {
   select_place(candidate_places).then(selected_place => go_to_place(selected_place));
 }
 
-export function select_player(set?: CARD_SET = CARD_SET.mother) {
+export function select_player(card_set: CARD_SET = CARD_SET.mother) {
   add_evt<Select_player>({
     evt_name: 'Select_player',
-    payload: { set },
+    processed: false,
+    payload: { card_set },
   });
 }

@@ -5,13 +5,14 @@ import {
   is_Enter_spot,
   is_Field_progress,
   is_Present_cards,
+  is_Select_player,
   Game_event,
   hist,
 } from './events';
 import { CARD_SET, Card, GlobalCard } from '../constants/cards';
 import * as Coords from '../constants/coords';
 import { Road_name, Spot_name, map_center } from '../constants/places';
-import { get_main_scene, get_card_scene } from '../game';
+import { get_main_scene, get_card_scene, set_player_deck } from '../game';
 let seen_i = 0;
 
 export function process_events() {

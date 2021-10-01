@@ -246,17 +246,31 @@ export const card_sets = {
 export type Card = Mother_card | Child_card | Melchisedech_card;
 export type Single_set_cards = Mother_card[] | Child_card[] | Melchisedech_card[];
 
+export interface CardPackage {
+  Set: CARD_SET;
+  Card: Card;
+}
+export interface MotherCardPackage extends CardPackage {
+  Set: CARD_SET.mother;
+  Card: Mother_card;
+}
+export interface ChildCardPackage extends CardPackage {
+  Set: CARD_SET.child;
+  Card: Child_card;
+}
+export interface MelchisedechCardPackage extends CardPackage {
+  Set: CARD_SET.melchisedech;
+  Card: Melchisedech_card;
+}
+
 export function is_mother_card(card: Card): card is Mother_card {
-  return mother.includes(card);
+  return (mother as Card[]).includes(card);
 }
 export function is_child_card(card: Card): card is Child_card {
-  return child.includes(card);
+  return (child as Card[]).includes(card);
 }
 export function is_melchisedech_card(card: Card): card is Melchisedech_card {
-  return melchisedech.includes(card);
-}
-export function is_card_type<T extends Card>(card: Card): card is T {
-  
+  return (melchisedech as Card[]).includes(card);
 }
 
 export type GlobalCard = { id: Card, set: CARD_SET };
