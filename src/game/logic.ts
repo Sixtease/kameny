@@ -158,7 +158,7 @@ function select_place(candidate_places: Places.Place_name[]): Promise<Places.Pla
       payload: {
         cards,
         set: CARD_SET.mother,  // TODO: set set
-        permutation: Array(candidate_places.length).map((_, i) => i).sort(Math.random),
+        permutation: Array(candidate_places.length).map((_, i) => i).sort(() => Math.random() - 0.5),
         on_select: (selected_card: GlobalCard) => {
           const selected_card_index = cards.indexOf(selected_card.id);
           add_evt<Select_from_presented_cards>({
