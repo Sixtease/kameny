@@ -12,6 +12,7 @@ import {
   Game_event,
   Movement_event,
   Present_cards,
+  Select_from_presented_cards,
   Select_place,
   Select_player,
   add_evt,
@@ -160,6 +161,14 @@ function select_place(candidate_places: Places.Place_name[]): Promise<Places.Pla
         permutation: Array(candidate_places.length).map((_, i) => i).sort(Math.random),
         on_select: (selected_card: GlobalCard) => {
           const selected_card_index = cards.indexOf(selected_card.id);
+          add_evt<Select_from_presented_cards>({
+            evt_name: 'Select_from_presented_cards',
+            processed: false,
+            payload: {
+              index: selected_card_index,
+              card: selected_card,
+            },
+          });
           resolve(candidate_places[selected_card_index]);
         },
       }
