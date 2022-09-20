@@ -59,7 +59,7 @@ export class Card_scene extends Phaser.Scene {
       cards.forEach((card) => {
         this.load.image(get_img_key(card.set, card.id), `assets/cards/${card.set}/${card.id}.jpg`);
       });
-      this.load.once('complete', () => {
+      this.load.once('complete', () => window.setTimeout(() => {
         this.mkgroup();
         cards.forEach(card => {{
           const key = get_img_key(card.set, card.id);
@@ -75,7 +75,7 @@ export class Card_scene extends Phaser.Scene {
         this.scene.setVisible(true);
         this.scene.pause('Main');
         this.scene.wake('Cards');
-      });
+      }, 100));
       this.load.start();
     });
   }
