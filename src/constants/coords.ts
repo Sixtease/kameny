@@ -1,10 +1,18 @@
 import * as Places from './places';
 
-export const map_center = {
+interface Coord {
+  x: number;
+  y: number;
+}
+interface Carded_coord extends Coord {
+  K?: number;
+}
+
+export const map_center: Coord = {
   x: 1953,
   y: 2013,
 };
-export const gates = {
+export const gates: Record<Places.Gate_name, Coord> = {
   [Places.gate_1]: { x: 1953, y: 1557 },
   [Places.gate_2]: { x: 1755, y: 1590 },
   [Places.gate_3]: { x: 2569, y: 1931 },
@@ -14,7 +22,7 @@ export const gates = {
   [Places.gate_7]: { x: 1634, y: 2409 },
 };
 
-export const crossroads = {
+export const crossroads: Record<Places.Standard_crossroad_name, Coord> = {
   [Places.crossroad_1 ]: { x: 2020, y:  964 },
   [Places.crossroad_2 ]: { x: 1184, y: 2592 },
   [Places.crossroad_3 ]: { x:  528, y: 1732 },
@@ -29,12 +37,12 @@ export const crossroads = {
   [Places.crossroad_12]: { x: 2992, y: 1444 },
 };
 
-export const white_crossroads = {
+export const white_crossroads: Record<Places.White_crossroad_name, Coord> = {
   [Places.white_crossroad_7 ]: { x: 629, y:  1308 },
   [Places.white_crossroad_12]: { x: 1468, y: 1764 },
 };
 
-export const teleports = {
+export const teleports: Record<Places.Teleport_name, Coord> = {
   [Places.teleport_1]: { x: 2888, y: 1595 },
   [Places.teleport_2]: { x: 2712, y: 1073 },
   [Places.teleport_3]: { x:  974, y: 2459 },
@@ -43,12 +51,12 @@ export const teleports = {
   [Places.teleport_6]: { x: 3075, y: 1920 },
 };
 
-export const spots = {
+export const spots: Record<Places.Spot_name, Coord> = {
   ...gates, ...crossroads, ...white_crossroads, ...teleports, map_center,
 };
 
 const K = 1;
-export const roads: { [road_name in Places.Road_name]: { x: number; y: number; K?: number }[] } = {
+export const roads: Record<Places.Road_name, Carded_coord[]> = {
   [Places.gate_1_to_crossroad_1]: [
     { x: 1968, y: 1420 },
     { x: 2072, y: 1380, K },
