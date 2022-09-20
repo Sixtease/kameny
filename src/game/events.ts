@@ -87,6 +87,15 @@ export interface Select_from_presented_cards extends Game_event {
 export function is_Select_from_presented_cards(evt: Game_event): evt is Select_from_presented_cards {
   return evt.evt_name === 'Select_from_presented_cards';
 }
+export interface Pick_card extends Game_event {
+  evt_name: 'Pick_card',
+  payload: {
+    card: GlobalCard;
+  }
+}
+export function is_Pick_card(evt: Game_event): evt is Pick_card {
+  return evt.evt_name === 'Pick_card';
+}
 export interface End_game extends Game_event {
   evt_name: 'End_game';
 }

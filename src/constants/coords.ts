@@ -461,3 +461,11 @@ export const roads: Record<Places.Road_name, Carded_coord[]> = {
     { x: 2437, y: 2316 },
   ],
 };
+
+export function get_coord(place_name: Places.Place_name, field_index: number): Carded_coord {
+  const rv = field_index === null
+    ? spots[place_name]
+    : roads[place_name as Places.Road_name][field_index];
+  console.log('got coord based on', place_name, field_index, 'returning', rv, spots);
+  return rv;
+}

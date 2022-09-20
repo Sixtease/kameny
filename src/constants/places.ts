@@ -41,7 +41,7 @@ export const crossroad_10 = 'crossroad_10';
 export const crossroad_11 = 'crossroad_11';
 export const crossroad_12 = 'crossroad_12';
 
-type Standard_crossroad_name =
+export type Standard_crossroad_name =
   | typeof crossroad_1
   | typeof crossroad_2
   | typeof crossroad_3
@@ -97,7 +97,7 @@ export const teleports: Teleport_name[] = [
 export const white_crossroad_7 = 'white_crossroad_7';
 export const white_crossroad_12 = 'white_crossroad_12';
 
-type White_crossroad_name =
+export type White_crossroad_name =
   | typeof white_crossroad_7
   | typeof white_crossroad_12;
 

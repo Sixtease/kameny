@@ -8,7 +8,7 @@ import {
   viewport_width,
 } from '../constants';
 import { map_center } from '../constants/coords';
-import { avatar_step, select_player } from '../game/logic';
+import { avatar_step, land, select_player } from '../game/logic';
 import { process_events } from '../game/render';
 
 export class Main_scene extends Phaser.Scene {
@@ -56,6 +56,7 @@ export class Main_scene extends Phaser.Scene {
     avatar.setInteractive();
     this.input.setDraggable(avatar);
     this.avatar_move = new MoveTo(avatar);
+    this.avatar_move.on('complete', land);
     avatar.on('pointerup', () => {
       avatar_step();
     });

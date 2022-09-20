@@ -1,3 +1,4 @@
+import { get_coord } from '../constants/coords';
 import * as Places from '../constants/places';
 import { DIRECTION, is_road, is_spot, road_connects, get_road_length } from './place_info';
 import { transitions } from './transition';
@@ -11,6 +12,7 @@ import {
   Field_progress,
   Game_event,
   Movement_event,
+  Pick_card,
   Present_cards,
   Select_from_presented_cards,
   Select_place,
@@ -28,14 +30,38 @@ enum AVATAR_STATE {
   DIED = 'DIED',
 }
 
-export function get_current_place(): Places.Place_name {
+export function get_current_position(): { place_name: Places.Place_name, field_index: number} {
   for (let i = hist.length - 1; i >= 0; i--) {
     const evt = hist[i];
     if (is_Movement_event(evt)) {
-      return evt.payload.place_name;
+      const { place_name }  = evt.payload;
+      if (is_Field_progress(evt)) {
+        return {
+          place_name,
+          field_index: evt.payload.field_index,
+        };
+      }
+      if (is_Enter_road(evt)) {
+        const road_length = get_road_length(place_name as Places.Road_name);
+        const field_index = evt.payload.direction === 'FORWARD' ? 0 : road_length - 1;
+        return {
+          place_name,
+          field_index,
+        };
+      }
+      return {
+        place_name,
+        field_index: null,
+      };
     }
   }
-  return Places.map_center;
+  return {
+    place_name: Places.map_center,
+    field_index: null
+  };
+}
+export function get_current_place(): Places.Place_name {
+  return get_current_position().place_name;
 }
 export function get_previous_place(): Places.Place_name | null {
   let saw_current_place = false;
@@ -129,6 +155,9 @@ function go_to_start_gate(gate_name: Places.Gate_name): Game_event {
 function shift_cards(count: number): Card[] {
   return get_player_deck().draw(count);
 }
+function shift_card(): Card {
+  return shift_cards(1)[0];
+}
 
 function select_place(candidate_places: Places.Place_name[]): Promise<Places.Place_name> {
   if (candidate_places.length === 0) {
@@ -199,6 +228,24 @@ function go_to_place(successor: Places.Place_name): Movement_event {
       processed: false,
       payload: {
         place_name: successor,
+      },
+    });
+  }
+}
+
+export function land(): void {
+  const pos = get_current_position();
+  const coord = get_coord(pos.place_name, pos.field_index);
+  if (coord.K) {
+    const deck = get_player_deck();
+    add_evt<Pick_card>({
+      evt_name: 'Pick_card',
+      processed: false,
+      payload: {
+        card: {
+          set: deck.set,
+          id: shift_card(),
+        },
       },
     });
   }
