@@ -56,26 +56,33 @@ export class Card_scene extends Phaser.Scene {
   show_cards(cards: GlobalCard[]): Promise<GlobalCard> {
     return new Promise<GlobalCard>((resolve, reject) => {
       this.initialize();
-      cards.forEach((card) => {
-        this.load.image(get_img_key(card.set, card.id), `assets/cards/${card.set}/${card.id}.jpg`);
-      });
-      this.load.once('complete', () => window.setTimeout(() => {
-        this.mkgroup();
+      this.load.image(cards.map(card => ({
+        key: get_img_key(card.set, card.id),
+        url: `assets/cards/${card.set}/${card.id}.jpg`
+      })))
+      const me = this;
+      me.load.once('complete', function on_load() {
+        const loaded_ok = cards.every(card => me.textures.list[get_img_key(card.  set, card.id)]);
+        if (!loaded_ok) {
+          setTimeout(on_load, 100);
+          return;
+        }
+        me.mkgroup();
         cards.forEach(card => {{
           const key = get_img_key(card.set, card.id);
-          const sprite = this.add.sprite(0, 0, key);
+          const sprite = me.add.sprite(0, 0, key);
           sprite.setInteractive();
-          sprite.on('pointerup', () => this.handle_card_click(card, resolve));
+          sprite.on('pointerup', () => me.handle_card_click(card, resolve));
           sprite.setScale(0.2);
-          this.group!.add(sprite);
+          me.group!.add(sprite);
         }});
-        Phaser.Actions.PlaceOnCircle(this.group!.getChildren(), this.circle);
-        this.scene.setActive(true);
-        this.scene.bringToTop();
-        this.scene.setVisible(true);
-        this.scene.pause('Main');
-        this.scene.wake('Cards');
-      }, 100));
+        Phaser.Actions.PlaceOnCircle(me.group!.getChildren(), me.circle);
+        me.scene.setActive(true);
+        me.scene.bringToTop();
+        me.scene.setVisible(true);
+        me.scene.pause('Main');
+        me.scene.wake('Cards');
+      });
       this.load.start();
     });
   }
