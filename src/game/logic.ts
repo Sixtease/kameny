@@ -237,16 +237,18 @@ export function land(): void {
   const coord = get_coord(pos.place_name, pos.field_index);
   if (coord.K) {
     const deck = get_player_deck();
-    add_evt<Pick_card>({
-      evt_name: 'Pick_card',
-      processed: false,
-      payload: {
-        card: {
-          set: deck.set,
-          id: shift_card(),
+    for (let i = 0; i < coord.K; i++) {
+      add_evt<Pick_card>({
+        evt_name: 'Pick_card',
+        processed: false,
+        payload: {
+          card: {
+            set: deck.set,
+            id: shift_card(),
+          },
         },
-      },
-    });
+      });
+    }
   }
 }
 
