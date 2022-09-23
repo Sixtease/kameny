@@ -11,7 +11,7 @@ import {
   Field_progress,
   Game_event,
   Movement_event,
-  Pick_card,
+  Pick_cards,
   Present_cards,
   Select_from_presented_cards,
   Select_place,
@@ -154,9 +154,6 @@ function go_to_start_gate(gate_name: Places.Gate_name): Game_event {
 function shift_cards(count: number): Card[] {
   return get_player_deck().draw(count);
 }
-function shift_card(): Card {
-  return shift_cards(1)[0];
-}
 
 function select_place(candidate_places: Places.Place_name[]): Promise<Places.Place_name> {
   if (candidate_places.length === 0) {
@@ -237,18 +234,14 @@ export function land(): void {
   const coord = get_coord(pos.place_name, pos.field_index);
   if (coord.K) {
     const deck = get_player_deck();
-    for (let i = 0; i < coord.K; i++) {
-      add_evt<Pick_card>({
-        evt_name: 'Pick_card',
-        processed: false,
-        payload: {
-          card: {
-            set: deck.set,
-            id: shift_card(),
-          },
-        },
-      });
-    }
+    add_evt<Pick_cards>({
+      evt_name: 'Pick_cards',
+      processed: false,
+      payload: {
+        cards: shift_cards(coord.K),
+        set: deck.set,
+      },
+    });
   }
 }
 

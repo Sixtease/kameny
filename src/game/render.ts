@@ -4,6 +4,7 @@ import {
   is_Enter_road,
   is_Enter_spot,
   is_Field_progress,
+  is_Pick_cards,
   is_Present_cards,
   is_Select_player,
   Game_event,
@@ -33,6 +34,8 @@ function process_event(evt: Game_event) {
     go_to_spot(map_center);
   } else if (is_Select_player(evt)) {
     set_player_deck(evt.payload.card_set);
+  } else if (is_Pick_cards(evt)) {
+    present_cards(evt.payload.cards, evt.payload.set, () => {});
   } else {
     console.warn(`unknown event ${evt.evt_name}`);
   }
