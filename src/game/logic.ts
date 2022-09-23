@@ -1,6 +1,5 @@
-import { get_coord } from '../constants/coords';
 import * as Places from '../constants/places';
-import { DIRECTION, is_road, is_spot, road_connects, get_road_length } from './place_info';
+import { DIRECTION, get_coord, is_road, is_spot, road_connects, get_road_length } from './place_info';
 import { transitions } from './transition';
 import { get_player_deck } from '../game';
 import { CARD_SET, Card, GlobalCard } from '../constants/cards';

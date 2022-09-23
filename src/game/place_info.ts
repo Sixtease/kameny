@@ -1,5 +1,5 @@
 import * as Places from '../constants/places';
-import { roads } from '../constants/coords';
+import { Carded_coord, roads, spots } from '../constants/coords';
 
 export function is_road(place: Places.Place_name): place is Places.Road_name {
   return (Places.roads as Places.Place_name[]).includes(place);
@@ -68,4 +68,11 @@ export function get_road_length(name: Places.Road_name): number {
 
 export function is_spot(n: Places.Place_name): n is Places.Spot_name {
   return (Places.spots as Places.Place_name[]).includes(n);
+}
+
+export function get_coord(place_name: Places.Place_name, field_index: number): Carded_coord {
+  const rv = is_road(place_name)
+    ? roads[place_name as Places.Road_name][field_index]
+    : spots[place_name];
+  return rv;
 }
