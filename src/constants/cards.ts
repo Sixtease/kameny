@@ -274,3 +274,7 @@ export function is_melchisedech_card(card: Card): card is Melchisedech_card {
 }
 
 export type GlobalCard = { id: Card, set: CARD_SET };
+
+export function get_card_key(set: CARD_SET, card_id: Card): string {
+  return [set, card_id].join('.');
+}

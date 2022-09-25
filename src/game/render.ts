@@ -6,6 +6,7 @@ import {
   is_Field_progress,
   is_Pick_cards,
   is_Present_cards,
+  is_Recap_game,
   is_Select_player,
   Game_event,
   hist,
@@ -36,6 +37,8 @@ function process_event(evt: Game_event) {
     set_player_deck(evt.payload.card_set);
   } else if (is_Pick_cards(evt)) {
     present_cards(evt.payload.cards, evt.payload.set, () => {});
+  } else if (is_Recap_game(evt)) {
+    // TODO
   } else {
     console.warn(`unknown event ${evt.evt_name}`);
   }

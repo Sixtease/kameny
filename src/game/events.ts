@@ -112,9 +112,25 @@ export interface Select_player extends Game_event {
 export function is_Select_player(evt: Game_event): evt is Select_player {
   return evt.evt_name === 'Select_player';
 }
+export interface Recap_game extends Game_event {
+  evt_name: 'Recap_game';
+}
+export function is_Recap_game(evt: Game_event): evt is Recap_game {
+  return evt.evt_name === 'Recap_game';
+}
 
 export const hist: Game_event[] = [];
 export function add_evt<T extends Game_event>(e: T): T {
   hist.push(e);
   return e;
 };
+
+export function event_occurred(evt_name: string): Game_event {
+  for (let i = hist.length - 1; i >= 0; i--) {
+    const evt = hist[i];
+    if (evt.evt_name === evt_name) {
+      return evt;
+    }
+  }
+  return null;
+}

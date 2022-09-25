@@ -3,6 +3,7 @@ import './game.scss';
 
 import { Main_scene } from './scenes/Main_scene';
 import { Card_scene} from './scenes/Card_scene';
+import { Drawn_cards_scene } from './scenes/Drawn_cards_scene';
 import { get_game_config } from './game/config';
 import { CardDeck } from './cards';
 import { CARD_SET, MotherCardPackage, ChildCardPackage, MelchisedechCardPackage } from './constants/cards';
@@ -16,6 +17,9 @@ export function get_main_scene () {
 }
 export function get_card_scene() {
   return get_scene<Card_scene>('Cards');
+}
+export function get_drawn_cards_scene() {
+  return get_scene<Drawn_cards_scene>('Drawn_cards');
 }
 
 let player_deck: CardDeck = null;

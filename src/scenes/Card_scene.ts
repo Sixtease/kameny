@@ -1,6 +1,6 @@
 import 'phaser';
 
-import { CARD_SET, Card, GlobalCard } from '../constants/cards';
+import { GlobalCard, get_card_key } from '../constants/cards';
 import { golden_ratio, viewport_center } from '../constants';
 
 function get_radius() {
@@ -57,19 +57,19 @@ export class Card_scene extends Phaser.Scene {
     return new Promise<GlobalCard>((resolve, reject) => {
       this.initialize();
       this.load.image(cards.map(card => ({
-        key: get_img_key(card.set, card.id),
+        key: get_card_key(card.set, card.id),
         url: `assets/cards/${card.set}/${card.id}.jpg`
       })))
       const me = this;
       me.load.once('complete', function on_load() {
-        const loaded_ok = cards.every(card => me.textures.list[get_img_key(card.  set, card.id)]);
+        const loaded_ok = cards.every(card => me.textures.list[get_card_key(card.set, card.id)]);
         if (!loaded_ok) {
           setTimeout(on_load, 100);
           return;
         }
         me.mkgroup();
         cards.forEach(card => {{
-          const key = get_img_key(card.set, card.id);
+          const key = get_card_key(card.set, card.id);
           const sprite = me.add.sprite(0, 0, key);
           sprite.setInteractive();
           sprite.on('pointerup', () => me.handle_card_click(card, resolve));
@@ -86,8 +86,4 @@ export class Card_scene extends Phaser.Scene {
       this.load.start();
     });
   }
-}
-
-function get_img_key(set: CARD_SET, card_id: Card): string {
-  return [set, card_id].join('.');
 }

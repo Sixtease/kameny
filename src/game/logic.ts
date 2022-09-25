@@ -13,10 +13,12 @@ import {
   Movement_event,
   Pick_cards,
   Present_cards,
+  Recap_game,
   Select_from_presented_cards,
   Select_place,
   Select_player,
   add_evt,
+  event_occurred,
   hist,
   is_Enter_road,
   is_Field_progress,
@@ -162,6 +164,7 @@ function select_place(candidate_places: Places.Place_name[]): Promise<Places.Pla
       processed: false,
       payload: {},
     });
+    return Promise.resolve(Places.map_center);
   }
   if (candidate_places.length === 1) {
     const selected_place = candidate_places[0];
@@ -242,10 +245,19 @@ export function land(): void {
         set: deck.set,
       },
     });
+  } else if (pos.place_name === Places.map_center) {
+    add_evt<Recap_game>({
+      evt_name: 'Recap_game',
+      processed: false,
+      payload: {},
+    });
   }
 }
 
 export function avatar_step(): void {
+  if (event_occurred('End_game')) {
+    return;
+  }
   const previous_place = get_previous_place();
   if (previous_place === null) {
     select_place(Places.gates).then(selected_gate => go_to_start_gate(selected_gate as Places.Gate_name));
