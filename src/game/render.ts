@@ -14,7 +14,7 @@ import {
 import { CARD_SET, Card, GlobalCard } from '../constants/cards';
 import * as Coords from '../constants/coords';
 import { Road_name, Spot_name, map_center } from '../constants/places';
-import { get_main_scene, get_card_scene, set_player_deck } from '../game';
+import { get_main_scene, get_card_scene, get_recap_scene, set_player_deck } from '../game';
 let seen_i = 0;
 
 export function process_events() {
@@ -38,7 +38,7 @@ function process_event(evt: Game_event) {
   } else if (is_Pick_cards(evt)) {
     present_cards(evt.payload.cards, evt.payload.set, () => {});
   } else if (is_Recap_game(evt)) {
-    // TODO
+    get_recap_scene().end_game_recap();
   } else {
     console.warn(`unknown event ${evt.evt_name}`);
   }

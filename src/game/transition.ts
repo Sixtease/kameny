@@ -17,7 +17,7 @@ export function transitions(current_place: Places.Place_name, previous_place: Pl
   if (is_spot(current_place)) {
     const adjacent_roads = get_adjacent_roads(current_place).map(x => x.road);
     const possible_next_roads = adjacent_roads.filter(r => r !== previous_place);
-    return possible_next_roads;
+    return adjacent_roads.length > 1 ? adjacent_roads : possible_next_roads;
   }
   console.warn(`unexpected place ${current_place}`);
   return [];
