@@ -1,7 +1,14 @@
 import 'phaser';
 
+import { viewport_center, viewport_height } from '../constants';
 import { get_card_key } from '../constants/cards';
 import { hist, is_Present_cards, is_Select_from_presented_cards, Present_cards, Select_from_presented_cards } from '../game/events';
+
+const grid_line = viewport_height / 10;
+const row1 = 2 * grid_line;
+const row2 = 3 * grid_line;
+const row3 = 4 * grid_line;
+const row4 = 7 * grid_line;
 
 export class Recap_scene extends Phaser.Scene {
   constructor () {
@@ -25,18 +32,38 @@ export class Recap_scene extends Phaser.Scene {
     })();
     console.log('present_evt', present_evt);
     if (!present_evt) return;
-    this.add.text(0, 0, 'Z těchto karet:');
+    this.add.text(
+      viewport_center.x / 2, row1 / 10, 'Z těchto karet:', {
+        color: 'black',
+        align: 'center',
+        fontSize: '30px',
+        strokeThickness: 4,
+        shadow: {
+          offsetX: 0, offsetY: 0, color: 'white', blur: 2, stroke: true, fill: true,
+        },
+      }
+    );
     const group = this.add.group();
     present_evt.payload.cards.forEach((card) => {
       const sprite = this.add.sprite(0, 0, get_card_key(present_evt.payload.set, card));
-      sprite.setScale(0.3);
+      sprite.setScale(0.1);
       group.add(sprite);
     });
-    const line = new Phaser.Geom.Line(100, 300, 800, 300);
+    const line = new Phaser.Geom.Line(viewport_center.x, row2, viewport_center.x * 1.5, row2);
     Phaser.Actions.PlaceOnLine(group.getChildren(), line);
-    this.add.text(0, 500, 'sis vybral tuto:');
+    this.add.text(
+      viewport_center.x / 2, row3, 'sis vybral tuto:', {
+        color: 'black',
+        align: 'center',
+        fontSize: '30px',
+        strokeThickness: 4,
+        shadow: {
+          offsetX: 0, offsetY: 0, color: 'white', blur: 2, stroke: true, fill: true,
+        },
+      }
+    );
     const card_key = get_card_key(select_evt.payload.card.set, select_evt.payload.card.id);
-    this.add.sprite(100, 700, card_key).setScale(0.4);
+    this.add.sprite(viewport_center.x, row4, card_key).setScale(0.4);
   }
 
   end_game_recap() {
