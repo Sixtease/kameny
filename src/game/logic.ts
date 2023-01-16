@@ -2,7 +2,7 @@ import * as Places from '../constants/places';
 import { DIRECTION, get_coord, is_road, is_spot, road_connects, get_road_length } from './place_info';
 import { transitions } from './transition';
 import { get_player_deck } from '../game';
-import { CARD_SET, Card, GlobalCard } from '../constants/cards';
+import { CARD_SET, GlobalCard, Single_set_cards } from '../constants/cards';
 import {
   Birth_gate_select,
   End_game,
@@ -153,8 +153,8 @@ function go_to_start_gate(gate_name: Places.Gate_name): Game_event {
   });
 };
 
-function shift_cards(count: number): Card[] {
-  return get_player_deck().draw(count);
+function shift_cards(count: number): Single_set_cards {
+  return get_player_deck().draw(count) as Single_set_cards;
 }
 
 function select_place(candidate_places: Places.Place_name[]): Promise<Places.Place_name> {
@@ -185,10 +185,10 @@ function select_place(candidate_places: Places.Place_name[]): Promise<Places.Pla
       processed: false,
       payload: {
         cards,
-        set: CARD_SET.mother,  // TODO: set set
+        set: CARD_SET.mother, // TODO: set set
         permutation: Array(candidate_places.length).map((_, i) => i).sort(() => Math.random() - 0.5),
         on_select: (selected_card: GlobalCard) => {
-          const selected_card_index = cards.indexOf(selected_card.id);
+          const selected_card_index = cards.indexOf(selected_card.id as never); // FIXME
           add_evt<Select_from_presented_cards>({
             evt_name: 'Select_from_presented_cards',
             processed: false,

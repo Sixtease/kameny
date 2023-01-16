@@ -19,8 +19,10 @@
     },
     "homepage": "https://github.com/Sixtease/kameny",
     "dependencies": {
+        "htm": "^3.1.1",
         "phaser": "^3.55.2",
-        "phaser3-rex-plugins": "^1.1.59"
+        "phaser3-rex-plugins": "^1.1.59",
+        "preact": "^10.11.3"
     },
     "devDependencies": {
         "@rollup/plugin-replace": "^3.0.0",

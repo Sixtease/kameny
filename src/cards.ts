@@ -12,7 +12,7 @@ export class CardDeck<T extends CardPackage = CardPackage> {
   shuffle() {
     this.cards = this.cards.sort(() => Math.random() - 0.5);
   }
-  draw(n = 1) {
+  draw(n = 1): T['Card'][] {
     const drawn: T['Card'][] = [];
     for (let i = 0; i < n; i++) {
       drawn.push(this.cards[this.cursor]);

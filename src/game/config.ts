@@ -7,7 +7,6 @@ import {
 import { Main_scene } from '../scenes/Main_scene';
 import { Card_scene } from '../scenes/Card_scene';
 import { Drawn_cards_scene } from '../scenes/Drawn_cards_scene';
-import { Recap_scene } from '../scenes/Recap_scene';
 
 let game_config: Phaser.Types.Core.GameConfig | undefined = undefined;
 export function get_game_config(): Phaser.Types.Core.GameConfig {
@@ -16,7 +15,7 @@ export function get_game_config(): Phaser.Types.Core.GameConfig {
       type: Phaser.AUTO,
       width: viewport_width,
       height: viewport_height,
-      scene: [ Main_scene, Card_scene, Drawn_cards_scene, Recap_scene ],
+      scene: [ Main_scene, Card_scene, Drawn_cards_scene ],
       plugins: {
         global: [
           { key: 'rexMoveTo', plugin: MoveTo, start: true },

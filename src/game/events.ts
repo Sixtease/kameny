@@ -1,6 +1,6 @@
 import * as Places from '../constants/places';
 import { DIRECTION } from './place_info';
-import { CARD_SET, Card, GlobalCard } from '../constants/cards';
+import { CARD_SET, Card, GlobalCard, Single_set_cards } from '../constants/cards';
 
 export interface Game_event {
   evt_name: string;
@@ -68,7 +68,7 @@ export function is_Enter_road(evt: Game_event): evt is Enter_road {
 export interface Present_cards extends Game_event {
   evt_name: 'Present_cards';
   payload: {
-    cards: Card[];
+    cards: Single_set_cards,
     set: CARD_SET;
     permutation: number[];
     on_select: (card: GlobalCard) => void;
@@ -125,8 +125,12 @@ export function add_evt<T extends Game_event>(e: T): T {
   return e;
 };
 
-export function event_occurred(evt_name: string): Game_event {
-  for (let i = hist.length - 1; i >= 0; i--) {
+export function event_occurred(evt_name: string, starting_point?: number | Game_event): Game_event {
+  const start_idx
+    = typeof starting_point === 'number'  ? starting_point
+    : starting_point                      ? hist.lastIndexOf(starting_point)
+    :                                       hist.length;
+  for (let i = start_idx - 1; i >= 0; i--) {
     const evt = hist[i];
     if (evt.evt_name === evt_name) {
       return evt;

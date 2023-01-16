@@ -3,6 +3,7 @@ import 'phaser';
 import { viewport_width, viewport_height } from '../constants';
 import { GlobalCard, get_card_key } from '../constants/cards';
 import { hist, is_Pick_cards, is_Select_from_presented_cards } from '../game/events';
+import { recap_last_card_draw } from '../templates/recap-card-draw';
 
 export class Drawn_cards_scene extends Phaser.Scene {
   constructor () {
@@ -39,6 +40,8 @@ export class Drawn_cards_scene extends Phaser.Scene {
     const x = viewport_width - 100 + this.card_count;
     const y =  viewport_height - 100 + this.card_count;
     this.card_count++;
-    this.add.sprite(x, y, card_key).setScale(0.1);
+    const sprite = this.add.sprite(x, y, card_key).setScale(0.1);
+    sprite.setInteractive();
+    sprite.on('pointerup', recap_last_card_draw);
   }
 }
