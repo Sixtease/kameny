@@ -124,6 +124,7 @@ export function add_evt<T extends Game_event>(e: T): T {
   hist.push(e);
   return e;
 };
+;;; (window as any).hist = hist;
 
 export function event_occurred(evt_name: string, starting_point?: number | Game_event): Game_event {
   const start_idx
