@@ -1,30 +1,36 @@
 import { h, Component, render } from 'preact';
 import htm from 'htm';
 
-import { CARD_SET, Card, Single_set_cards } from '../constants/cards';
-import { Present_cards, Select_from_presented_cards, event_occurred } from '../game/events';
+import { CARD_SET, Card } from '../constants/cards';
+import { Game_event, Present_cards, Select_from_presented_cards, event_occurred } from '../game/events';
 import { Overlay } from './overlay';
 
-interface Card_draw_props {
-  offer: Single_set_cards;
-  picked: Card;
+interface Card_draw_state {
+  draw_event: Select_from_presented_cards;
+}
+interface Card_draw_props extends Card_draw_state {
   set: CARD_SET;
 }
 
 const html = htm.bind(h);
 
 class Card_draw extends Component<Card_draw_props> {
-  state: { todos: string[] };
+  state: Card_draw_state;
 
-  addTodo() {
-    const { todos = [] } = this.state;
-    this.setState({ todos: todos.concat(`Item ${todos.length}`) });
-  }
-  render({ offer, picked, set }, { todos = [] }) {
+  render(props, state) {
+    const draw_event = state.draw_event || props.draw_event;
+    const prev_draw_event = event_occurred('Select_from_presented_cards', draw_event)
+    const offer_event = event_occurred('Present_cards', draw_event) as Present_cards;
+    const { picked } = draw_event.payload.card;
+    const offer = offer_event.payload.cards;
     return html`
       <${Overlay}>
         <div class="recap-root">
           <p>Z těchto karet:</p>
+          ${ prev_draw_event
+            ? html`<a class="recap-link recap-link-left" onClick=${() => this.setState({ ...this.state, draw_event: prev_draw_event })}>˂ předchozí</a>` 
+            : null
+          }
           <ul>
             ${offer.map((card: Card) => html`
               <li key=${card}>${card}</li>
@@ -37,19 +43,12 @@ class Card_draw extends Component<Card_draw_props> {
   }
 }
 
-export const recap_card_draw = ({ offer, picked, set }: Card_draw_props) => {
+export const recap_last_card_draw = (evt?: Game_event) => {
+  const draw_event = event_occurred('Select_from_presented_cards', evt) as Select_from_presented_cards;
   const root = document.getElementById('preact-root');
   render(
-    html`<${Card_draw } offer=${offer} picked=${picked} set=${set} />`,
+    html`<${Card_draw } draw_event=${draw_event} />`,
     root
   );
   root.classList.add('recap-shown');
-};
-
-export const recap_last_card_draw = () => {
-    const last_drawn = event_occurred('Select_from_presented_cards') as Select_from_presented_cards;
-    const draw = event_occurred('Present_cards', last_drawn) as Present_cards;
-    const drawn_card = last_drawn.payload.card;
-    const offer = draw.payload.cards;
-    recap_card_draw({ offer, picked: drawn_card.id, set: drawn_card.set });
 };
