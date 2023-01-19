@@ -2,3 +2,74 @@ body {
   margin: 0;
   overflow: hidden;
 }
+
+.recap {
+  display: none;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  text-align: center;
+}
+.recap.recap-shown {
+  display: block;
+}
+
+.recap-root {
+  display: grid;
+  height: 100%;
+}
+.recap-root > * {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.recap-overlay {
+  height: 100%;
+}
+
+.recap-close-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 50px;
+  cursor: pointer;
+}
+
+.recap-card-offer {
+  height: 20vh;
+}
+.recap-card-offer ul {
+  display: flex;
+  height: 100%;
+  justify-content: space-evenly;
+  padding: 0;
+}
+.recap-card-offer li {
+  height: 100%;
+  list-style-type: none;
+}
+.recap-card-offer img {
+  display: block;
+  height: 100%;
+}
+
+.recap-picked-card img {
+  display: block;
+  margin: auto;
+  width: 30vh;
+}
+
+.recap-link {
+  position: absolute;
+  top: 50%;
+  line-height: 0;
+}
+
+.recap-link-left {
+  left: 1rem;
+}
+
+.recap-link-right {
+  right: 1rem;
+}
