@@ -63,3 +63,15 @@ body {
     width: 30vh;
   }
 }
+
+.recap-link {
+  position: absolute;
+  top: 50%;
+  line-height: 0;
+}
+.recap-link-left {
+  left: 1rem;
+}
+.recap-link-right {
+  right: 1rem;
+}

@@ -2,7 +2,7 @@ import { h, Component, render } from 'preact';
 import htm from 'htm';
 
 import { CARD_SET, Card } from '../constants/cards';
-import { Game_event, Present_cards, Select_from_presented_cards, event_occurred } from '../game/events';
+import { Game_event, Present_cards, Select_from_presented_cards, event_occurred, event_occurred_after } from '../game/events';
 import { Overlay } from './overlay';
 
 interface Card_draw_state {
@@ -10,6 +10,7 @@ interface Card_draw_state {
 }
 interface Card_draw_props extends Card_draw_state {
   set: CARD_SET;
+  onOverlayClose: () => void;
 }
 
 const html = htm.bind(h);
@@ -19,15 +20,20 @@ class Card_draw extends Component<Card_draw_props> {
 
   render(props, state) {
     const draw_event: Select_from_presented_cards = state.draw_event || props.draw_event;
-    const prev_draw_event = event_occurred('Select_from_presented_cards', draw_event)
+    const prev_draw_event = event_occurred('Select_from_presented_cards', draw_event);
+    const next_draw_event = event_occurred_after('Select_from_presented_cards', draw_event);
     const offer_event = event_occurred('Present_cards', draw_event) as Present_cards;
     const { id: picked, set } = draw_event.payload.card;
     const offer = offer_event.payload.cards;
     return html`
-      <${Overlay}>
+      <${Overlay} onClose=${() => this.setState({ draw_event: null })}>
         <div class="recap-root">
           ${ prev_draw_event
             ? html`<a class="recap-link recap-link-left" onClick=${() => this.setState({ ...this.state, draw_event: prev_draw_event })}>˂ předchozí</a>` 
+            : null
+          }
+          ${ next_draw_event
+            ? html`<a class="recap-link recap-link-right" onClick=${() => this.setState({ ...this.state, draw_event: next_draw_event })}>další ˃</a>` 
             : null
           }
           <div class="recap-card-offer">
