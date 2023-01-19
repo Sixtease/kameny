@@ -26,16 +26,18 @@ class Card_draw extends Component<Card_draw_props> {
     return html`
       <${Overlay}>
         <div class="recap-root">
-          <p>Z těchto karet:</p>
           ${ prev_draw_event
             ? html`<a class="recap-link recap-link-left" onClick=${() => this.setState({ ...this.state, draw_event: prev_draw_event })}>˂ předchozí</a>` 
             : null
           }
-          <ul class="recap-card-offer">
-            ${offer.map((card: Card) => html`
-              <li key=${card}><img src="assets/cards/${set}/${card}.jpg" alt="" />${card}</li>
-            `)}
-          </ul>
+          <div class="recap-card-offer">
+            <p>Z těchto karet:</p>
+            <ul>
+              ${offer.map((card: Card) => html`
+                <li key=${card}><img src="assets/cards/${set}/${card}.jpg" alt="" />${card}</li>
+              `)}
+            </ul>
+          </div>
           <p class="recap-picked-card">sis vybral tuto: <img src="assets/cards/${set}/${picked}.jpg" alt="" />${picked}</p>
         </div>
       </Overlay>

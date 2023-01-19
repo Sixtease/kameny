@@ -9,14 +9,25 @@ body {
   width: 100%;
   height: 100%;
   background: rgba(255, 255, 255, 0.95);
+  text-align: center;
 
   &.recap-shown {
-    display: grid;
+    display: block;
+  }
+}
+
+.recap-root {
+  display: grid;
+  height: 100%;
+
+  > * {
+    margin-top: auto;
+    margin-bottom: auto;
   }
 }
 
 .recap-overlay {
-  margin: auto;
+  height: 100%;
 }
 
 .recap-close-button {
@@ -28,16 +39,27 @@ body {
 }
 
 .recap-card-offer {
+  height: 20vh;
+  ul {
+    display: flex;
+    height: 100%;
+    justify-content: space-evenly;
+    padding: 0;
+  }
   li {
-    display: inline-block;
+    height: 100%;
+    list-style-type: none;
   }
   img {
-    width: 10%;
+    display: block;
+    height: 100%;
   }
 }
 
 .recap-picked-card {
   img {
-    width: 20%;
+    display: block;
+    margin: auto;
+    width: 30vh;
   }
 }
