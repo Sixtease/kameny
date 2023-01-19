@@ -18,10 +18,10 @@ class Card_draw extends Component<Card_draw_props> {
   state: Card_draw_state;
 
   render(props, state) {
-    const draw_event = state.draw_event || props.draw_event;
+    const draw_event: Select_from_presented_cards = state.draw_event || props.draw_event;
     const prev_draw_event = event_occurred('Select_from_presented_cards', draw_event)
     const offer_event = event_occurred('Present_cards', draw_event) as Present_cards;
-    const { picked } = draw_event.payload.card;
+    const { id: picked, set } = draw_event.payload.card;
     const offer = offer_event.payload.cards;
     return html`
       <${Overlay}>
@@ -31,12 +31,12 @@ class Card_draw extends Component<Card_draw_props> {
             ? html`<a class="recap-link recap-link-left" onClick=${() => this.setState({ ...this.state, draw_event: prev_draw_event })}>˂ předchozí</a>` 
             : null
           }
-          <ul>
+          <ul class="recap-card-offer">
             ${offer.map((card: Card) => html`
-              <li key=${card}>${card}</li>
+              <li key=${card}><img src="assets/cards/${set}/${card}.jpg" alt="" />${card}</li>
             `)}
           </ul>
-          <p>sis vybral tuto: ${picked}</p>
+          <p class="recap-picked-card">sis vybral tuto: <img src="assets/cards/${set}/${picked}.jpg" alt="" />${picked}</p>
         </div>
       </Overlay>
     `;

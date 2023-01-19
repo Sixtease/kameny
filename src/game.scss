@@ -26,3 +26,18 @@ body {
   font-size: 50px;
   cursor: pointer;
 }
+
+.recap-card-offer {
+  li {
+    display: inline-block;
+  }
+  img {
+    width: 10%;
+  }
+}
+
+.recap-picked-card {
+  img {
+    width: 20%;
+  }
+}
