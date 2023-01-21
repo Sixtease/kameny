@@ -126,14 +126,31 @@ export function add_evt<T extends Game_event>(e: T): T {
 };
 ;;; (window as any).hist = hist;
 
-export function event_occurred(evt_name: string, starting_point?: number | Game_event): Game_event {
+export function find_event_backward(discriminator: (evt: Game_event) => boolean, starting_point?: number | Game_event): Game_event {
   const start_idx
     = typeof starting_point === 'number'  ? starting_point
     : starting_point                      ? hist.lastIndexOf(starting_point)
     :                                       hist.length;
   for (let i = start_idx - 1; i >= 0; i--) {
     const evt = hist[i];
-    if (evt.evt_name === evt_name) {
+    if (discriminator(evt)) {
+      return evt;
+    }
+  }
+  return null;
+}
+export function event_occurred(evt_name: string, starting_point?: number | Game_event): Game_event {
+  return find_event_backward((evt: Game_event) => evt.evt_name === evt_name, starting_point);
+}
+
+export function find_event_forward(discriminator: (evt: Game_event) => boolean, starting_point?: number | Game_event): Game_event {
+  const start_idx
+    = typeof starting_point === 'number'  ? starting_point
+    : starting_point                      ? hist.lastIndexOf(starting_point)
+    :                                       -1;
+  for (let i = start_idx + 1; i < hist.length; i++) {
+    const evt = hist[i];
+    if (discriminator(evt)) {
       return evt;
     }
   }
@@ -141,15 +158,5 @@ export function event_occurred(evt_name: string, starting_point?: number | Game_
 }
 
 export function event_occurred_after(evt_name: string, starting_point?: number | Game_event): Game_event {
-  const start_idx
-    = typeof starting_point === 'number'  ? starting_point
-    : starting_point                      ? hist.lastIndexOf(starting_point)
-    :                                       -1;
-  for (let i = start_idx + 1; i < hist.length; i++) {
-    const evt = hist[i];
-    if (evt.evt_name === evt_name) {
-      return evt;
-    }
-  }
-  return null;
+  return find_event_forward((evt: Game_event) => evt.evt_name === evt_name, starting_point);
 }
