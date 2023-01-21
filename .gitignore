@@ -15,3 +15,5 @@ node_modules/
 podklady/
 
 .*.sw?
+
+dist
