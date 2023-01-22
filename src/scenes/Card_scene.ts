@@ -1,7 +1,7 @@
 import 'phaser';
 
 import { GlobalCard, get_card_key } from '../constants/cards';
-import { golden_ratio, viewport_center } from '../constants';
+import { golden_ratio, viewport_center, viewport_width } from '../constants';
 
 function get_radius() {
   const r = Math.min(viewport_center.x, viewport_center.y);
@@ -14,6 +14,7 @@ export class Card_scene extends Phaser.Scene {
   }
 
   circle = new Phaser.Geom.Circle(viewport_center.x, viewport_center.y, get_radius());
+  line = new Phaser.Geom.Line(viewport_center.x, viewport_center.y, viewport_width, viewport_center.y);
   group?: Phaser.GameObjects.Group;
   initialized = false;
 
@@ -53,6 +54,16 @@ export class Card_scene extends Phaser.Scene {
     resolve(card);
   }
 
+  load_card_image(card: GlobalCard, resolve: (value: GlobalCard | PromiseLike<GlobalCard>) => void): Phaser.GameObjects.Sprite {
+    const me = this;
+    const key = get_card_key(card.set, card.id);
+    const sprite = me.add.sprite(viewport_center.x, viewport_center.y, key);
+    sprite.setInteractive();
+    sprite.on('pointerup', () => me.handle_card_click(card, resolve));
+    sprite.setScale(0.2);
+    return sprite;
+  }
+
   show_cards(cards: GlobalCard[]): Promise<GlobalCard> {
     return new Promise<GlobalCard>((resolve, reject) => {
       this.initialize();
@@ -69,14 +80,15 @@ export class Card_scene extends Phaser.Scene {
         }
         me.mkgroup();
         cards.forEach(card => {{
-          const key = get_card_key(card.set, card.id);
-          const sprite = me.add.sprite(0, 0, key);
-          sprite.setInteractive();
-          sprite.on('pointerup', () => me.handle_card_click(card, resolve));
-          sprite.setScale(0.2);
+          const sprite = me.load_card_image(card, resolve);
           me.group!.add(sprite);
         }});
-        Phaser.Actions.PlaceOnCircle(me.group!.getChildren(), me.circle);
+        if (cards.length === 1) {
+          Phaser.Actions.PlaceOnLine(me.group!.getChildren(), me.line);
+        }
+        else {
+          Phaser.Actions.PlaceOnCircle(me.group!.getChildren(), me.circle);
+        }
         me.scene.setActive(true);
         me.scene.bringToTop();
         me.scene.setVisible(true);
