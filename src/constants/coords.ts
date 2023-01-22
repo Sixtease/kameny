@@ -156,7 +156,7 @@ export const roads: Record<Places.Road_name, Carded_coord[]> = {
     { x: 1089, y: 2063 },
     { x: 1056, y: 1936 },
     { x: 1029, y: 1804 },
-    { x:  908, y: 1683 },
+    { x:  908, y: 1683, K },
     { x:  759, y: 1678 },
    ],
 
