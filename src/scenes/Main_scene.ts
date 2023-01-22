@@ -82,7 +82,7 @@ export class Main_scene extends Phaser.Scene {
   }
 
   handle_mousewheel(pointer, objs, dx, dy, dz) {
-    this.zoom(dy);
+    this.zoom(dy / 100);
   }
 
   zoom(delta) {
