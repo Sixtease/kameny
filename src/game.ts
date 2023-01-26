@@ -7,6 +7,7 @@ import { Drawn_cards_scene } from './scenes/Drawn_cards_scene';
 import { get_game_config } from './game/config';
 import { CardDeck } from './cards';
 import { CARD_SET, MotherCardPackage, ChildCardPackage, MelchisedechCardPackage } from './constants/cards';
+import { game_intro } from './templates/game-intro';
 
 export const game = new Phaser.Game(get_game_config());
 export function get_scene<T extends Phaser.Scene>(key: string): T {
@@ -37,3 +38,5 @@ export function set_player_deck(set: CARD_SET) {
     default: throw new Error('unexpected card set for player deck');
   }
 }
+
+game_intro();
