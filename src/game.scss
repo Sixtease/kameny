@@ -75,3 +75,12 @@ body {
 .recap-link-right {
   right: 1rem;
 }
+
+.recap-game {
+  p {
+    display: flex;
+  }
+  a {
+    margin: auto;
+  }
+}
