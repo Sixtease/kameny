@@ -21,7 +21,6 @@ export class Main_scene extends Phaser.Scene {
 
   preload() {
     this.load.image('map', 'assets/map.jpg');
-    this.load.image('avatar', 'assets/avatars/mother.png');
     select_player();
   }
 
@@ -31,7 +30,6 @@ export class Main_scene extends Phaser.Scene {
     this.cam().setBackgroundColor('#FFFFFF');
 
     this.add.image(0, 0, 'map').setOrigin(0);
-    this.setup_avatar();
 
     this.input.on('pointerdown', (pointer, objects) => {
       if (objects.length > 0) {

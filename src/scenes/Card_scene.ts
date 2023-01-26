@@ -9,6 +9,11 @@ import {
   is_Present_cards,
 } from '../game/events';
 
+interface ImageObj { key: string; url: string }
+interface LoadedImageObj extends ImageObj {
+  sprite: Phaser.GameObjects.Sprite;
+}
+
 function get_radius() {
   const r = Math.min(viewport_center.x, viewport_center.y);
   return r / golden_ratio;
@@ -62,32 +67,20 @@ export class Card_scene extends Phaser.Scene {
     resolve(card);
   }
 
-  load_card_image(card: GlobalCard, resolve: (value: GlobalCard | PromiseLike<GlobalCard>) => void): Phaser.GameObjects.Sprite {
+  load_card_image(key: string): Phaser.GameObjects.Sprite {
     const me = this;
-    const key = get_card_key(card.set, card.id);
     const sprite = me.add.sprite(viewport_center.x, viewport_center.y, key);
     sprite.setInteractive();
-    sprite.on('pointerup', () => me.handle_card_click(card, resolve));
     sprite.setScale(0.2);
     return sprite;
   }
 
-  show_cards(cards: GlobalCard[]): Promise<GlobalCard> {
-    return new Promise<GlobalCard>((resolve, reject) => {
-      const me = this;
+  show_images<T extends ImageObj>(options: T[], label_text: string): Promise<(LoadedImageObj & T)[]> {
+    const me = this;
+    return new Promise<(LoadedImageObj & T)[]>((resolve, reject) => {
       me.initialize();
-      me.load.image(cards.map(card => ({
-        key: get_card_key(card.set, card.id),
-        url: `assets/cards/${card.set}/${card.id}.jpg`
-      })));
+      me.load.image(options);
 
-      const event = find_event_backward((evt: Game_event) => is_Present_cards(evt) || is_Pick_cards(evt));
-      const label_text
-        = !event                                                   ? ''
-        : is_Present_cards(event)                                  ? 'Vyber si kartu.'
-        : is_Pick_cards(event) && event.payload.cards.length === 1 ? "Dostal's tuto kartu."
-        :                                                            "Dostal's tyto karty."
-      ;
       me.label = this.add.text(
         viewport_center.x / 2, 20, label_text, {
           color: 'black',
@@ -101,17 +94,19 @@ export class Card_scene extends Phaser.Scene {
       );
 
       me.load.once('complete', function on_load() {
-        const loaded_ok = cards.every(card => me.textures.list[get_card_key(card.set, card.id)]);
+        const loaded_ok = options.every(img => me.textures.list[img.key]);
         if (!loaded_ok) {
           setTimeout(on_load, 100);
           return;
         }
         me.mkgroup();
-        cards.forEach(card => {{
-          const sprite = me.load_card_image(card, resolve);
+        const loadedImages: (LoadedImageObj & T)[] = [];
+        options.forEach(img => {
+          const sprite = me.load_card_image(img.key);
           me.group!.add(sprite);
-        }});
-        if (cards.length === 1) {
+          loadedImages.push({ ...img, sprite });
+        });
+        if (options.length === 1) {
           Phaser.Actions.PlaceOnLine(me.group!.getChildren(), me.line);
         }
         else {
@@ -122,8 +117,41 @@ export class Card_scene extends Phaser.Scene {
         me.scene.setVisible(true);
         me.scene.pause('Main');
         me.scene.wake('Cards');
+        resolve(loadedImages);
       });
       me.load.start();
+    });
+  }
+
+  show_cards(cards: GlobalCard[]): Promise<GlobalCard> {
+    const me = this;
+
+    const image_opts = cards.map(card => ({
+      key: get_card_key(card.set, card.id),
+      url: `assets/cards/${card.set}/${card.id}.jpg`,
+      ...card,
+    }));
+
+    const event = find_event_backward((evt: Game_event) => is_Present_cards(evt) || is_Pick_cards(evt));
+    const label_text
+      = !event                                                   ? ''
+      : is_Present_cards(event)                                  ? 'Vyber si kartu.'
+      : is_Pick_cards(event) && event.payload.cards.length === 1 ? "Dostal's tuto kartu."
+      :                                                            "Dostal's tyto karty."
+    ;
+
+    return new Promise<GlobalCard>((resolve, reject) => {
+      me.show_images(image_opts, label_text).then((loaded_images) => {
+        loaded_images.forEach(
+          loaded_image => loaded_image.sprite.on(
+            'pointerup',
+            () => me.handle_card_click(
+              { set: loaded_image.set, id: loaded_image.id },
+              resolve
+            )
+          )
+        );
+      });
     });
   }
 }

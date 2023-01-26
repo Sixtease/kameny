@@ -5,6 +5,7 @@ import {
   is_Enter_spot,
   is_Field_progress,
   is_Pick_cards,
+  is_Present_avatars,
   is_Present_cards,
   is_Recap_game,
   is_Select_player,
@@ -34,6 +35,8 @@ function process_event(evt: Game_event) {
     present_cards(evt.payload.cards, evt.payload.set, evt.payload.on_select);
   } else if (is_End_game(evt)) {
     go_to_spot(map_center);
+  } else if (is_Present_avatars(evt)) {
+    present_avatars(evt.payload.on_select);
   } else if (is_Select_player(evt)) {
     set_player_deck(evt.payload.card_set);
   } else if (is_Pick_cards(evt)) {
@@ -57,6 +60,12 @@ function go_to_field(road_name: Road_name, field_index: number) {
   get_main_scene().avatar_move.moveTo(field_coord.x, field_coord.y);
 }
 
-function present_cards(cards: Card[], set: CARD_SET, onSelect: (card: GlobalCard) => void) {
-  get_card_scene().show_cards(cards.map(card => ({ id: card, set }))).then(onSelect);
+function present_cards(cards: Card[], set: CARD_SET, on_select: (card: GlobalCard) => void) {
+  get_card_scene().show_cards(cards.map(card => ({ id: card, set }))).then(on_select);
+}
+
+function present_avatars(on_select: (set: CARD_SET) => void) {
+  get_card_scene().show_images(Object.keys(CARD_SET).map(key => (
+    { key, url: `assets/avatars/${key}.png` }
+  )), 'Vyber si hrací kámen.');
 }

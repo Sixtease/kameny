@@ -12,6 +12,7 @@ import {
   Game_event,
   Movement_event,
   Pick_cards,
+  Present_avatars,
   Present_cards,
   Recap_game,
   Select_from_presented_cards,
@@ -274,10 +275,18 @@ export function avatar_step(): void {
   select_place(candidate_places).then(selected_place => go_to_place(selected_place));
 }
 
-export function select_player(card_set: CARD_SET = CARD_SET.mother) {
-  add_evt<Select_player>({
-    evt_name: 'Select_player',
-    processed: false,
-    payload: { card_set },
-  });
+export function select_player() {
+    add_evt<Present_avatars>({
+      evt_name: 'Present_avatars',
+      processed: false,
+      payload: {
+        on_select: (card_set: CARD_SET) => {
+          add_evt<Select_player>({
+            evt_name: 'Select_player',
+            processed: false,
+            payload: { card_set },
+          });
+        },
+      }
+    });
 }
