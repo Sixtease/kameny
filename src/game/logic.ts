@@ -262,7 +262,8 @@ export function avatar_step(): void {
   }
   const previous_place = get_previous_place();
   if (previous_place === null) {
-    select_place(Places.gates).then(selected_gate => go_to_start_gate(selected_gate as Places.Gate_name));
+    const candidate_places = transitions(Places.map_center, previous_place);
+    select_place(candidate_places).then(selected_gate => go_to_start_gate(selected_gate as Places.Gate_name));
     return;
   }
   const current_place = get_current_place();
