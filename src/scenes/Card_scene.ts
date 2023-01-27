@@ -8,8 +8,9 @@ import {
   is_Pick_cards,
   is_Present_cards,
 } from '../game/events';
+import { card_detail } from '../templates/card-detail';
 
-interface ImageObj { key: string; url: string }
+export interface ImageObj { key: string; url: string }
 interface LoadedImageObj extends ImageObj {
   sprite: Phaser.GameObjects.Sprite;
 }
@@ -144,8 +145,16 @@ export class Card_scene extends Phaser.Scene {
         loaded_images.forEach(
           loaded_image => loaded_image.sprite.on(
             'pointerup', () => {
-              me.switch_off();
-              resolve({ set: loaded_image.set, id: loaded_image.id });
+              if (is_Present_cards(event)) {
+                card_detail({ url: loaded_image.url, on_accept: () => {
+                  me.switch_off();
+                  resolve({ set: loaded_image.set, id: loaded_image.id });
+                } });
+              }
+              else {
+                me.switch_off();
+                resolve({ set: loaded_image.set, id: loaded_image.id });
+              }
             }
           )
         );
@@ -165,14 +174,15 @@ export class Card_scene extends Phaser.Scene {
     );
     return new Promise<CARD_SET>((resolve) => {
       me.show_images(avatars, 'Vyber si hrací kámen.').then(loaded_images => {
-        loaded_images.forEach(
-          loaded_image => loaded_image.sprite.on(
+        loaded_images.forEach(({ sprite, key }) => {
+          sprite.on(
             'pointerup', () => {
               me.switch_off();
-              resolve(loaded_image.key);
+              resolve(key);
             }
-          )
-        );
+          );
+          sprite.setScale(0.5);
+        });
       });
     });
   }
