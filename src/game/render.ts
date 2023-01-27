@@ -39,6 +39,7 @@ function process_event(evt: Game_event) {
     present_avatars(evt.payload.on_select);
   } else if (is_Select_player(evt)) {
     set_player_deck(evt.payload.card_set);
+    get_main_scene().setup_avatar(evt.payload.card_set);
   } else if (is_Pick_cards(evt)) {
     present_cards(evt.payload.cards, evt.payload.set, () => {});
   } else if (is_Recap_game(evt)) {
@@ -65,7 +66,5 @@ function present_cards(cards: Card[], set: CARD_SET, on_select: (card: GlobalCar
 }
 
 function present_avatars(on_select: (set: CARD_SET) => void) {
-  get_card_scene().show_images(Object.keys(CARD_SET).map(key => (
-    { key, url: `assets/avatars/${key}.png` }
-  )), 'Vyber si hrací kámen.');
+  get_card_scene().show_avatars().then(on_select);
 }

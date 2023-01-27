@@ -1,6 +1,6 @@
 import 'phaser';
 
-import { GlobalCard, get_card_key } from '../constants/cards';
+import { CARD_SET, GlobalCard, get_card_key } from '../constants/cards';
 import { golden_ratio, viewport_center, viewport_width } from '../constants';
 import {
   Game_event,
@@ -56,7 +56,7 @@ export class Card_scene extends Phaser.Scene {
     return this.cameras.main;
   }
 
-  handle_card_click(card: GlobalCard, resolve) {
+  switch_off() {
     if (!this.group) return;
     this.group.clear(true, true);
     this.scene.setActive(false);
@@ -64,7 +64,6 @@ export class Card_scene extends Phaser.Scene {
     this.scene.setVisible(false);
     this.scene.wake('Main');
     this.label.destroy();
-    resolve(card);
   }
 
   load_card_image(key: string): Phaser.GameObjects.Sprite {
@@ -144,11 +143,34 @@ export class Card_scene extends Phaser.Scene {
       me.show_images(image_opts, label_text).then((loaded_images) => {
         loaded_images.forEach(
           loaded_image => loaded_image.sprite.on(
-            'pointerup',
-            () => me.handle_card_click(
-              { set: loaded_image.set, id: loaded_image.id },
-              resolve
-            )
+            'pointerup', () => {
+              me.switch_off();
+              resolve({ set: loaded_image.set, id: loaded_image.id });
+            }
+          )
+        );
+      });
+    });
+  }
+
+  show_avatars(): Promise<CARD_SET> {
+    const me = this;
+    const avatars: { key: CARD_SET; url: string }[] = Object.keys(CARD_SET).map(
+      key => {
+        return {
+          key: key as CARD_SET,
+          url: `assets/avatars/${key}.png`,
+        };
+      }
+    );
+    return new Promise<CARD_SET>((resolve) => {
+      me.show_images(avatars, 'Vyber si hrací kámen.').then(loaded_images => {
+        loaded_images.forEach(
+          loaded_image => loaded_image.sprite.on(
+            'pointerup', () => {
+              me.switch_off();
+              resolve(loaded_image.key);
+            }
           )
         );
       });

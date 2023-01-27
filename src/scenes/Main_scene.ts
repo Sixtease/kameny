@@ -7,6 +7,7 @@ import {
   viewport_height,
   viewport_width,
 } from '../constants';
+import { CARD_SET } from '../constants/cards';
 import { map_center } from '../constants/coords';
 import { avatar_step, land, select_player } from '../game/logic';
 import { process_events } from '../game/render';
@@ -21,6 +22,9 @@ export class Main_scene extends Phaser.Scene {
 
   preload() {
     this.load.image('map', 'assets/map.jpg');
+    this.load.image('mother', 'assets/avatars/mother.png');
+    this.load.image('child', 'assets/avatars/child.png');
+    this.load.image('melchisedech', 'assets/avatars/melchisedech.png');
     select_player();
   }
 
@@ -48,13 +52,14 @@ export class Main_scene extends Phaser.Scene {
     process_events();
   }
 
-  setup_avatar() {
-    const avatar = this.add.sprite(map_center.x, map_center.y, 'avatar');
+  setup_avatar(deck: CARD_SET) {
+    const me = this;
+    const avatar = me.add.sprite(map_center.x, map_center.y, deck);
     avatar.setScale(0.3);
     avatar.setInteractive();
-    this.input.setDraggable(avatar);
-    this.avatar_move = new MoveTo(avatar);
-    this.avatar_move.on('complete', land);
+    me.input.setDraggable(avatar);
+    me.avatar_move = new MoveTo(avatar);
+    me.avatar_move.on('complete', land);
     avatar.on('pointerup', () => {
       avatar_step();
     });

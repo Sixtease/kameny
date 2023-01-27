@@ -181,12 +181,13 @@ function select_place(candidate_places: Places.Place_name[]): Promise<Places.Pla
   }
   const cards = shift_cards(candidate_places.length);
   return new Promise<Places.Place_name>((resolve) => {
+    const { set } = get_player_deck();
     add_evt<Present_cards>({
       evt_name: 'Present_cards',
       processed: false,
       payload: {
         cards,
-        set: CARD_SET.mother, // TODO: set set
+        set,
         permutation: Array(candidate_places.length).map((_, i) => i).sort(() => Math.random() - 0.5),
         on_select: (selected_card: GlobalCard) => {
           const selected_card_index = cards.indexOf(selected_card.id as never); // FIXME
@@ -237,13 +238,13 @@ export function land(): void {
   const pos = get_current_position();
   const coord = get_coord(pos.place_name, pos.field_index);
   if (coord.K) {
-    const deck = get_player_deck();
+    const { set } = get_player_deck();
     add_evt<Pick_cards>({
       evt_name: 'Pick_cards',
       processed: false,
       payload: {
         cards: shift_cards(coord.K),
-        set: deck.set,
+        set,
       },
     });
   } else if (pos.place_name === Places.map_center) {

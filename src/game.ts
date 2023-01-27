@@ -29,7 +29,8 @@ export function get_player_deck(): CardDeck {
 }
 export function set_player_deck(set: CARD_SET) {
   if (player_deck !== null) {
-    throw new Error('deck already set');
+    console.warn('deck already set');
+    return;
   }
   switch (set) {
     case CARD_SET.mother:       player_deck = new CardDeck<MotherCardPackage      >(set); break;
