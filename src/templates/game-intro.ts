@@ -11,7 +11,7 @@ class Game_intro extends Component {
       <${Overlay}>
         <div class="recap-root game-intro">
           <p>Projdi hracím polem a po cestě nacházej karty.</p>
-          <p>Na křižovtkách si výběrem karty určuješ další směr.</p>
+          <p>Na křižovatkách si výběrem karty určuješ další směr.</p>
           <p>Na každou kartu se dobře soustřeď: Poselství v nich ukryté je to hlavní, co ti hra dá.</p>
           <p>Krok po hracím poli uděláš kliknutím na svůj hrací kámen.</p>
           <p>
