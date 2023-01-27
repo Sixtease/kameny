@@ -42,7 +42,7 @@ export class Card_scene extends Phaser.Scene {
       return;
     }
     this.scene.start('Cards');
-    this.cam().setBackgroundColor('rgba(255,255,255,0.8)');
+    this.cam().setBackgroundColor('rgba(255,255,255,0.95)');
     this.mkgroup();
     this.initialized = true;
 
@@ -143,20 +143,23 @@ export class Card_scene extends Phaser.Scene {
     return new Promise<GlobalCard>((resolve, reject) => {
       me.show_images(image_opts, label_text).then((loaded_images) => {
         loaded_images.forEach(
-          loaded_image => loaded_image.sprite.on(
-            'pointerup', () => {
-              if (is_Present_cards(event)) {
-                card_detail({ url: loaded_image.url, on_accept: () => {
+          loaded_image => {
+            if (is_Pick_cards(event)) loaded_image.sprite.setScale(0.5);
+            loaded_image.sprite.on(
+              'pointerup', () => {
+                if (is_Present_cards(event)) {
+                  card_detail({ url: loaded_image.url, on_accept: () => {
+                    me.switch_off();
+                    resolve({ set: loaded_image.set, id: loaded_image.id });
+                  } });
+                }
+                else {
                   me.switch_off();
                   resolve({ set: loaded_image.set, id: loaded_image.id });
-                } });
+                }
               }
-              else {
-                me.switch_off();
-                resolve({ set: loaded_image.set, id: loaded_image.id });
-              }
-            }
-          )
+            );
+          }
         );
       });
     });
