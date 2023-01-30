@@ -15,6 +15,7 @@ import { process_events } from '../game/render';
 export class Main_scene extends Phaser.Scene {
   panning: { origin_x: number; origin_y: number } = null;
   avatar_move: MoveTo = null;
+  starting_pointers_distance: number;
 
   constructor () {
     super('Main');
@@ -29,23 +30,34 @@ export class Main_scene extends Phaser.Scene {
   }
 
   create() {
-    this.cam().setBounds(0, 0, map_width, map_height);
-    this.cam().setScroll(map_center.x - viewport_width / 2, map_center.y - viewport_height / 2);
-    this.cam().setBackgroundColor('#FFFFFF');
+    const me = this;
+    me.cam().setBounds(0, 0, map_width, map_height);
+    me.cam().setScroll(map_center.x - viewport_width / 2, map_center.y - viewport_height / 2);
+    me.cam().setBackgroundColor('#FFFFFF');
 
-    this.add.image(0, 0, 'map').setOrigin(0);
+    me.input.addPointer();
 
-    this.input.on('pointerdown', (pointer, objects) => {
+    me.add.image(0, 0, 'map').setOrigin(0);
+
+    me.input.on('pointerdown', (pointer: Phaser.Input.Pointer, objects) => {
+      me.check_pointers_distance();
       if (objects.length > 0) {
         return;
       }
-      this.panning = {
-        origin_x: pointer.downX + this.cam().scrollX,
-        origin_y: pointer.downY + this.cam().scrollY,
+      me.panning = {
+        origin_x: pointer.downX + me.cam().scrollX,
+        origin_y: pointer.downY + me.cam().scrollY,
       };
     });
-    this.input.on('pointermove', (evt) => this.handle_mouse_move(evt));
-    this.input.on('wheel', (pointer, objs, dx, dy, dz) => this.handle_mousewheel(pointer, objs, dx, dy, dz));
+    me.input.on('pointermove', (evt) => {
+      if (me.input.pointer2.isDown) {
+        me.handle_pinch();
+      }
+      else {
+        me.handle_mouse_move(evt);
+      }
+    });
+    me.input.on('wheel', (pointer, objs, dx, dy, dz) => this.handle_mousewheel(pointer, objs, dx, dy, dz));
   }
 
   update() {
@@ -60,13 +72,26 @@ export class Main_scene extends Phaser.Scene {
     me.input.setDraggable(avatar);
     me.avatar_move = new MoveTo(avatar);
     me.avatar_move.on('complete', land);
-    avatar.on('pointerup', () => {
+    avatar.on('pointerdown', () => {
       avatar_step();
     });
   }
 
   cam() {
     return this.cameras.main;
+  }
+
+  get_pointers_distance(): number {
+    if (this.input.pointer1.isDown && this.input.pointer2.isDown) { /* OK */ } else return null;
+    const {position: {x: x1, y: y1}} = this.input.pointer1;
+    const {position: {x: x2, y: y2}} = this.input.pointer2;
+    return Math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2);
+  }
+
+  check_pointers_distance() {
+    if (this.input.pointer2.isDown) {
+      this.starting_pointers_distance = this.get_pointers_distance();
+    }
   }
 
   handle_mouse_move(evt) {
@@ -82,6 +107,11 @@ export class Main_scene extends Phaser.Scene {
     const dy = this.panning.origin_y - pos.y;
     this.cam().scrollX = dx;
     this.cam().scrollY = dy;
+  }
+
+  handle_pinch() {
+    const delta = this.starting_pointers_distance - this.get_pointers_distance()
+    this.zoom(delta / 1000);
   }
 
   handle_mousewheel(pointer, objs, dx, dy, dz) {

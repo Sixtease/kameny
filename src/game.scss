@@ -14,6 +14,12 @@ body {
   &.recap-shown {
     display: block;
   }
+
+  &.recap-corner {
+    display: block;
+    height: auto;
+    width: auto;
+  }
 }
 
 .recap-root {
@@ -114,4 +120,7 @@ button {
     max-height: 100%;
     max-width: 100%;
   }
+}
+
+.debug {
 }
