@@ -14,12 +14,6 @@ body {
   &.recap-shown {
     display: block;
   }
-
-  &.recap-corner {
-    display: block;
-    height: auto;
-    width: auto;
-  }
 }
 
 .recap-root {
@@ -122,5 +116,13 @@ button {
   }
 }
 
-.debug {
+.debug-console {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  &-shown {
+    display: block;
+  }
 }
