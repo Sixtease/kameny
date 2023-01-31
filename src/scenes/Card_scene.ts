@@ -1,7 +1,7 @@
 import 'phaser';
 
 import { CARD_SET, GlobalCard, get_card_key } from '../constants/cards';
-import { golden_ratio, viewport_center, viewport_width } from '../constants';
+import { golden_ratio, max_card_size, viewport_center, viewport_width } from '../constants';
 import {
   Game_event,
   find_event_backward,
@@ -71,8 +71,14 @@ export class Card_scene extends Phaser.Scene {
     const me = this;
     const sprite = me.add.sprite(viewport_center.x, viewport_center.y, key);
     sprite.setInteractive();
-    sprite.setScale(0.2);
     return sprite;
+  }
+
+  get_card_scale(card_count: number): number {
+    console.log({ radius: get_radius(), max_card_size });
+    if (card_count === 1) return 2 * get_radius() / max_card_size;
+    if (card_count === 2) return 2 * get_radius() / max_card_size;
+    return Math.sqrt(2) * Math.PI * get_radius() / (card_count * max_card_size);
   }
 
   show_images<T extends ImageObj>(options: T[], label_text: string): Promise<(LoadedImageObj & T)[]> {
@@ -103,6 +109,7 @@ export class Card_scene extends Phaser.Scene {
         const loadedImages: (LoadedImageObj & T)[] = [];
         options.forEach(img => {
           const sprite = me.load_card_image(img.key);
+          sprite.setScale(me.get_card_scale(options.length));
           me.group!.add(sprite);
           loadedImages.push({ ...img, sprite });
         });
@@ -144,7 +151,7 @@ export class Card_scene extends Phaser.Scene {
       me.show_images(image_opts, label_text).then((loaded_images) => {
         loaded_images.forEach(
           loaded_image => {
-            if (is_Pick_cards(event)) loaded_image.sprite.setScale(0.5);
+            if (is_Pick_cards(event)) loaded_image.sprite.setScale(me.get_card_scale(loaded_images.length))
             loaded_image.sprite.on(
               'pointerup', () => {
                 if (is_Present_cards(event)) {
