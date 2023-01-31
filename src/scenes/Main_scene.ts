@@ -49,11 +49,14 @@ export class Main_scene extends Phaser.Scene {
         origin_y: pointer.downY + me.cam().scrollY,
       };
     });
-    me.input.on('pointermove', (evt) => {
+    me.input.on('pointermove', (evt, objects) => {
       if (me.input.pointer2.isDown) {
         me.handle_pinch();
       }
       else {
+        if (objects.length > 0) {
+          return;
+        }
         me.handle_mouse_move(evt);
       }
     });

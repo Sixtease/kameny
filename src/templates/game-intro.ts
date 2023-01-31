@@ -21,6 +21,9 @@ class Game_intro extends Component {
                   document.getElementById('preact-root').classList.remove('recap-shown');
                 }
               }
+              onMouseUp=${(evt) => {
+                evt.preventDefault();
+              }}
             >Hrát</button>
           </p>
         </div>
