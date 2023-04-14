@@ -28,7 +28,7 @@ const child_crossroad_cards: Card[] = [
   'czech_garnet_a',
   'citrine',
   'emerald',
-  'lybian_desert_glass_d',
+  'libyan_desert_glass_d',
   'aquamarine',
   'tourmaline_b',
   'heliotrope',
@@ -52,7 +52,7 @@ const melchisedech_crossroad_cards: Card[] = [
   'sapphire',
   'rhodonite',
   'darwin_glass_b',
-  'lybian_desert_glass_b',
+  'libyan_desert_glass_b',
   'obsidian',
 ];
 

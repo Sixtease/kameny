@@ -18,7 +18,7 @@ export type Mother_card =
   | 'jasper_k'
   | 'labradorite'
   | 'larimar_c'
-  | 'lybian_desert_glass_c'
+  | 'libyan_desert_glass_c'
   | 'malachite'
   | 'moldavite_a'
   | 'moonstone_a'
@@ -56,7 +56,7 @@ export const mother: Mother_card[] = [
   'jasper_k',
   'labradorite',
   'larimar_c',
-  'lybian_desert_glass_c',
+  'libyan_desert_glass_c',
   'malachite',
   'moldavite_a',
   'moonstone_a',
@@ -96,8 +96,8 @@ export type Child_card =
   | 'larimar_a'
   | 'larimar_b'
   | 'lepidolite'
-  | 'lybian_desert_glass_a'
-  | 'lybian_desert_glass_b'
+  | 'libyan_desert_glass_a'
+  | 'libyan_desert_glass_b'
   | 'magnetit'
   | 'mogui_marble_male'
   | 'moldavite_b'
@@ -135,8 +135,8 @@ export const child: Child_card[] = [
   'larimar_a',
   'larimar_b',
   'lepidolite',
-  'lybian_desert_glass_a',
-  'lybian_desert_glass_b',
+  'libyan_desert_glass_a',
+  'libyan_desert_glass_b',
   'magnetit',
   'mogui_marble_male',
   'moldavite_b',
@@ -176,7 +176,7 @@ export type Melchisedech_card =
   | 'indochinite'
   | 'kunzite'
   | 'larimar_b'
-  | 'lybian_desert_glass_d'
+  | 'libyan_desert_glass_d'
   | 'meteorite_1_chelyabinsk'
   | 'meteorite_pallasite'
   | 'moldavite_d'
@@ -214,7 +214,7 @@ export const melchisedech: Melchisedech_card[] = [
   'indochinite',
   'kunzite',
   'larimar_b',
-  'lybian_desert_glass_d',
+  'libyan_desert_glass_d',
   'meteorite_1_chelyabinsk',
   'meteorite_pallasite',
   'moldavite_d',
