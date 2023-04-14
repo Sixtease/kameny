@@ -1,6 +1,7 @@
 import * as Places from '../constants/places';
 import { DIRECTION } from './place_info';
 import { CARD_SET, Card, GlobalCard, Single_set_cards } from '../constants/cards';
+import { CROSSROAD_CARD_SET } from '../constants/crossroad-cards';
 
 export interface Game_event {
   evt_name: string;
@@ -110,7 +111,7 @@ export interface Pick_cards extends Game_event {
   evt_name: 'Pick_cards',
   payload: {
     cards: Card[];
-    set: CARD_SET;
+    set: CARD_SET | CROSSROAD_CARD_SET;
   }
 }
 export function is_Pick_cards(evt: Game_event): evt is Pick_cards {

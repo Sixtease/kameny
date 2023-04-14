@@ -1,3 +1,11 @@
+import {
+  CROSSROAD_CARD_SET,
+  Crossroad_card,
+  Mother_crossroad_card,
+  Child_crossroad_card,
+  Melchisedech_crossroad_card,
+} from './crossroad-cards';
+
 export type Mother_card = 
   | 'amazonite'
   | 'amber'
@@ -249,18 +257,22 @@ export type Single_set_cards = Mother_card[] | Child_card[] | Melchisedech_card[
 export interface CardPackage {
   Set: CARD_SET;
   Card: Card;
+  Crossroad_card: Crossroad_card;
 }
 export interface MotherCardPackage extends CardPackage {
   Set: CARD_SET.mother;
   Card: Mother_card;
+  Crossroad_card: Mother_crossroad_card;
 }
 export interface ChildCardPackage extends CardPackage {
   Set: CARD_SET.child;
   Card: Child_card;
+  Crossroad_card: Child_crossroad_card;
 }
 export interface MelchisedechCardPackage extends CardPackage {
   Set: CARD_SET.melchisedech;
   Card: Melchisedech_card;
+  Crossroad_card: Melchisedech_crossroad_card;
 }
 
 export function is_mother_card(card: Card): card is Mother_card {
@@ -273,8 +285,8 @@ export function is_melchisedech_card(card: Card): card is Melchisedech_card {
   return (melchisedech as Card[]).includes(card);
 }
 
-export type GlobalCard = { id: Card, set: CARD_SET };
+export type GlobalCard = { id: Card, set: CARD_SET | CROSSROAD_CARD_SET };
 
-export function get_card_key(set: CARD_SET, card_id: Card): string {
+export function get_card_key(set: CARD_SET | CROSSROAD_CARD_SET, card_id: Card): string {
   return [set, card_id].join('.');
 }

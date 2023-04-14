@@ -13,6 +13,7 @@ import {
   hist,
 } from './events';
 import { CARD_SET, Card, GlobalCard } from '../constants/cards';
+import { CROSSROAD_CARD_SET } from '../constants/crossroad-cards';
 import * as Coords from '../constants/coords';
 import { Road_name, Spot_name, map_center } from '../constants/places';
 import { get_main_scene, get_card_scene, set_player_deck } from '../game';
@@ -61,7 +62,7 @@ function go_to_field(road_name: Road_name, field_index: number) {
   get_main_scene().avatar_move.moveTo(field_coord.x, field_coord.y);
 }
 
-function present_cards(cards: Card[], set: CARD_SET, on_select: (card: GlobalCard) => void) {
+function present_cards(cards: Card[], set: CARD_SET | CROSSROAD_CARD_SET, on_select: (card: GlobalCard) => void) {
   get_card_scene().show_cards(cards.map(card => ({ id: card, set }))).then(on_select);
 }
 

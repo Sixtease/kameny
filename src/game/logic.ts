@@ -1,3 +1,4 @@
+import { crossroad_card_by_set, set_to_crossroad_set } from '../constants/crossroad-cards';
 import * as Places from '../constants/places';
 import { DIRECTION, get_coord, is_road, is_spot, road_connects, get_road_length } from './place_info';
 import { transitions } from './transition';
@@ -237,14 +238,24 @@ function go_to_place(successor: Places.Place_name): Movement_event {
 export function land(): void {
   const pos = get_current_position();
   const coord = get_coord(pos.place_name, pos.field_index);
+  const { set } = get_player_deck();
+  const crossroad_card = crossroad_card_by_set[set][pos.place_name];
   if (coord.K) {
-    const { set } = get_player_deck();
     add_evt<Pick_cards>({
       evt_name: 'Pick_cards',
       processed: false,
       payload: {
         cards: shift_cards(coord.K),
         set,
+      },
+    });
+  } else if (crossroad_card) {
+    add_evt<Pick_cards>({
+      evt_name: 'Pick_cards',
+      processed: false,
+      payload: {
+        cards: [crossroad_card],
+        set: set_to_crossroad_set[set],
       },
     });
   } else if (pos.place_name === Places.map_center) {
