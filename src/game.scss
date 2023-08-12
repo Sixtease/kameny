@@ -100,6 +100,7 @@ button {
 }
 
 .card-detail {
+  align-items: center;
   display: flex;
   height: 100%;
   justify-content: space-evenly;
@@ -107,6 +108,11 @@ button {
 
   &-buttons {
     margin: auto 0;
+  }
+
+  &-accompanying-text {
+    font-size: 30px;
+    max-width: 20%
   }
 
   img {

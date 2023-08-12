@@ -102,7 +102,6 @@ export type Child_card =
   | 'jasper'
   | 'lapis_lazuli'
   | 'larimar_a'
-  | 'larimar_b'
   | 'lepidolite'
   | 'libyan_desert_glass_a'
   | 'libyan_desert_glass_b'
@@ -141,7 +140,6 @@ export const child: Child_card[] = [
   'jasper',
   'lapis_lazuli',
   'larimar_a',
-  'larimar_b',
   'lepidolite',
   'libyan_desert_glass_a',
   'libyan_desert_glass_b',

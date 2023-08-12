@@ -6,6 +6,7 @@ import resolve from 'rollup-plugin-node-resolve';
 import scss from 'rollup-plugin-scss';
 import serve from 'rollup-plugin-serve';
 import typescript from 'rollup-plugin-typescript2';
+import json from 'rollup-plugin-json';
 
 export default {
 
@@ -80,5 +81,6 @@ export default {
 
     scss(),
     livereload(),
+    json(),
   ],
 };

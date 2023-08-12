@@ -1,15 +1,17 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
-    "skipLibCheck": true,
+    "noFallthroughCasesInSwitch": false,
     "noImplicitAny": false,
-    "strictNullChecks": false,
-    "strictFunctionTypes": true,
     "noImplicitThis": true,
     "noUnusedLocals": true,
-    "noFallthroughCasesInSwitch": false,
-    "strict": true
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "strictFunctionTypes": true,
+    "strictNullChecks": false,
+    "target": "es6"
   },
   "include": [
     "./src"

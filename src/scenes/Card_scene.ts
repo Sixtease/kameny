@@ -155,7 +155,7 @@ export class Card_scene extends Phaser.Scene {
             loaded_image.sprite.on(
               'pointerup', () => {
                 if (is_Present_cards(event)) {
-                  card_detail({ url: loaded_image.url, on_accept: () => {
+                  card_detail({ url: loaded_image.url, card_id: loaded_image.id, on_accept: () => {
                     me.switch_off();
                     resolve({ set: loaded_image.set, id: loaded_image.id });
                   } });
