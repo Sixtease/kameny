@@ -39,10 +39,9 @@ body {
 }
 
 .recap-card-offer {
-  height: 20vh;
   ul {
     display: flex;
-    height: 100%;
+    height: 20vh;
     justify-content: space-evenly;
     padding: 0;
   }
@@ -86,6 +85,10 @@ body {
   }
 }
 
+.game-intro {
+  font-size: 3vh;
+}
+
 button {
   background: inherit;
   border: 2px solid gray;
@@ -110,9 +113,9 @@ button {
     margin: auto 0;
   }
 
-  &-accompanying-text {
-    font-size: 30px;
-    max-width: 20%
+  &-exegesis {
+    padding: 0 2vw;
+    font-size: 2vh;
   }
 
   img {

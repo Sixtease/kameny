@@ -26,11 +26,13 @@ class Card_detail extends Component<Card_detail_props> {
     return html`
       <div class="card-detail">
         <img src="${url}" />
-        <div class="card-detail-accompanying-text">${exegesis}</div>
-        <div class="card-detail-buttons">
-          <p>Chceš tuto kartu?</p>
-          <button class="card-detail-yes" onClick=${() => { on_accept(); close(); }}>Ano</button>
-          <button class="card-detail-no" onClick=${close}>Ne</button>
+        <div class="card-detail-sidebar">
+          <p class="card-detail-exegesis">${exegesis}</p>
+          <div class="card-detail-buttons">
+            <p>Chceš tuto kartu?</p>
+            <button class="card-detail-yes" onClick=${() => { on_accept(); close(); }}>Ano</button>
+            <button class="card-detail-no" onClick=${close}>Ne</button>
+          </div>
         </div>
       </div>
     `;
