@@ -9,6 +9,7 @@ import {
   is_Present_cards,
 } from '../game/events';
 import { card_detail } from '../templates/card-detail';
+import { pick_card } from '../templates/pick-card';
 
 export interface ImageObj { key: string; url: string }
 interface LoadedImageObj extends ImageObj {
@@ -140,6 +141,20 @@ export class Card_scene extends Phaser.Scene {
     }));
 
     const event = find_event_backward((evt: Game_event) => is_Present_cards(evt) || is_Pick_cards(evt));
+
+    if (is_Pick_cards(event) && event.payload.cards.length === 1) {
+      const [card] = cards;
+      return new Promise<GlobalCard>((resolve) => {
+        pick_card({
+          url: `assets/cards/${card.set}/${card.id}.jpg`,
+          card_id: card.id,
+          on_close: () => resolve(card),
+        });
+      });
+    }
+
+    // TODO: replace following code with templates like above
+
     const label_text
       = !event                                                   ? ''
       : is_Present_cards(event)                                  ? 'Vyber si kartu.'
@@ -151,7 +166,7 @@ export class Card_scene extends Phaser.Scene {
       me.show_images(image_opts, label_text).then((loaded_images) => {
         loaded_images.forEach(
           loaded_image => {
-            if (is_Pick_cards(event)) loaded_image.sprite.setScale(me.get_card_scale(loaded_images.length))
+            if (is_Pick_cards(event)) loaded_image.sprite.setScale(me.get_card_scale(loaded_images.length));
             loaded_image.sprite.on(
               'pointerup', () => {
                 if (is_Present_cards(event)) {
