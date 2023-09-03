@@ -20,7 +20,7 @@ export class Card_draw_pick extends Component<Card_draw_pick_props> {
       const [ card ] = cards;
       const { exegesis, name_cs } = card_meta[card];
       return html`
-        <div class="recap-card-offer">
+        <div class="recap-card-offer recap-card-offer-single">
           <p class="recap-picked-card">
             Dostal's tuto kartu:
             <img src="assets/cards/${set}/${card}.jpg" alt="" />${name_cs}
@@ -31,7 +31,7 @@ export class Card_draw_pick extends Component<Card_draw_pick_props> {
     }
     else {
       return html`
-        <div class="recap-card-offer">
+        <div class="recap-card-offer recap-card-offer-multiple">
           <p>Dostal's tyto karty:</p>
           <ul>
             ${cards.map((card: Card) => {

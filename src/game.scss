@@ -55,6 +55,20 @@ body {
   }
 }
 
+.recap-card-offer-multiple {
+  li {
+    padding: 0 6%;
+
+    p {
+      width: 20em;
+      margin: 1em auto;
+    }
+  }
+  img {
+    margin: auto;
+  }
+}
+
 .recap-picked-card {
   img {
     display: block;
@@ -79,6 +93,9 @@ body {
   p {
     display: flex;
     margin: auto;
+    justify-content: space-evenly;
+    font-size: 3vh;
+    width: 90%;
   }
   a {
     margin: auto;
