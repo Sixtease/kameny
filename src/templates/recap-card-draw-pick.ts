@@ -19,7 +19,6 @@ export class Card_draw_pick extends Component<Card_draw_pick_props> {
     if (cards.length === 1) {
       const [ card ] = cards;
       const { exegesis, name_cs } = card_meta[card];
-      console.log({ card, card_meta });
       return html`
         <div class="recap-card-offer">
           <p class="recap-picked-card">

@@ -76,7 +76,6 @@ export class Card_scene extends Phaser.Scene {
   }
 
   get_card_scale(card_count: number): number {
-    console.log({ radius: get_radius(), max_card_size });
     if (card_count === 1) return 2 * get_radius() / max_card_size;
     if (card_count === 2) return 2 * get_radius() / max_card_size;
     return Math.sqrt(2) * Math.PI * get_radius() / (card_count * max_card_size);
@@ -170,10 +169,18 @@ export class Card_scene extends Phaser.Scene {
             loaded_image.sprite.on(
               'pointerup', () => {
                 if (is_Present_cards(event)) {
-                  card_detail({ url: loaded_image.url, card_id: loaded_image.id, on_accept: () => {
-                    me.switch_off();
-                    resolve({ set: loaded_image.set, id: loaded_image.id });
-                  } });
+                  me.scene.sleep();
+                  card_detail({
+                    url: loaded_image.url,
+                    card_id: loaded_image.id,
+                    on_accept: () => {
+                      me.switch_off();
+                      resolve({ set: loaded_image.set, id: loaded_image.id });
+                    },
+                    on_close: () => {
+                      me.scene.wake();
+                    },
+                  });
                 }
                 else {
                   me.switch_off();

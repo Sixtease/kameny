@@ -21,7 +21,6 @@ function close() {
 
 class Pick_card extends Component<Card_detail_props> {
   render({ url, card_id, on_close }: Card_detail_props) {
-    console.log('card id', card_id, card_meta);
     const exegesis = get_card_exegesis(card_id);
     return html`
       <div class="card-detail">

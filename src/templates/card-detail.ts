@@ -9,6 +9,7 @@ interface Card_detail_props {
   url: string;
   card_id: string;
   on_accept: () => void;
+  on_close: () => void;
 }
 
 function get_card_exegesis(card_id: string): string {
@@ -20,8 +21,7 @@ function close() {
 }
 
 class Card_detail extends Component<Card_detail_props> {
-  render({ url, card_id, on_accept }: Card_detail_props) {
-    console.log('card id', card_id, card_meta);
+  render({ url, card_id, on_accept, on_close }: Card_detail_props) {
     const exegesis = get_card_exegesis(card_id);
     return html`
       <div class="card-detail">
@@ -31,7 +31,7 @@ class Card_detail extends Component<Card_detail_props> {
           <div class="card-detail-buttons">
             <p>Chceš tuto kartu?</p>
             <button class="card-detail-yes" onClick=${() => { on_accept(); close(); }}>Ano</button>
-            <button class="card-detail-no" onClick=${close}>Ne</button>
+            <button class="card-detail-no" onClick=${() => { close(); on_close(); }}>Ne</button>
           </div>
         </div>
       </div>
@@ -39,10 +39,10 @@ class Card_detail extends Component<Card_detail_props> {
   }
 }
 
-export const card_detail = ({ url, card_id, on_accept }: Card_detail_props) => {
+export const card_detail = ({ url, card_id, on_accept, on_close }: Card_detail_props) => {
   const root = document.getElementById('preact-root');
   render(
-    html`<${Card_detail} url=${url} on_accept=${on_accept} card_id=${card_id} />`,
+    html`<${Card_detail} url=${url} on_accept=${on_accept} on_close=${on_close} card_id=${card_id} />`,
     root
   );
   root.classList.add('recap-shown');
