@@ -9,6 +9,7 @@ import {
   is_Present_cards,
 } from '../game/events';
 import { card_detail } from '../templates/card-detail';
+import { one_of_picked_cards_detail } from '../templates/one-of-picked-cards-detail';
 import { pick_card } from '../templates/pick-card';
 
 export interface ImageObj { key: string; url: string }
@@ -182,7 +183,22 @@ export class Card_scene extends Phaser.Scene {
                     },
                   });
                 }
+                else if (is_Pick_cards(event)) {
+                  me.scene.sleep();
+                  one_of_picked_cards_detail({
+                    url: loaded_image.url,
+                    card_id: loaded_image.id,
+                    on_accept: () => {
+                      me.switch_off();
+                      resolve({ set: loaded_image.set, id: loaded_image.id });
+                    },
+                    on_close: () => {
+                      me.scene.wake();
+                    },
+                  });
+                }
                 else {
+                  console.warn('this branch should never be reached');
                   me.switch_off();
                   resolve({ set: loaded_image.set, id: loaded_image.id });
                 }
