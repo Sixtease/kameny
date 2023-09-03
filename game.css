@@ -36,12 +36,9 @@ body {
   cursor: pointer;
 }
 
-.recap-card-offer {
-  height: 20vh;
-}
 .recap-card-offer ul {
   display: flex;
-  height: 100%;
+  height: 20vh;
   justify-content: space-evenly;
   padding: 0;
 }
@@ -82,6 +79,10 @@ body {
   margin: auto;
 }
 
+.game-intro {
+  font-size: 3vh;
+}
+
 button {
   background: inherit;
   border: 2px solid gray;
@@ -95,6 +96,7 @@ button:hover {
 }
 
 .card-detail {
+  align-items: center;
   display: flex;
   height: 100%;
   justify-content: space-evenly;
@@ -102,6 +104,10 @@ button:hover {
 }
 .card-detail-buttons {
   margin: auto 0;
+}
+.card-detail-exegesis {
+  padding: 0 2vw;
+  font-size: 2vh;
 }
 .card-detail img {
   margin: auto 0;
