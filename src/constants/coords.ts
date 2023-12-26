@@ -1,6 +1,6 @@
 import * as Places from './places';
 
-interface Coord {
+export interface Coord {
   x: number;
   y: number;
 }

@@ -8,12 +8,12 @@ import {
   viewport_width,
 } from '../constants';
 import { CARD_SET } from '../constants/cards';
-import { map_center } from '../constants/coords';
+import { Coord, map_center } from '../constants/coords';
 import { avatar_step, land, select_player } from '../game/logic';
 import { process_events } from '../game/render';
 
 export class Main_scene extends Phaser.Scene {
-  panning: { origin_x: number; origin_y: number } = null;
+  panning: { scroll: Coord; pointer: Coord } = null;
   avatar_move: MoveTo = null;
   starting_pointers_distance: number;
 
@@ -45,8 +45,8 @@ export class Main_scene extends Phaser.Scene {
         return;
       }
       me.panning = {
-        origin_x: pointer.downX + me.cam().scrollX,
-        origin_y: pointer.downY + me.cam().scrollY,
+        scroll: { x: me.cam().scrollX, y: me.cam().scrollY },
+        pointer: { x: pointer.x, y: pointer.y },
       };
     });
     me.input.on('pointermove', (evt, objects) => {
@@ -98,18 +98,27 @@ export class Main_scene extends Phaser.Scene {
   }
 
   handle_mouse_move(evt) {
-    const pointer = this.input.activePointer;
-    if (this.panning && !pointer.isDown) {
-      this.panning = null;
+    const me = this;
+    const cam = me.cam();
+    const pointer = me.input.activePointer;
+    if (me.panning && !pointer.isDown) {
+      me.panning = null;
     }
-    if (!this.panning) {
+    if (!me.panning) {
       return;
     }
     const pos = evt.position;
-    const dx = this.panning.origin_x - pos.x;
-    const dy = this.panning.origin_y - pos.y;
-    this.cam().scrollX = dx;
-    this.cam().scrollY = dy;
+    const viewport_delta = {
+      x: me.panning.pointer.x - pos.x,
+      y: me.panning.pointer.y - pos.y,
+    };
+    const world_delta = {
+      x: viewport_delta.x / cam.zoom,
+      y: viewport_delta.y / cam.zoom,
+    };
+    const new_scroll = { x: me.panning.scroll.x + world_delta.x, y: me.panning.scroll.y + world_delta.y };
+    this.cam().scrollX = new_scroll.x;
+    this.cam().scrollY = new_scroll.y;
   }
 
   handle_pinch() {
@@ -118,11 +127,24 @@ export class Main_scene extends Phaser.Scene {
   }
 
   handle_mousewheel(pointer, objs, dx, dy, dz) {
-    this.zoom(dy / 100);
+    const me = this;
+    const cam = me.cam();
+    // Get the current world point under pointer.
+    const world_pivot = cam.getWorldPoint(pointer.x, pointer.y);
+    
+    me.zoom(dy);
+
+    // Update camera matrix, so `getWorldPoint` returns zoom-adjusted coordinates.
+    // @ts-ignore
+    cam.preRender();
+    const moved_world_pivot = cam.getWorldPoint(pointer.x, pointer.y);
+    // Scroll the camera to keep the pointer under the same world point.
+    cam.scrollX -= moved_world_pivot.x - world_pivot.x;
+    cam.scrollY -= moved_world_pivot.y - world_pivot.y;
   }
 
-  zoom(delta) {
-    const new_zoom = this.cam().zoom * (1 - delta / 10);
+  zoom(delta: number) {
+    const new_zoom = this.cam().zoom * (1 - delta / 1000);
     const min_h = viewport_height / map_height;
     const min_w = viewport_width / map_width;
     const min_zoom = Math.max(new_zoom, Math.min(min_h, min_w));
