@@ -2,13 +2,13 @@ import 'phaser';
 import MoveTo from 'phaser3-rex-plugins/plugins/moveto.js';
 
 import {
-  map_height,
-  map_width,
+  world_height,
+  world_width,
   viewport_height,
   viewport_width,
 } from '../constants';
 import { CARD_SET } from '../constants/cards';
-import { Coord, map_center } from '../constants/coords';
+import { Coord, world_center } from '../constants/coords';
 import { avatar_step, land, select_player } from '../game/logic';
 import { process_events } from '../game/render';
 
@@ -22,7 +22,7 @@ export class Main_scene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('map', 'assets/map.jpg');
+    this.load.image('world', 'assets/world.jpg');
     this.load.image('mother', 'assets/avatars/mother.png');
     this.load.image('child', 'assets/avatars/child.png');
     this.load.image('melchisedech', 'assets/avatars/melchisedech.png');
@@ -31,13 +31,13 @@ export class Main_scene extends Phaser.Scene {
 
   create() {
     const me = this;
-    me.cam().setBounds(0, 0, map_width, map_height);
-    me.cam().setScroll(map_center.x - viewport_width / 2, map_center.y - viewport_height / 2);
+    me.cam().setBounds(0, 0, world_width, world_height);
+    me.cam().setScroll(world_center.x - viewport_width / 2, world_center.y - viewport_height / 2);
     me.cam().setBackgroundColor('#FFFFFF');
 
     me.input.addPointer();
 
-    me.add.image(0, 0, 'map').setOrigin(0);
+    me.add.image(0, 0, 'world').setOrigin(0);
 
     me.input.on('pointerdown', (pointer: Phaser.Input.Pointer, objects) => {
       me.check_pointers_distance();
@@ -69,7 +69,7 @@ export class Main_scene extends Phaser.Scene {
 
   setup_avatar(deck: CARD_SET) {
     const me = this;
-    const avatar = me.add.sprite(map_center.x, map_center.y, deck);
+    const avatar = me.add.sprite(world_center.x, world_center.y, deck);
     avatar.setScale(0.3);
     avatar.setInteractive();
     me.input.setDraggable(avatar);
@@ -145,8 +145,8 @@ export class Main_scene extends Phaser.Scene {
 
   zoom(delta: number) {
     const new_zoom = this.cam().zoom * (1 - delta / 1000);
-    const min_h = viewport_height / map_height;
-    const min_w = viewport_width / map_width;
+    const min_h = viewport_height / world_height;
+    const min_w = viewport_width / world_width;
     const min_zoom = Math.max(new_zoom, Math.min(min_h, min_w));
     const max_zoom = 1;
     const clamped_new_zoom = Math.min(Math.max(new_zoom, min_zoom), max_zoom);

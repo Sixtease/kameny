@@ -8,7 +8,7 @@ export interface Carded_coord extends Coord {
   K?: number;
 }
 
-export const map_center: Coord = {
+export const world_center: Coord = {
   x: 1953,
   y: 2013,
 };
@@ -52,7 +52,7 @@ export const teleports: Record<Places.Teleport_name, Coord> = {
 };
 
 export const spots: Record<Places.Spot_name, Coord> = {
-  ...gates, ...crossroads, ...white_crossroads, ...teleports, map_center,
+  ...gates, ...crossroads, ...white_crossroads, ...teleports, world_center,
 };
 
 const K = 1;

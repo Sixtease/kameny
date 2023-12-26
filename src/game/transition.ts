@@ -11,7 +11,7 @@ export function transitions(current_place: Places.Place_name, previous_place: Pl
   if (is_teleport(current_place) && is_road(previous_place)) {
     return Places.teleports;
   }
-  if (current_place === Places.map_center) {
+  if (current_place === Places.world_center) {
     return Places.gates.filter(g => g !== Places.gate_7);
   }
   if (is_spot(current_place)) {

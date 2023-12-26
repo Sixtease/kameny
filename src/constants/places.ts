@@ -1,5 +1,5 @@
-export const map_center = 'map_center';
-export type Map_center_name = typeof map_center;
+export const world_center = 'world_center';
+export type World_center_name = typeof world_center;
 
 export const gate_1 = 'gate_1';
 export const gate_2 = 'gate_2';
@@ -122,7 +122,7 @@ export const spots: Spot_name[] = ([] as Spot_name[]).concat(
 );
 
 export type Spot_name =
-  | Map_center_name
+  | World_center_name
   | Gate_name
   | Crossroad_name
   | Teleport_name

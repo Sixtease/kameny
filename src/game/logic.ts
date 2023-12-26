@@ -59,7 +59,7 @@ export function get_current_position(): { place_name: Places.Place_name, field_i
     }
   }
   return {
-    place_name: Places.map_center,
+    place_name: Places.world_center,
     field_index: null
   };
 }
@@ -78,7 +78,7 @@ export function get_previous_place(): Places.Place_name | null {
       }
     }
   }
-  return saw_current_place ? Places.map_center : null;
+  return saw_current_place ? Places.world_center : null;
 }
 export function go_to_next_field(): Field_progress | null {
   let field_index: number | undefined = undefined;
@@ -166,7 +166,7 @@ function select_place(candidate_places: Places.Place_name[]): Promise<Places.Pla
       processed: false,
       payload: {},
     });
-    return Promise.resolve(Places.map_center);
+    return Promise.resolve(Places.world_center);
   }
   if (candidate_places.length === 1) {
     const selected_place = candidate_places[0];
@@ -258,7 +258,7 @@ export function land(): void {
         set: set_to_crossroad_set[set],
       },
     });
-  } else if (pos.place_name === Places.map_center) {
+  } else if (pos.place_name === Places.world_center) {
     add_evt<Recap_game>({
       evt_name: 'Recap_game',
       processed: false,
@@ -273,7 +273,7 @@ export function avatar_step(): void {
   }
   const previous_place = get_previous_place();
   if (previous_place === null) {
-    const candidate_places = transitions(Places.map_center, previous_place);
+    const candidate_places = transitions(Places.world_center, previous_place);
     select_place(candidate_places).then(selected_gate => go_to_start_gate(selected_gate as Places.Gate_name));
     return;
   }
