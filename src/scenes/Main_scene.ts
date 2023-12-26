@@ -31,7 +31,7 @@ export class Main_scene extends Phaser.Scene {
 
   create() {
     const me = this;
-    me.cam().setBounds(0, 0, world_width, world_height);
+    // me.cam().setBounds(0, 0, world_width, world_height);
     me.cam().setScroll(world_center.x - viewport_width / 2, world_center.y - viewport_height / 2);
     me.cam().setBackgroundColor('#FFFFFF');
 
@@ -117,8 +117,7 @@ export class Main_scene extends Phaser.Scene {
       y: viewport_delta.y / cam.zoom,
     };
     const new_scroll = { x: me.panning.scroll.x + world_delta.x, y: me.panning.scroll.y + world_delta.y };
-    this.cam().scrollX = new_scroll.x;
-    this.cam().scrollY = new_scroll.y;
+    this.scrollTo(new_scroll);
   }
 
   handle_pinch() {
@@ -139,8 +138,10 @@ export class Main_scene extends Phaser.Scene {
     cam.preRender();
     const moved_world_pivot = cam.getWorldPoint(pointer.x, pointer.y);
     // Scroll the camera to keep the pointer under the same world point.
-    cam.scrollX -= moved_world_pivot.x - world_pivot.x;
-    cam.scrollY -= moved_world_pivot.y - world_pivot.y;
+    me.scrollBy({
+      x: world_pivot.x - moved_world_pivot.x,
+      y: world_pivot.y - moved_world_pivot.y,
+    });
   }
 
   zoom(delta: number) {
@@ -151,5 +152,71 @@ export class Main_scene extends Phaser.Scene {
     const max_zoom = 1;
     const clamped_new_zoom = Math.min(Math.max(new_zoom, min_zoom), max_zoom);
     this.cam().setZoom(clamped_new_zoom);
+  }
+
+  scrollTo(coord: Coord) {
+    const zoom = this.cam().zoom;
+
+    const old = {
+      x: this.cam().scrollX,
+      y: this.cam().scrollY,
+    };
+
+    const delta = {
+      x: coord.x - old.x,
+      y: coord.y - old.y,
+    };
+
+    const nw = this.cam().getWorldPoint(0 + delta.x, 0 + delta.y);
+    const se = this.cam().getWorldPoint(viewport_width + delta.x, viewport_height + delta.y);
+
+    const correction = { x: 0, y: 0 };
+    if (world_width * zoom < viewport_width) {
+      if (nw.x > 0 && se.x > world_width) {
+        correction.x = -nw.x * zoom;
+      }
+      if (se.x < world_width && nw.x < 0) {
+        correction.x = (world_width - se.x) * zoom;
+      }
+    }
+    else {
+      if (nw.x < 0) {
+        correction.x = -nw.x * zoom;
+      }
+      if (se.x > world_width) {
+        correction.x = (world_width - se.x) * zoom;
+      }
+    }
+    if (world_height * zoom < viewport_height) {
+      if (nw.y > 0 && se.y > world_height) {
+        correction.y = -se.y * zoom;
+      }
+      if (se.y < world_height && nw.y < 0) {
+        correction.y = (world_height - se.y) * zoom;
+      }
+    }
+    else {
+      if (nw.y < 0) {
+        correction.y = -nw.y * zoom;
+      }
+      if (se.y > world_height) {
+        correction.y = (world_height - se.y) * zoom;
+      }
+    }
+
+    const clamped = {
+      x: coord.x + correction.x,
+      y: coord.y + correction.y,
+    };
+
+    this.cam().scrollX = clamped.x;
+    this.cam().scrollY = clamped.y;
+  }
+
+  scrollBy(delta: Coord) {
+    this.scrollTo({
+      x: this.cam().scrollX + delta.x,
+      y: this.cam().scrollY + delta.y,
+    });
   }
 }
