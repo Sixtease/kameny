@@ -51,6 +51,17 @@ body {
   height: 100%;
 }
 
+.recap-card-offer-multiple li {
+  padding: 0 6%;
+}
+.recap-card-offer-multiple li p {
+  width: 20em;
+  margin: 1em auto;
+}
+.recap-card-offer-multiple img {
+  margin: auto;
+}
+
 .recap-picked-card img {
   display: block;
   margin: auto;
@@ -74,6 +85,9 @@ body {
 .recap-game p {
   display: flex;
   margin: auto;
+  justify-content: space-evenly;
+  font-size: 3vh;
+  width: 90%;
 }
 .recap-game a {
   margin: auto;
