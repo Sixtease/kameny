@@ -41,11 +41,11 @@ class Card_draw extends Component<Card_draw_props> {
       <${Overlay} onClose=${() => this.setState({ draw_event: null })}>
         <div class="recap-root">
           ${ prev_draw_event
-            ? html`<a class="recap-link recap-link-left" onClick=${() => this.setState({ ...this.state, draw_event: prev_draw_event })}>˂ předchozí</a>` 
+            ? html`<a class="recap-link recap-link-left" onClick=${() => this.setState({ ...this.state, draw_event: prev_draw_event })}>🢔 předchozí</a>` 
             : null
           }
           ${ next_draw_event
-            ? html`<a class="recap-link recap-link-right" onClick=${() => this.setState({ ...this.state, draw_event: next_draw_event })}>další ˃</a>` 
+            ? html`<a class="recap-link recap-link-right" onClick=${() => this.setState({ ...this.state, draw_event: next_draw_event })}>další 🢖</a>` 
             : null
           }
           ${
