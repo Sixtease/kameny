@@ -183,24 +183,27 @@ function select_place(candidate_places: Places.Place_name[]): Promise<Places.Pla
   const cards = shift_cards(candidate_places.length);
   return new Promise<Places.Place_name>((resolve) => {
     const { set } = get_player_deck();
+    const permutation = Array.from(Array(candidate_places.length)).map((_, i) => i).sort(() => Math.random() - 0.5);
     add_evt<Present_cards>({
       evt_name: 'Present_cards',
       processed: false,
       payload: {
         cards,
         set,
-        permutation: Array(candidate_places.length).map((_, i) => i).sort(() => Math.random() - 0.5),
+        permutation,
         on_select: (selected_card: GlobalCard) => {
           const selected_card_index = cards.indexOf(selected_card.id as never); // FIXME
+          const permuted_card_index = permutation[selected_card_index];
           add_evt<Select_from_presented_cards>({
             evt_name: 'Select_from_presented_cards',
             processed: false,
             payload: {
-              index: selected_card_index,
+              card_index: selected_card_index,
+              index: permuted_card_index,
               card: selected_card,
             },
           });
-          resolve(candidate_places[selected_card_index]);
+          resolve(candidate_places[permuted_card_index]);
         },
       }
     });
