@@ -11,6 +11,7 @@ import {
   Enter_spot,
   Field_progress,
   Game_event,
+  Landed,
   Movement_event,
   Pick_cards,
   Present_avatars,
@@ -24,6 +25,7 @@ import {
   hist,
   is_Enter_road,
   is_Field_progress,
+  is_Landed,
   is_Movement_event,
 } from './events';
 
@@ -33,13 +35,16 @@ enum AVATAR_STATE {
   DIED = 'DIED',
 }
 
-export function get_current_position(): { place_name: Places.Place_name, field_index: number} {
+export function get_current_position(): { place_name: Places.Place_name; field_index: number; still_moving: boolean } {
+  let landed = false;
   for (let i = hist.length - 1; i >= 0; i--) {
     const evt = hist[i];
+    if (is_Landed(evt)) landed = true;
     if (is_Movement_event(evt)) {
       const { place_name }  = evt.payload;
       if (is_Field_progress(evt)) {
         return {
+          still_moving: !landed,
           place_name,
           field_index: evt.payload.field_index,
         };
@@ -48,17 +53,20 @@ export function get_current_position(): { place_name: Places.Place_name, field_i
         const road_length = get_road_length(place_name as Places.Road_name);
         const field_index = evt.payload.direction === 'FORWARD' ? 0 : road_length - 1;
         return {
+          still_moving: !landed,
           place_name,
           field_index,
         };
       }
       return {
+        still_moving: !landed,
         place_name,
         field_index: null,
       };
     }
   }
   return {
+    still_moving: false,
     place_name: Places.world_center,
     field_index: null
   };
@@ -243,6 +251,11 @@ export function land(): void {
   const coord = get_coord(pos.place_name, pos.field_index);
   const { set } = get_player_deck();
   const crossroad_card = crossroad_card_by_set[set][pos.place_name];
+  add_evt<Landed>({
+    evt_name: 'Landed',
+    processed: false,
+    payload: {},
+  });
   if (coord.K) {
     add_evt<Pick_cards>({
       evt_name: 'Pick_cards',
@@ -274,6 +287,10 @@ export function avatar_step(): void {
   if (event_occurred('End_game')) {
     return;
   }
+
+  const { still_moving } = get_current_position();
+  if (still_moving) return;
+
   const previous_place = get_previous_place();
   if (previous_place === null) {
     const candidate_places = transitions(Places.world_center, previous_place);

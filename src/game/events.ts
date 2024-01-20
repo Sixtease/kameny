@@ -51,6 +51,13 @@ export function is_Field_progress(evt: Game_event): evt is Field_progress {
   return evt.evt_name === 'Field_progress';
 }
 
+export interface Landed extends Game_event {
+  evt_name: 'Landed';
+}
+export function is_Landed(evt: Game_event): evt is Landed {
+  return evt.evt_name === 'Landed';
+}
+
 export interface Enter_spot extends Movement_event {
   evt_name: 'Enter_spot';
   payload: {
