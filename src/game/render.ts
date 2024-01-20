@@ -16,7 +16,12 @@ import { CARD_SET, Card, GlobalCard } from '../constants/cards';
 import { CROSSROAD_CARD_SET } from '../constants/crossroad-cards';
 import * as Coords from '../constants/coords';
 import { Road_name, Spot_name, world_center } from '../constants/places';
-import { get_main_scene, get_card_scene, set_player_deck } from '../game';
+import {
+  get_card_scene,
+  get_controls_scene,
+  get_main_scene,
+  set_player_deck,
+} from '../game';
 import { recap_game } from '../templates/recap-game';
 let seen_i = 0;
 
@@ -36,6 +41,7 @@ function process_event(evt: Game_event) {
     present_cards(evt.payload.cards, evt.payload.set, evt.payload.on_select);
   } else if (is_End_game(evt)) {
     go_to_spot(world_center);
+    get_controls_scene().scene.sendToBack();
   } else if (is_Present_avatars(evt)) {
     present_avatars(evt.payload.on_select);
   } else if (is_Select_player(evt)) {
