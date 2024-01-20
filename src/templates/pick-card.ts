@@ -2,6 +2,7 @@ import { h, Component, render } from 'preact';
 import htm from 'htm';
 
 import card_meta from '../constants/card_meta.json';
+import { Overlay } from './overlay';
 
 const html = htm.bind(h);
 
@@ -23,16 +24,18 @@ class Pick_card extends Component<Card_detail_props> {
   render({ url, card_id, on_close }: Card_detail_props) {
     const exegesis = get_card_exegesis(card_id);
     return html`
-      <div class="card-detail">
-        <img src="${url}" />
-        <div class="card-detail-sidebar">
-          <h1 class="card-pick-header">Dostal's tuto kartu:</h1>
-          <p class="card-detail-exegesis">${exegesis}</p>
-          <div class="card-detail-buttons">
-            <button class="card-detail-yes" onClick=${() => { on_close(); close(); }}>OK</button>
+      <${Overlay}>
+        <div class="card-detail">
+          <img src="${url}" />
+          <div class="card-detail-sidebar">
+            <h1 class="card-pick-header">Dostal's tuto kartu:</h1>
+            <p class="card-detail-exegesis">${exegesis}</p>
+            <div class="card-detail-buttons">
+              <button class="card-detail-yes" onClick=${() => { on_close(); close(); }}>OK</button>
+            </div>
           </div>
         </div>
-      </div>
+      </Overlay>
     `;
   }
 }
