@@ -66,6 +66,8 @@ export class Card_scene extends Phaser.Scene {
     this.scene.sendToBack();
     this.scene.setVisible(false);
     this.scene.wake('Main');
+    this.scene.wake('Drawn_cards');
+    this.scene.wake('Controls');
     this.label.destroy();
   }
 
@@ -124,6 +126,8 @@ export class Card_scene extends Phaser.Scene {
         me.scene.bringToTop();
         me.scene.setVisible(true);
         me.scene.pause('Main');
+        me.scene.pause('Drawn_cards');
+        me.scene.pause('Controls');
         me.scene.wake('Cards');
         resolve(loadedImages);
       });
