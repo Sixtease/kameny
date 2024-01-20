@@ -16,6 +16,7 @@ export class Main_scene extends Phaser.Scene {
   panning: { scroll: Coord; pointer: Coord } = null;
   avatar_move: MoveTo = null;
   starting_pointers_distance: number;
+  avatar: Phaser.GameObjects.Sprite;
 
   constructor () {
     super('Main');
@@ -70,6 +71,7 @@ export class Main_scene extends Phaser.Scene {
   setup_avatar(deck: CARD_SET) {
     const me = this;
     const avatar = me.add.sprite(world_center.x, world_center.y, deck);
+    me.avatar = avatar;
     avatar.setScale(0.3);
     avatar.setInteractive();
     me.input.setDraggable(avatar);
@@ -78,6 +80,23 @@ export class Main_scene extends Phaser.Scene {
     avatar.on('pointerdown', () => {
       avatar_step();
     });
+  }
+
+  move_avatar(dest: Coord): void {
+    const cam = this.cam();
+    const avatar = this.avatar;
+    const avatar_move = this.avatar_move;
+
+    if (!cam.worldView.contains(avatar.x, avatar.y)) {
+      cam.pan(avatar.x, avatar.y, 300, 'Cubic', false, (_, done) => {
+        if (done === 1) {
+          avatar_move.moveTo(dest.x, dest.y);
+        }
+      });
+    }
+    else {
+      avatar_move.moveTo(dest.x, dest.y);
+    }
   }
 
   cam() {

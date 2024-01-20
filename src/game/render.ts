@@ -53,13 +53,13 @@ function process_event(evt: Game_event) {
 
 function go_to_spot(spot_name: Spot_name) {
   const spot_coord = Coords.spots[spot_name];
-  get_main_scene().avatar_move.moveTo(spot_coord.x, spot_coord.y);
+  get_main_scene().move_avatar(spot_coord);
 }
 
 function go_to_field(road_name: Road_name, field_index: number) {
   const road = Coords.roads[road_name];
   const field_coord = road[field_index];
-  get_main_scene().avatar_move.moveTo(field_coord.x, field_coord.y);
+  get_main_scene().move_avatar(field_coord);
 }
 
 function present_cards(cards: Card[], set: CARD_SET | CROSSROAD_CARD_SET, on_select: (card: GlobalCard) => void) {
