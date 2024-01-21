@@ -199,6 +199,7 @@ function select_place(candidate_places: Places.Place_name[]): Promise<Places.Pla
         cards,
         set,
         permutation,
+        choices: candidate_places,
         on_select: (selected_card: GlobalCard) => {
           const selected_card_index = cards.indexOf(selected_card.id as never); // FIXME
           const permuted_card_index = permutation[selected_card_index];

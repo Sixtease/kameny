@@ -97,6 +97,7 @@ export interface Present_cards extends Game_event {
     set: CARD_SET;
     permutation: number[];
     on_select: (card: GlobalCard) => void;
+    choices?: any[];
   };
 }
 export function is_Present_cards(evt: Game_event): evt is Present_cards {
