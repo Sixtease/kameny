@@ -4,13 +4,13 @@ import htm from 'htm';
 import { event_occurred } from '../game/events';
 
 interface OverlayProps {
-  onClose: () => void;
+  on_close: () => void;
 }
 
 const html = htm.bind(h);
 
 export class Overlay extends Component<OverlayProps> {
-  render({ children, onClose }) {
+  render({ children, on_close }) {
     return html`
       <div
         class="recap-overlay"
@@ -18,14 +18,14 @@ export class Overlay extends Component<OverlayProps> {
         onMouseUp=${(evt) => evt.stopPropagation()}
       >
         ${
-          onClose && (
+          on_close && (
             html`<div
               class="recap-close-button"
               onClick=${
                 () => {
                   if (event_occurred('End_game')) location.reload();
                   document.getElementById('preact-root').classList.remove('recap-shown');
-                  onClose();
+                  on_close();
                 }
               }
             >×</div>`

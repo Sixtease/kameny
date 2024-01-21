@@ -38,7 +38,7 @@ class Card_draw extends Component<Card_draw_props> {
     const next_draw_event = find_event_forward(is_draw_event, draw_event);
     
     return html`
-      <${Overlay} onClose=${() => this.setState({ draw_event: null })}>
+      <${Overlay} on_close=${() => this.setState({ draw_event: null })}>
         <div class="recap-root">
           ${ prev_draw_event
             ? html`<a class="recap-link recap-link-left" onClick=${() => this.setState({ ...this.state, draw_event: prev_draw_event })}>🢔 předchozí</a>` 
