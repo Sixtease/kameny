@@ -51,8 +51,6 @@ function process_event(evt: Game_event) {
     present_cards(evt.payload.cards, evt.payload.set, () => {});
   } else if (is_Recap_game(evt)) {
     recap_game();
-  } else {
-    console.warn(`unknown event ${evt.evt_name}`);
   }
   evt.processed = true;
 }
