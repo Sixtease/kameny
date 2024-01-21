@@ -31,7 +31,7 @@ class One_of_picked_cards_detail extends Component<One_of_picked_cards_detail_pr
             <p class="card-detail-exegesis">${exegesis}</p>
             <div class="card-detail-buttons">
               <button class="card-detail-yes" onClick=${() => { on_accept(); close(); }}>OK</button>
-              <button class="card-detail-no" onClick=${close}>zpět</button>
+              <button class="card-detail-no" onClick=${close}>Zpět</button>
             </div>
           </div>
         </div>
