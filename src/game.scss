@@ -3,13 +3,18 @@ body {
   overflow: hidden;
 }
 
-.recap {
-  display: none;
+@mixin overlay {
   position: fixed;
   width: 100%;
   height: 100%;
   background: rgba(255, 255, 255, 0.95);
   text-align: center;
+}
+
+.recap {
+  @include overlay;
+
+  display: none;
 
   &.recap-shown {
     display: block;
@@ -150,5 +155,74 @@ button {
 
   &-shown {
     display: block;
+  }
+}
+
+#guide-root {
+  @include overlay;
+
+  display: none;
+  overflow: auto;
+}
+
+#guide-switch {
+  position: fixed;
+  top: 50%;
+  right: 0;
+  transform: translate(0, -50%);
+  width: 0.8cm;
+  height: 2cm;
+  border: 2px solid gray;
+  border-right: 0 none;
+  border-radius: 20px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+
+  .guide-switch--turn-off {
+    display: none;
+  }
+
+  .guide-switch--turn-on {
+    display: block;
+  }
+}
+
+#guide-container.guide-on {
+  #guide-root {
+    display: block;
+  }
+
+  #guide-switch {
+    .guide-switch--turn-off {
+      display: block;
+    }
+
+    .guide-switch--turn-on {
+      display: none;
+    }
+  }
+}
+
+#guide-container.guide-container--uninitialized {
+  display: none;
+}
+
+.guide-page {
+  display: grid;
+  justify-content: space-evenly;
+  padding: calc(min(10vh,10vw));
+}
+
+.guide-page--avatar-choice {
+  img {
+    width: 15vh;
+    height: 15vh;
+    vertical-align: middle;
+    margin: 2vh 4vh 2vh 0;
+  }
+
+  ul {
+    text-align: left;
+    list-style-type: none;
   }
 }
