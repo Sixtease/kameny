@@ -30,7 +30,7 @@ const html = htm.bind(h);
 const is_draw_event = (evt: Game_event) => is_Select_from_presented_cards(evt) || is_Pick_cards(evt);
 
 class Card_draw extends Component<Card_draw_props> {
-  state: Card_draw_state;
+  state: Card_draw_state = { draw_event: null };
 
   render(props: Card_draw_props, state: Card_draw_state) {
     const draw_event: Draw_event = state.draw_event || props.draw_event;

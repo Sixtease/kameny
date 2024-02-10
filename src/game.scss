@@ -177,6 +177,8 @@ button {
   border-radius: 20px;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
+  background-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 20px 0px purple;
 
   .guide-switch--turn-off {
     display: none;

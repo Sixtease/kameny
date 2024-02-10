@@ -22,6 +22,7 @@ import {
   get_main_scene,
   set_player_deck,
 } from '../game';
+import { update_guide } from '../guide/lookup';
 import { recap_game } from '../templates/recap-game';
 let seen_i = 0;
 
@@ -53,6 +54,7 @@ function process_event(evt: Game_event) {
     recap_game();
   }
   evt.processed = true;
+  update_guide();
 }
 
 function go_to_spot(spot_name: Spot_name) {
