@@ -11,7 +11,7 @@
     "strict": true,
     "strictFunctionTypes": true,
     "strictNullChecks": false,
-    "target": "es6"
+    "target": "es2022"
   },
   "include": [
     "./src"
