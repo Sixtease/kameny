@@ -7,7 +7,7 @@ export class Avatar_choice extends Component<{}> {
   render() {
     return html`
       <div class="guide-page guide-page--avatar-choice">
-        <p>Vyber si jednu oblast náhledu a jednoho průvodce  ze tří:</p>
+        <h1>Výklad k výběru hracího kamene</h1>
         <ul>
           <li>
             <img src="assets/avatars/mother.png" alt="" />

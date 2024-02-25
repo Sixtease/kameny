@@ -158,7 +158,7 @@ export function add_evt<T extends Game_event>(e: T): T {
 };
 ;;; (window as any).hist = hist;
 
-export function find_event_backward(discriminator: (evt: Game_event) => boolean, starting_point?: number | Game_event): Game_event {
+export function find_event_backward<T extends Game_event>(discriminator: (evt: Game_event) => evt is T, starting_point?: number | Game_event): T {
   const start_idx
     = typeof starting_point === 'number'  ? starting_point
     : starting_point                      ? hist.lastIndexOf(starting_point)
@@ -172,10 +172,11 @@ export function find_event_backward(discriminator: (evt: Game_event) => boolean,
   return null;
 }
 export function event_occurred(evt_name: string, starting_point?: number | Game_event): Game_event {
-  return find_event_backward((evt: Game_event) => evt.evt_name === evt_name, starting_point);
+  const disc = (evt: Game_event): evt is Game_event => evt.evt_name === evt_name;
+  return find_event_backward(disc, starting_point);
 }
 
-export function find_event_forward(discriminator: (evt: Game_event) => boolean, starting_point?: number | Game_event): Game_event {
+export function find_event_forward<T extends Game_event>(discriminator: (evt: Game_event) =>  evt is T, starting_point?: number | Game_event): T {
   const start_idx
     = typeof starting_point === 'number'  ? starting_point
     : starting_point                      ? hist.lastIndexOf(starting_point)
@@ -190,5 +191,6 @@ export function find_event_forward(discriminator: (evt: Game_event) => boolean, 
 }
 
 export function event_occurred_after(evt_name: string, starting_point?: number | Game_event): Game_event {
-  return find_event_forward((evt: Game_event) => evt.evt_name === evt_name, starting_point);
+  const disc = (evt: Game_event): evt is Game_event => evt.evt_name === evt_name;
+  return find_event_forward(disc, starting_point);
 }

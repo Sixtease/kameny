@@ -144,7 +144,8 @@ export class Card_scene extends Phaser.Scene {
       ...card,
     }));
 
-    const event = find_event_backward((evt: Game_event) => is_Present_cards(evt) || is_Pick_cards(evt));
+    const discriminator = (evt: Game_event): evt is Game_event => is_Present_cards(evt) || is_Pick_cards(evt);
+    const event = find_event_backward(discriminator);
 
     if (is_Pick_cards(event) && event.payload.cards.length === 1) {
       const [card] = cards;

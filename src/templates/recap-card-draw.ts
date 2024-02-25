@@ -27,15 +27,15 @@ interface Card_draw_props extends Card_draw_state {
 
 const html = htm.bind(h);
 
-const is_draw_event = (evt: Game_event) => is_Select_from_presented_cards(evt) || is_Pick_cards(evt);
+const is_draw_event = (evt: Game_event): evt is Draw_event => is_Select_from_presented_cards(evt) || is_Pick_cards(evt);
 
 class Card_draw extends Component<Card_draw_props> {
   state: Card_draw_state = { draw_event: null };
 
   render(props: Card_draw_props, state: Card_draw_state) {
     const draw_event: Draw_event = state.draw_event || props.draw_event;
-    const prev_draw_event = find_event_backward(is_draw_event, draw_event);
-    const next_draw_event = find_event_forward(is_draw_event, draw_event);
+    const prev_draw_event = find_event_backward<Draw_event>(is_draw_event, draw_event);
+    const next_draw_event = find_event_forward<Draw_event>(is_draw_event, draw_event);
     
     return html`
       <${Overlay} on_close=${() => this.setState({ draw_event: null })}>
