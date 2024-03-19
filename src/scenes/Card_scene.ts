@@ -148,6 +148,11 @@ export class Card_scene extends Phaser.Scene {
     const event = find_event_backward(discriminator);
 
     if (is_Pick_cards(event) && event.payload.cards.length === 1) {
+
+      // for drawn cards scene to access the card's texture
+      me.load.image(image_opts);
+      me.load.start();
+
       const [card] = cards;
       return new Promise<GlobalCard>((resolve) => {
         pick_card({
