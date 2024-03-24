@@ -6,10 +6,23 @@
     <link rel="stylesheet" type="text/css" href="game.css" />
   </head>
   <body>
-    <div id="preact-root" class="recap">
+    <div id="preact-root" class="recap"></div>
+    <div id="guide-container" class="guide-container--uninitialized">
+      <div id="guide-root"></div>
+      <div id="guide-switch">
+        <div class="guide-switch--turn-on">
+          <svg viewBox="0 0 4 10" stroke="gray" fill="none">
+            <path d="M 3, 2 L 2, 5 L 3, 8" />
+          </svg>
+        </div>
+        <div class="guide-switch--turn-off">
+          <svg viewBox="0 0 4 10" stroke="gray" fill="none">
+            <path d="M 2, 2 L 3, 5 L 2, 8" />
+          </svg>
+        </div>
+      </div>
     </div>
-    <div id="debug-console" class="debug-console">
-    </div>
+    <div id="debug-console" class="debug-console"></div>
     <script src="game.js"></script>
   </body>
 </html>
