@@ -13,7 +13,8 @@ class Game_intro extends Component {
         <div class="recap-root game-intro">
           <p>Před hrou proveď vnitřní přípravu.</p>
           <p>„Proč je pro mě tento svět důležitý, abych se do něj narodil a začal hru?“</p>
-          <p>Uveď se do stavu meditace na tuto otázku a můžeš</p>
+          <p>„Jaká výzva a podpora ke mně přichází v mé aktuální situaci života, v této fázi duchovní cesty, mého stavu?“</p>
+          <p>Uveď se do stavu meditace na jednu z těchto otázek a můžeš</p>
           <p>
             <button
               onClick=${
