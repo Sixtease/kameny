@@ -21,7 +21,7 @@ export class Avatar_choice extends Component<{}> {
           </li>
           <li>
             <img src="assets/avatars/melchisedech.png" alt="" />
-            <b>Melchizedech</b>
+            <b>Duchovní otec</b>
             - znamená, že v průběhu hry všechny informace a podněty, které získáš, se budou týkat více <b>ducha</b>.
             Duch není protikladem těla, duch není protikladem ničeho.
           </li>
