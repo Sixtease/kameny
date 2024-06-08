@@ -8,7 +8,7 @@ import { Controls_scene } from './scenes/Controls_scene';
 import { get_game_config } from './game/config';
 import { CardDeck } from './cards';
 import { CARD_SET, MotherCardPackage, ChildCardPackage, MelchisedechCardPackage } from './constants/cards';
-import { game_intro } from './templates/game-intro';
+import { cover_page } from './templates/cover-page';
 
 export const game = new Phaser.Game(get_game_config());
 export function get_scene<T extends Phaser.Scene>(key: string): T {
@@ -44,4 +44,4 @@ export function set_player_deck(set: CARD_SET) {
   }
 }
 
-game_intro();
+cover_page();

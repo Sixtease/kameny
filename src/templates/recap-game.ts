@@ -9,7 +9,7 @@ const html = htm.bind(h);
 class Recap_game extends Component {
   render() {
     return html`
-      <${Overlay} on_close=${() => this.setState({ draw_event: null })}>
+      <${Overlay}>
         <div class="recap-root recap-game">
           <p>Hra skončila.</p>
           <p>

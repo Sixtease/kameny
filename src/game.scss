@@ -251,3 +251,57 @@ button {
   animation: pulse 7s infinite;
 }
 
+.cover-page {
+  text-align: center;
+  font-family: Arial;
+  font-size: 7vw;
+  background: transparent url('assets/cover1.jpg') no-repeat center center;
+  background-size: cover;
+  width: 100vw;
+  height: 100vh;
+  color: white;
+  display: flex;
+  justify-content: center;
+
+  .cover-page__text {
+    align-self: flex-end;
+    padding-bottom: 5vh;
+  }
+
+  h1 {
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 68%;
+    margin: auto 0 0;
+
+    span {
+      display: block;
+      font-size: 38%;
+    }
+  }
+
+  h2 {
+    font-weight: normal;
+    margin: 0;
+  }
+
+  .author {
+    font-size: 28%;
+  }
+
+  .subtitle {
+    color: #c6cbda;
+    font-size: 42%;
+  }
+
+  .status-line {
+    color: white;
+    font-size: 20%;
+    height: 2vh;
+    margin-top: 1vh;
+  }
+
+  output {
+    font-family: monospace;
+  }
+}
