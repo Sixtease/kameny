@@ -8,6 +8,9 @@ export interface Game_event {
   processed: boolean;
   payload: {};
 }
+export function is_Game_event(evt: Game_event): evt is Game_event {
+  return true;
+}
 
 export interface Select_place extends Game_event {
   evt_name: 'Select_place';
