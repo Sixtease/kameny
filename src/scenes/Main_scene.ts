@@ -73,7 +73,7 @@ export class Main_scene extends Phaser.Scene {
     const avatar = me.add.sprite(world_center.x, world_center.y, deck);
     me.avatar = avatar;
     avatar.setScale(0.3);
-    avatar.setInteractive();
+    avatar.setInteractive({ cursor: 'pointer' });
     me.input.setDraggable(avatar);
     me.avatar_move = new MoveTo(avatar);
     me.avatar_move.on('complete', land);

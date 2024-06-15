@@ -74,7 +74,7 @@ export class Card_scene extends Phaser.Scene {
   load_card_image(key: string): Phaser.GameObjects.Sprite {
     const me = this;
     const sprite = me.add.sprite(viewport_center.x, viewport_center.y, key);
-    sprite.setInteractive();
+    sprite.setInteractive({ cursor: 'pointer' });
     return sprite;
   }
 

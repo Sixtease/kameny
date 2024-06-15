@@ -41,7 +41,7 @@ export class Drawn_cards_scene extends Phaser.Scene {
     const y =  viewport_height - 100 + this.card_count;
     this.card_count++;
     const sprite = this.add.sprite(x, y, card_key).setScale(0.1);
-    sprite.setInteractive();
+    sprite.setInteractive({ cursor: 'pointer' });
     sprite.on('pointerup', () => recap_last_card_draw());
   }
 }

@@ -14,7 +14,7 @@ export class Controls_scene extends Phaser.Scene {
 
   create() {
     const step_button = this.add.sprite(viewport_width / 2, viewport_height - 60, 'step_button').setOrigin(0.5, 1);
-    step_button.setInteractive();
+    step_button.setInteractive({ cursor: 'pointer' });
     step_button.on('pointerdown', () => {
       avatar_step();
     });
