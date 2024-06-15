@@ -26,7 +26,7 @@ class Game_intro extends Component {
               onMouseUp=${(evt) => {
                 evt.preventDefault();
               }}
-            >Hrát</button>
+            >hrát</button>
           </p>
         </div>
       </Overlay>
