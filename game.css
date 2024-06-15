@@ -96,10 +96,15 @@ body {
 .game-intro {
   font-size: 3vh;
 }
+.game-intro button {
+  font-size: 120%;
+  padding: 0.5em 1em;
+}
 
 button {
   background: inherit;
   border: 2px solid gray;
+  cursor: pointer;
   font-size: 20px;
   font-weight: bold;
   margin: 10px;
@@ -163,6 +168,10 @@ button:hover {
   border-bottom-right-radius: 0;
   background-color: rgba(255, 255, 255, 0.8);
   box-shadow: 0 0 20px 0px purple;
+  cursor: pointer;
+}
+#guide-switch:hover {
+  background-color: #FBF;
 }
 #guide-switch .guide-switch--turn-off {
   display: none;
@@ -222,4 +231,51 @@ button:hover {
 }
 .guide-on #guide-root:has(.guide-page--avatar-choice) + #guide-switch {
   animation: pulse 7s infinite;
+}
+
+.cover-page {
+  text-align: center;
+  font-family: Arial;
+  font-size: 7vw;
+  background: transparent url("assets/cover1.jpg") no-repeat center center;
+  background-size: cover;
+  width: 100vw;
+  height: 100vh;
+  color: white;
+  display: flex;
+  justify-content: center;
+}
+.cover-page .cover-page__text {
+  align-self: flex-end;
+  padding-bottom: 5vh;
+}
+.cover-page h1 {
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 68%;
+  margin: auto 0 0;
+}
+.cover-page h1 span {
+  display: block;
+  font-size: 38%;
+}
+.cover-page h2 {
+  font-weight: normal;
+  margin: 0;
+}
+.cover-page .author {
+  font-size: 28%;
+}
+.cover-page .subtitle {
+  color: #c6cbda;
+  font-size: 42%;
+}
+.cover-page .status-line {
+  color: white;
+  font-size: 20%;
+  height: 2vh;
+  margin-top: 1vh;
+}
+.cover-page output {
+  font-family: monospace;
 }
