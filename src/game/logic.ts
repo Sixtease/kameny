@@ -25,6 +25,7 @@ import {
   hist,
   is_Enter_road,
   is_Field_progress,
+  is_Game_event,
   is_Landed,
   is_Movement_event,
 } from './events';
@@ -35,9 +36,18 @@ enum AVATAR_STATE {
   DIED = 'DIED',
 }
 
-export function get_current_position(): { place_name: Places.Place_name; field_index: number; still_moving: boolean } {
+export function get_current_position(epoch?: Game_event | number): { place_name: Places.Place_name; field_index: number; still_moving: boolean } {
+  let epoch_index: number;
+  if (epoch === undefined) {
+    epoch_index = hist.length - 1;
+  } else if (is_Game_event(epoch)) {
+    epoch_index = hist.lastIndexOf(epoch);
+  } else {
+    epoch_index = epoch;
+  }
+
   let landed = false;
-  for (let i = hist.length - 1; i >= 0; i--) {
+  for (let i = epoch_index; i >= 0; i--) {
     const evt = hist[i];
     if (is_Landed(evt)) landed = true;
     if (is_Movement_event(evt)) {
@@ -71,8 +81,8 @@ export function get_current_position(): { place_name: Places.Place_name; field_i
     field_index: null
   };
 }
-export function get_current_place(): Places.Place_name {
-  return get_current_position().place_name;
+export function get_current_place(epoch?: Game_event | number): Places.Place_name {
+  return get_current_position(epoch).place_name;
 }
 export function get_previous_place(): Places.Place_name | null {
   let saw_current_place = false;

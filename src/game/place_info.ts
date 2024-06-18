@@ -1,5 +1,6 @@
 import * as Places from '../constants/places';
 import { Carded_coord, roads, spots } from '../constants/coords';
+import { Grammatical_case } from '../constants/lingua';
 
 export function is_road(place: Places.Place_name): place is Places.Road_name {
   return (Places.roads as Places.Place_name[]).includes(place);
@@ -75,4 +76,21 @@ export function get_coord(place_name: Places.Place_name, field_index: number): C
     ? roads[place_name as Places.Road_name][field_index]
     : spots[place_name];
   return rv;
+}
+
+function crossroad_language_expression(crossroad: Places.Crossroad_name, grammatical_case: Grammatical_case): string {
+  const crossroad_number = crossroad.match(/\d+/)![0];
+  switch (grammatical_case) {
+    case Grammatical_case.dative:
+      return `křižovatce číslo ${crossroad_number}`;
+    default:
+      return `křiž. číslo ${crossroad_number}`;
+  }
+}
+
+export function place_language_expression(place: Places.Place_name, grammatical_case: Grammatical_case): string {
+  if (is_crossroad(place)) {
+    return crossroad_language_expression(place, grammatical_case);
+  }
+  return place;
 }

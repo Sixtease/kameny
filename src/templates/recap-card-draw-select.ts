@@ -2,17 +2,22 @@ import { h, Component } from 'preact';
 import htm from 'htm';
 
 import { Card } from '../constants/cards';
+import { world_center } from '../constants/places';
 import {
   Present_cards,
   Select_from_presented_cards,
   find_event_backward,
   find_event_forward,
   is_Birth_gate_select,
+  is_Enter_road,
   is_Game_event,
   is_Present_cards,
 } from '../game/events';
+import { get_current_place } from '../game/logic';
+import { is_crossroad, place_language_expression, road_connects } from '../game/place_info';
 import card_meta from '../constants/card_meta.json';
 import { birth_gate_names } from '../constants/guide';
+import { Grammatical_case } from '../constants/lingua';
 
 interface Card_draw_select_props {
   draw_event: Select_from_presented_cards;
@@ -23,10 +28,18 @@ const get_context = (draw_event: Select_from_presented_cards) => {
   if (!next_event) {
     return [null, null];
   }
-  if (is_Birth_gate_select(next_event)) {
+  const drawing_place = get_current_place(draw_event);
+  if (drawing_place === world_center && is_Birth_gate_select(next_event)) {
     const gate_id = next_event.payload.place_name;
     const gate_name = birth_gate_names[gate_id];
-    return ['Při výběru brány odhodlání,', `Tím's vstoupil do brány ${gate_name}.`];
+    return ['Při volbě brány odhodlání,', `Tím's vstoupil do brány ${gate_name}.`];
+  }
+  if (is_crossroad(drawing_place) && is_Enter_road(next_event)) {
+    const starting_crossroad_lang = place_language_expression(drawing_place, Grammatical_case.dative);
+    const road_name = next_event.payload.place_name;
+    const road_connection = road_connects(road_name, drawing_place);
+    const other_road_end_lang = place_language_expression(road_connection.destination, Grammatical_case.dative);
+    return [`Na ${starting_crossroad_lang}`, `Tím ses vydal směrem ke ${other_road_end_lang}.`];
   }
   return [null, null];
 };

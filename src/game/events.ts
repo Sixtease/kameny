@@ -8,8 +8,8 @@ export interface Game_event {
   processed: boolean;
   payload: {};
 }
-export function is_Game_event(evt: Game_event): evt is Game_event {
-  return true;
+export function is_Game_event(evt: any): evt is Game_event {
+  return evt.hasOwnProperty('evt_name');
 }
 
 export interface Select_place extends Game_event {
