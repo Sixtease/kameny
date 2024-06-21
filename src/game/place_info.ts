@@ -78,8 +78,12 @@ export function get_coord(place_name: Places.Place_name, field_index: number): C
   return rv;
 }
 
+function get_crossroad_number(crossroad: Places.Crossroad_name): string {
+  return crossroad.match(/\d+/)![0];
+}
+
 function crossroad_language_expression(crossroad: Places.Crossroad_name, grammatical_case: Grammatical_case): string {
-  const crossroad_number = crossroad.match(/\d+/)![0];
+  const crossroad_number = get_crossroad_number(crossroad);
   switch (grammatical_case) {
     case Grammatical_case.dative:
       return `křižovatce číslo ${crossroad_number}`;
