@@ -10,7 +10,12 @@ export class CardDeck<T extends CardPackage = CardPackage> {
     this.shuffle();
   }
   shuffle() {
-    this.cards = this.cards.sort(() => Math.random() - 0.5);
+    let i = this.cards.length;
+    while (i > 0) {
+      let r = Math.floor(Math.random() * i);
+      i--;
+      [this.cards[i], this.cards[r]] = [this.cards[r], this.cards[i]];
+    }
   }
   draw(n = 1): T['Card'][] {
     const drawn: T['Card'][] = [];
