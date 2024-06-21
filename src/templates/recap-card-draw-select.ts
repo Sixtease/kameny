@@ -32,7 +32,7 @@ const get_context = (draw_event: Select_from_presented_cards) => {
   if (drawing_place === world_center && is_Birth_gate_select(next_event)) {
     const gate_id = next_event.payload.place_name;
     const gate_name = birth_gate_names[gate_id];
-    return ['Při volbě brány odhodlání,', `Tím's vstoupil do brány ${gate_name}.`];
+    return ['Při volbě brány odhodlání,', `Tím's vstoupil do brány „${gate_name}“.`];
   }
   if (is_crossroad(drawing_place) && is_Enter_road(next_event)) {
     const starting_crossroad_lang = place_language_expression(drawing_place, Grammatical_case.dative);
@@ -65,7 +65,7 @@ export class Card_draw_select extends Component<Card_draw_select_props> {
       <div class="recap-picked-card">
         <p>sis vybral tuto:</p>
         <img src="assets/cards/${set}/${picked}.jpg" alt="" />${picked_meta.name_cs}
-        <p>${picked_meta.exegesis}.</p>
+        <p class="recap-exegesis">${picked_meta.exegesis}.</p>
         ${context_post && html`<p>${context_post}</p>`}
       </div>
     `;
