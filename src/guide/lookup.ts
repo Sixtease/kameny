@@ -35,12 +35,12 @@ export const lookup_guide = (): ComponentConstructor => {
   if (is_Select_player(last)) {
     return Prebirth;
   }
+  if (is_teleport(current_place)) {
+    return On_teleport;
+  }
   if (is_Present_cards(last)) {
     if (is_Select_player(hist.at(-2))) {
       return Birth_gate_draw;
-    }
-    if (is_teleport(current_place)) {
-      return On_teleport;
     }
     return On_crossroad;
   }
