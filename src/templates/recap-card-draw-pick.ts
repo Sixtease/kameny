@@ -28,7 +28,7 @@ export class Card_draw_pick extends Component<Card_draw_pick_props> {
         return html`
           <div class="recap-card-offer recap-card-offer-single">
             <p class="recap-picked-card">
-              Dostal's tuto kartu náležící ke ${place_language_expression(drawing_place, Grammatical_case.dative)}:
+              Dostal's tuto kartu náležící ke ${place_language_expression(drawing_place)(Grammatical_case.dative)}:
               <img src="assets/cards/${set}/${card}.jpg" alt="" />${name_cs}
             </p>
             <p class="card-detail-accompanying-text">${exegesis}</p>

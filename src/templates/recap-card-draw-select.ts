@@ -10,11 +10,17 @@ import {
   find_event_forward,
   is_Birth_gate_select,
   is_Enter_road,
+  is_Enter_spot,
   is_Game_event,
   is_Present_cards,
 } from '../game/events';
 import { get_current_place } from '../game/logic';
-import { is_crossroad, place_language_expression, road_connects } from '../game/place_info';
+import {
+  is_crossroad,
+  is_teleport,
+  place_language_expression,
+  road_connects,
+} from '../game/place_info';
 import card_meta from '../constants/card_meta.json';
 import { birth_gate_names } from '../constants/guide';
 import { Grammatical_case } from '../constants/lingua';
@@ -51,14 +57,33 @@ const get_wording = (draw_event: Select_from_presented_cards): Wording => {
     };
   }
   if (is_crossroad(drawing_place) && is_Enter_road(next_event)) {
-    const starting_crossroad_lang = place_language_expression(drawing_place, Grammatical_case.dative);
+    const starting_crossroad_lang = place_language_expression(drawing_place)(Grammatical_case.locative);
     const road_name = next_event.payload.place_name;
     const road_connection = road_connects(road_name, drawing_place);
-    const other_road_end_lang = place_language_expression(road_connection.destination, Grammatical_case.dative);
+    const other_road_end_lang = place_language_expression(road_connection.destination)(Grammatical_case.dative);
+    const to_lang = /^k/.test(other_road_end_lang) ? 'ke' : 'k';
     return {
       from_these_cards: `Na ${starting_crossroad_lang} sis z těchto karet:`,
       you_picked: 'vybral tuto:',
-      by_which: `Tím ses vydal směrem ke ${other_road_end_lang}.`,
+      by_which: `Tím ses vydal směrem ${to_lang} ${other_road_end_lang}.`,
+    };
+  }
+  if (is_teleport(drawing_place) && is_Enter_spot(next_event)) {
+    const starting_teleport = drawing_place;
+    const starting_teleport_lang = place_language_expression(drawing_place)(Grammatical_case.locative);
+    const destination_teleport = next_event.payload.place_name;
+    const destination_teleport_lang_fn = place_language_expression(destination_teleport);
+    if (starting_teleport === destination_teleport) {
+    return {
+      from_these_cards: `Na ${starting_teleport_lang} sis z těchto karet:`,
+      you_picked: 'vybral tuto:',
+      by_which: `a zůstal's tak na ${destination_teleport_lang_fn(Grammatical_case.locative)}.`,
+    };
+    }
+    return {
+      from_these_cards: `Na ${starting_teleport_lang} sis z těchto karet:`,
+      you_picked: 'vybral tuto:',
+      by_which: `Tím ses přemístil na ${destination_teleport_lang_fn(Grammatical_case.accusative)}.`,
     };
   }
   return default_wording;

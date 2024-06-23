@@ -78,23 +78,55 @@ export function get_coord(place_name: Places.Place_name, field_index: number): C
   return rv;
 }
 
-function get_crossroad_number(crossroad: Places.Crossroad_name): string {
-  return crossroad.match(/\d+/)![0];
+function get_place_number(place: string): string {
+  return place.match(/\d+/)![0];
 }
 
 function crossroad_language_expression(crossroad: Places.Crossroad_name, grammatical_case: Grammatical_case): string {
-  const crossroad_number = get_crossroad_number(crossroad);
+  const crossroad_number = get_place_number(crossroad);
   switch (grammatical_case) {
+    case Grammatical_case.nominative:
+      return `křižovatka číslo ${crossroad_number}`;
+    case Grammatical_case.genitive:
+      return `křižovatky číslo ${crossroad_number}`;
     case Grammatical_case.dative:
+    case Grammatical_case.locative:
       return `křižovatce číslo ${crossroad_number}`;
+    case Grammatical_case.accusative:
+      return `křižovatku číslo ${crossroad_number}`;
+    case Grammatical_case.instrumental:
+      return `křižovatkou číslo ${crossroad_number}`;
     default:
       return `křiž. číslo ${crossroad_number}`;
   }
 }
 
-export function place_language_expression(place: Places.Place_name, grammatical_case: Grammatical_case): string {
+function teleport_language_expression(teleport: Places.Teleport_name, grammatical_case: Grammatical_case): string {
+  const teleport_number = get_place_number(teleport);
+  switch (grammatical_case) {
+    case Grammatical_case.genitive:
+    case Grammatical_case.dative:
+    case Grammatical_case.locative:
+      return `teleportu číslo ${teleport_number}`;
+    case Grammatical_case.instrumental:
+      return `teleportem číslo ${teleport_number}`;
+    case Grammatical_case.nominative:
+    case Grammatical_case.accusative:
+    default:
+      return `teleport číslo ${teleport_number}`;
+  }
+}
+
+function place_language_expression_by_place_type(place: Places.Place_name, grammatical_case: Grammatical_case): string {
   if (is_crossroad(place)) {
     return crossroad_language_expression(place, grammatical_case);
   }
+  if (is_teleport(place)) {
+    return teleport_language_expression(place, grammatical_case);
+  }
   return place;
+}
+
+export function place_language_expression(place: Places.Place_name): ((grammatical_case: Grammatical_case) => string) {
+  return (gc: Grammatical_case) => place_language_expression_by_place_type(place, gc);
 }
