@@ -13,6 +13,9 @@ export function is_crossroad(place: Places.Place_name): place is Places.Crossroa
     Places.actual_white_crossroads as Places.Place_name[]
   ).includes(place);
 }
+export function is_white_crossroad(place: Places.Place_name): boolean {
+  return (Places.actual_white_crossroads as Places.Place_name[]).includes(place);
+}
 export function is_gate(place: Places.Place_name): place is Places.Gate_name {
   return (Places.gates as Places.Place_name[]).includes(place);
 }
@@ -82,7 +85,7 @@ function get_place_number(place: string): string {
   return place.match(/\d+/)![0];
 }
 
-function crossroad_language_expression(crossroad: Places.Crossroad_name, grammatical_case: Grammatical_case): string {
+function common_crossroad_language_expression(crossroad: Places.Crossroad_name, grammatical_case: Grammatical_case): string {
   const crossroad_number = get_place_number(crossroad);
   switch (grammatical_case) {
     case Grammatical_case.nominative:
@@ -99,6 +102,12 @@ function crossroad_language_expression(crossroad: Places.Crossroad_name, grammat
     default:
       return `křiž. číslo ${crossroad_number}`;
   }
+}
+
+function crossroad_language_expression(crossroad: Places.Crossroad_name, grammatical_case: Grammatical_case): string {
+  const is_white = is_white_crossroad(crossroad);
+  const common_lang = common_crossroad_language_expression(crossroad, grammatical_case);
+  return is_white ? `${common_lang} na dráze milosti` : common_lang;
 }
 
 function teleport_language_expression(teleport: Places.Teleport_name, grammatical_case: Grammatical_case): string {

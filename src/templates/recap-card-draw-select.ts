@@ -2,7 +2,7 @@ import { h, Component } from 'preact';
 import htm from 'htm';
 
 import { Card } from '../constants/cards';
-import { world_center } from '../constants/places';
+import { world_center, teleport_1 } from '../constants/places';
 import {
   Present_cards,
   Select_from_presented_cards,
@@ -73,16 +73,24 @@ const get_wording = (draw_event: Select_from_presented_cards): Wording => {
     const starting_teleport_lang = place_language_expression(drawing_place)(Grammatical_case.locative);
     const destination_teleport = next_event.payload.place_name;
     const destination_teleport_lang_fn = place_language_expression(destination_teleport);
-    if (starting_teleport === destination_teleport) {
-    return {
+    const rv = {
       from_these_cards: `Na ${starting_teleport_lang} sis z těchto karet:`,
       you_picked: 'vybral tuto:',
-      by_which: `a zůstal's tak na ${destination_teleport_lang_fn(Grammatical_case.locative)}.`,
     };
+    if (starting_teleport === destination_teleport) {
+      return {
+        ...rv,
+        by_which: `a zůstal's tak na ${destination_teleport_lang_fn(Grammatical_case.locative)}.`,
+      };
+    }
+    if (destination_teleport === teleport_1) {
+      return {
+        ...rv,
+        by_which: `Tím ses přemístil na ${destination_teleport_lang_fn(Grammatical_case.accusative)} na dráze milosti.`,
+      };
     }
     return {
-      from_these_cards: `Na ${starting_teleport_lang} sis z těchto karet:`,
-      you_picked: 'vybral tuto:',
+      ...rv,
       by_which: `Tím ses přemístil na ${destination_teleport_lang_fn(Grammatical_case.accusative)}.`,
     };
   }
