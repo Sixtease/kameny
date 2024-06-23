@@ -9,6 +9,7 @@ import {
 } from '../game/events';
 import { get_current_place } from '../game/logic';
 import { is_crossroad, place_language_expression } from '../game/place_info';
+import { Picked_card_list } from './pick-cards';
 
 interface Card_draw_pick_props {
   draw_event: Pick_cards;
@@ -47,24 +48,17 @@ export class Card_draw_pick extends Component<Card_draw_pick_props> {
       }
     }
     else {
-      return html`
-        <div class="recap-card-offer recap-card-offer-multiple">
-          <p>Dostal's tyto karty:</p>
-          <ul>
-            ${cards.map((card: Card) => {
-              const { exegesis, name_cs } = card_meta[card];
-              return html`
-                <li key=${card}><img src="assets/cards/${set}/${card}.jpg" alt="" />
-                  ${name_cs}
-                  <p class="card-detail-accompanying-text">${exegesis}</p>
-                </li>
-              `;
-            })}
-          </ul>
-        </div>
-      `;
+      const cards_render_info = cards.map((card: Card) => {
+        const { exegesis, name_cs } = card_meta[card];
+        const url = `assets/cards/${set}/${card}.jpg`;
+        return {
+          card_id: card,
+          exegesis,
+          name_cs,
+          url,
+        };
+      });
+      return html`<${Picked_card_list} cards=${cards_render_info} />`;
     }
   }
 }
-
-

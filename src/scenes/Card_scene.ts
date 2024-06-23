@@ -9,8 +9,8 @@ import {
   is_Present_cards,
 } from '../game/events';
 import { card_detail } from '../templates/card-detail';
-import { one_of_picked_cards_detail } from '../templates/one-of-picked-cards-detail';
 import { pick_card } from '../templates/pick-card';
+import { pick_cards } from '../templates/pick-cards';
 
 export interface ImageObj { key: string; url: string }
 interface LoadedImageObj extends ImageObj {
@@ -147,63 +147,42 @@ export class Card_scene extends Phaser.Scene {
     const discriminator = (evt: Game_event): evt is Game_event => is_Present_cards(evt) || is_Pick_cards(evt);
     const event = find_event_backward(discriminator);
 
-    if (is_Pick_cards(event) && event.payload.cards.length === 1) {
-
+    if (is_Pick_cards(event)) {
       // for drawn cards scene to access the card's texture
       me.load.image(image_opts);
       me.load.start();
 
-      const [card] = cards;
-      return new Promise<GlobalCard>((resolve) => {
-        pick_card({
-          url: `assets/cards/${card.set}/${card.id}.jpg`,
-          card_id: card.id,
-          on_close: () => resolve(card),
+      if (event.payload.cards.length === 1) {
+        const [card] = cards;
+        return new Promise<GlobalCard>((resolve) => {
+          pick_card({
+            url: `assets/cards/${card.set}/${card.id}.jpg`,
+            card_id: card.id,
+            on_close: () => resolve(card),
+          });
         });
-      });
+      }
+      else {
+        return new Promise<GlobalCard>((resolve) => {
+          pick_cards({ cards });
+        });
+      }
     }
 
-    // TODO: replace following code with templates like above
-
-    const label_text
-      = !event                                                   ? ''
-      : is_Present_cards(event)                                  ? 'Vyber si kartu.'
-      : is_Pick_cards(event) && event.payload.cards.length === 1 ? "Dostal's tuto kartu."
-      :                                                            "Dostal's tyto karty."
-    ;
-
     return new Promise<GlobalCard>((resolve, reject) => {
-      me.show_images(image_opts, label_text).then((loaded_images) => {
+      me.show_images(image_opts, 'Vyber si kartu.').then((loaded_images) => {
         loaded_images.forEach(
           loaded_image => {
-            if (is_Pick_cards(event)) loaded_image.sprite.setScale(me.get_card_scale(loaded_images.length));
             loaded_image.sprite.on(
               'pointerup', () => {
-                if (is_Present_cards(event)) {
-                  card_detail({
-                    url: loaded_image.url,
-                    card_id: loaded_image.id,
-                    on_accept: () => {
-                      me.switch_off();
-                      resolve({ set: loaded_image.set, id: loaded_image.id });
-                    },
-                  });
-                }
-                else if (is_Pick_cards(event)) {
-                  one_of_picked_cards_detail({
-                    url: loaded_image.url,
-                    card_id: loaded_image.id,
-                    on_accept: () => {
-                      me.switch_off();
-                      resolve({ set: loaded_image.set, id: loaded_image.id });
-                    },
-                  });
-                }
-                else {
-                  console.warn('this branch should never be reached');
-                  me.switch_off();
-                  resolve({ set: loaded_image.set, id: loaded_image.id });
-                }
+                card_detail({
+                  url: loaded_image.url,
+                  card_id: loaded_image.id,
+                  on_accept: () => {
+                    me.switch_off();
+                    resolve({ set: loaded_image.set, id: loaded_image.id });
+                  },
+                });
               }
             );
           }
