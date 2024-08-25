@@ -46,8 +46,8 @@ export type Child_crossroad_card =
  |  'aquamarine'
  |  'tourmaline_b'
  |  'heliotrope'
- |  'moldavite_c'
- |  'moonstone_c';
+ |  'alexandrite'
+ |  'pearl';
 
 const child_crossroad_cards: Child_crossroad_card[] = [
   'silver',
@@ -60,8 +60,8 @@ const child_crossroad_cards: Child_crossroad_card[] = [
   'aquamarine',
   'tourmaline_b',
   'heliotrope',
-  'moldavite_c',
-  'moonstone_c',
+  'alexandrite',
+  'pearl',
 ];
 
 const child_crossroad_card: Record<Crossroad_name, Child_crossroad_card> = child_crossroad_cards.reduce<Record<Crossroad_name, Child_crossroad_card>>(
