@@ -93,6 +93,10 @@ body {
   margin: auto;
 }
 
+.recap-exegesis {
+  font-style: italic;
+}
+
 .game-intro {
   font-size: 3vh;
 }
