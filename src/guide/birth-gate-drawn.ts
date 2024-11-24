@@ -18,9 +18,7 @@ export class Birth_gate_drawn extends Component<{}> {
           Pro vstup do světa sis vybral bránu
         </p>
         <p>
-          <strong>
-            ${gate_name}
-          </strong>
+          <strong>${gate_name}</strong>.
         </p>
       </div>
     `;

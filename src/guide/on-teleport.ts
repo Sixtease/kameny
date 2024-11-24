@@ -3,10 +3,10 @@ import htm from 'htm';
 
 const html = htm.bind(h);
 
-export class On_teleport extends Component<{}> {
+export class About_to_teleport extends Component<{}> {
   render() {
     return html`
-      <div class="guide-page guide-page--on-crossroad">
+      <div class="guide-page guide-page--on-teleport guide-page--about-to-teleport">
         <p>
           Stojís na teleportu.
           Vytáhneš si zde karty, každou pro jeden teleport, do kterého se můžeš dostat.
@@ -18,9 +18,22 @@ export class On_teleport extends Component<{}> {
   }
 }
 
-export const on_teleport = () => {
+export class Just_teleported extends Component<{}> {
+  render() {
+    return html`
+      <div class="guide-page guide-page--on-teleport guide-page--just-teleported">
+        <p>
+          Právě ses teleportoval.
+          Pokračuj v cestě, na kterou ses dostal, tlačítkem „Další krok“.
+        </p>
+      </div>
+    `;
+  }
+}
+
+export const about_to_teleport = () => {
   render(
-    html`<${On_teleport} />`,
+    html`<${About_to_teleport} />`,
     document.getElementById('guide-root')
   );
   document.getElementById('guide-container').classList.add('guide-on');
