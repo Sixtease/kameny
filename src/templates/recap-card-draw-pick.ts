@@ -5,10 +5,17 @@ import { Card } from '../constants/cards';
 import card_meta from '../constants/card_meta.json';
 import { Grammatical_case } from '../constants/lingua';
 import {
+  Enter_road,
+  Field_progress,
+  find_event_backward,
+  Game_event,
+  is_Enter_road,
+  is_Field_progress,
   Pick_cards,
 } from '../game/events';
-import { get_current_place } from '../game/logic';
-import { is_crossroad, place_language_expression } from '../game/place_info';
+import { get_current_place, get_current_position } from '../game/logic';
+import { DIRECTION, is_crossroad, place_language_expression, road_language_expression } from '../game/place_info';
+import { Road_name } from '../constants/places';
 import { Picked_card_list } from './pick-cards';
 
 interface Card_draw_pick_props {
@@ -24,6 +31,8 @@ export class Card_draw_pick extends Component<Card_draw_pick_props> {
       const [ card ] = cards;
       const { exegesis, name_cs } = card_meta[card];
       const drawing_place = get_current_place(draw_event);
+      const drawing_position = get_current_position();
+      console.log('drawing_position', drawing_position);
       if (is_crossroad(drawing_place)) {
         return html`
           <div class="recap-card-offer recap-card-offer-single">
@@ -36,10 +45,13 @@ export class Card_draw_pick extends Component<Card_draw_pick_props> {
         `;
       }
       else {
+        const get_direction_stating_event = (evt: Game_event): evt is (Enter_road | Field_progress) => is_Enter_road(evt) || is_Field_progress(evt);
+	const direction_stating_event = find_event_backward(get_direction_stating_event, draw_event);
+	const direction = direction_stating_event ? direction_stating_event.payload.direction : DIRECTION.FORWARD
         return html`
           <div class="recap-card-offer recap-card-offer-single">
             <p class="recap-picked-card">
-              Dostal's tuto kartu:
+              Na ${road_language_expression(drawing_place as Road_name, direction, Grammatical_case.locative)} jsi dostal tuto kartu:
               <img src="assets/cards/${set}/${card}.jpg" alt="" />${name_cs}
             </p>
             <p class="card-detail-accompanying-text">${exegesis}</p>

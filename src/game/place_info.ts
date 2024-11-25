@@ -66,6 +66,16 @@ export function get_adjacent_roads(spot: Places.Spot_name): [ { road: Places.Roa
   return adjacent_roads[spot]!;
 }
 
+export const road_end_points: Record<Places.Road_name, [Places.Spot_name, Places.Spot_name]> = Object.entries(Places.paths).reduce(
+  (acc, [start, end_to_road]) => {
+    for (const [end, road] of Object.entries(end_to_road)) {
+      acc[road] = [start as Places.Spot_name, end as Places.Spot_name];
+    }
+    return acc;
+  },
+  {} as Record<Places.Road_name, [Places.Spot_name, Places.Spot_name]>
+);
+
 export function get_road_length(name: Places.Road_name): number {
   return roads[name].length;
 }
@@ -126,12 +136,68 @@ function teleport_language_expression(teleport: Places.Teleport_name, grammatica
   }
 }
 
-function place_language_expression_by_place_type(place: Places.Place_name, grammatical_case: Grammatical_case): string {
+export function road_language_expression(road: Places.Road_name, direction: DIRECTION, grammatical_case: Grammatical_case): string {
+  const [start, end] = road_end_points[road];
+  const road_lang = (() => {
+    switch (grammatical_case) {
+      case Grammatical_case.nominative:
+        return 'cesta';
+      case Grammatical_case.genitive:
+        return 'cesty';
+      case Grammatical_case.dative:
+      case Grammatical_case.locative:
+        return 'cestě';
+      case Grammatical_case.accusative:
+        return 'cestu';
+      case Grammatical_case.instrumental:
+        return 'cestou';
+      default:
+        return 'cesta';
+    }
+  })();
+  if (direction === DIRECTION.FORWARD) {
+    const starting_point_lang = place_language_expression_by_place_type(start, Grammatical_case.genitive);
+    const ending_point_lang = place_language_expression_by_place_type(end, Grammatical_case.dative);
+    const ad_lang = is_crossroad(end) ? 'ke' : 'k';
+    return `${road_lang} od ${starting_point_lang} ${ad_lang} ${ending_point_lang}`;
+  } else {
+    const starting_point_lang = place_language_expression_by_place_type(end, Grammatical_case.genitive);
+    const ending_point_lang = place_language_expression_by_place_type(start, Grammatical_case.dative);
+    const ad_lang = is_crossroad(end) ? 'ke' : 'k';
+    return `${road_lang} od ${starting_point_lang} ${ad_lang} ${ending_point_lang}`;
+  }
+};
+
+function gate_language_expression(gate: Places.Gate_name, grammatical_case: Grammatical_case): string {
+  const gate_number = get_place_number(gate);
+  switch (grammatical_case) {
+    case Grammatical_case.genitive:
+      return `brány číslo ${gate_number}`;
+    case Grammatical_case.dative:
+    case Grammatical_case.locative:
+      return `bráně číslo ${gate_number}`;
+    case Grammatical_case.instrumental:
+      return `bránou číslo ${gate_number}`;
+    case Grammatical_case.accusative:
+      return `bránu číslo ${gate_number}`;
+    case Grammatical_case.nominative:
+    default:
+      return `brána číslo ${gate_number}`;
+  }
+}
+
+function place_language_expression_by_place_type(place: Places.Place_name, grammatical_case: Grammatical_case, direction: DIRECTION = DIRECTION.FORWARD): string {
   if (is_crossroad(place)) {
     return crossroad_language_expression(place, grammatical_case);
   }
   if (is_teleport(place)) {
     return teleport_language_expression(place, grammatical_case);
+  }
+  if (is_road(place)) {
+    return road_language_expression(place, direction, grammatical_case);
+  }
+  if (is_gate(place)) {
+    return gate_language_expression(place, grammatical_case);
   }
   return place;
 }
