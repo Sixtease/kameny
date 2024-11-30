@@ -99,6 +99,13 @@ export class Main_scene extends Phaser.Scene {
     }
   }
 
+  instant_move_avatar(dest: Coord): void {
+    const avatar = this.avatar;
+    avatar.x = dest.x;
+    avatar.y = dest.y;
+    this.cam().pan(avatar.x, avatar.y, 300, 'Cubic', false);
+  }
+
   cam() {
     return this.cameras.main;
   }

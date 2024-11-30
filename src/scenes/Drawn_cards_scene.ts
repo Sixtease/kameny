@@ -31,10 +31,16 @@ export class Drawn_cards_scene extends Phaser.Scene {
     return this.cameras.main;
   }
 
-  add_card(card: GlobalCard) {
+  add_card(card: GlobalCard, { load } = { load: false }) {
     const card_key = get_card_key(card.set, card.id);
     if (!this.textures.list[card_key]) {
-      setTimeout(() => this.add_card(card), 100);
+      if (load) {
+        this.load.image(card_key, `assets/cards/${card.set}/${card.id}.png`);
+        this.load.once('complete', () => this.add_card(card));
+        this.load.start();
+      } else {
+        setTimeout(() => this.add_card(card), 100);
+      }
       return;
     }
     const x = viewport_width - 100 + this.card_count;

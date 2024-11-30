@@ -2,7 +2,7 @@ import { crossroad_card_by_set, set_to_crossroad_set } from '../constants/crossr
 import * as Places from '../constants/places';
 import { DIRECTION, get_coord, is_road, is_spot, road_connects, get_road_length } from './place_info';
 import { transitions } from './transition';
-import { get_player_deck } from '../game';
+import { add_evt, get_player_deck } from '../game';
 import { CARD_SET, GlobalCard, Single_set_cards } from '../constants/cards';
 import {
   Birth_gate_select,
@@ -20,7 +20,6 @@ import {
   Select_from_presented_cards,
   Select_place,
   Select_player,
-  add_evt,
   event_occurred,
   hist,
   is_Enter_road,

@@ -154,6 +154,9 @@ export function is_Recap_game(evt: Game_event): evt is Recap_game {
   return evt.evt_name === 'Recap_game';
 }
 
+export type Draw_event = Select_from_presented_cards | Pick_cards;
+export const is_Draw_event = (evt: Game_event): evt is Draw_event => is_Select_from_presented_cards(evt) || is_Pick_cards(evt);
+
 export const hist: Game_event[] = [];
 export function add_evt<T extends Game_event>(e: T): T {
   hist.push(e);

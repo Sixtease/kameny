@@ -2,8 +2,13 @@ import { h, Component, render } from 'preact';
 import htm from 'htm';
 
 import { second } from '../constants';
-import { game_intro as next } from './game-intro';
+import { game_intro } from './game-intro';
+import { offer_load_game } from './load-game';
 import { Overlay } from './overlay';
+
+function next() {
+  offer_load_game() || game_intro();
+}
 
 interface Cover_page_props {
   green_to_go: boolean;

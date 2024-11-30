@@ -4,10 +4,15 @@ export class CardDeck<T extends CardPackage = CardPackage> {
   cards: T['Card'][] = [];
   set: T['Set'] = null;
   cursor = 0;
-  constructor(set: T['Set']) {
+  constructor(set: T['Set'], cards?: T['Card'][], cursor?: number) {
     this.set = set;
-    this.cards = [...card_sets[set]];
-    this.shuffle();
+    if (cards) {
+      this.cards = cards
+    } else {
+      this.cards = [...card_sets[set]];
+      this.shuffle();
+    }
+    if (cursor) this.cursor = cursor;
   }
   shuffle() {
     let i = this.cards.length;
