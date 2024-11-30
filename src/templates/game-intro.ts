@@ -1,7 +1,7 @@
 import { h, Component, render } from 'preact';
 import htm from 'htm';
 
-import { init_guide } from '../guide/init';
+import { start_guide } from '../guide/init';
 import { Overlay } from './overlay';
 
 const html = htm.bind(h);
@@ -20,7 +20,7 @@ class Game_intro extends Component {
               onClick=${
                 () => {
                   document.getElementById('preact-root').classList.remove('recap-shown');
-                  init_guide();
+                  start_guide();
                 }
               }
               onMouseUp=${(evt) => {

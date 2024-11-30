@@ -12,6 +12,12 @@ export function is_Game_event(evt: any): evt is Game_event {
   return evt.hasOwnProperty('evt_name');
 }
 
+export const EMPTY_EVENT: Game_event = {
+  evt_name: 'EMPTY_EVENT',
+  processed: false,
+  payload: {},
+};
+
 export interface Select_place extends Game_event {
   evt_name: 'Select_place';
   payload: {

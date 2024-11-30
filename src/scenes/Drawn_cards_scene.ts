@@ -6,7 +6,7 @@ import { hist, is_Pick_cards, is_Select_from_presented_cards } from '../game/eve
 import { recap_last_card_draw } from '../templates/recap-card-draw';
 
 export class Drawn_cards_scene extends Phaser.Scene {
-  constructor () {
+  constructor() {
     super({ key: 'Drawn_cards', active: true });
   }
 
@@ -31,20 +31,23 @@ export class Drawn_cards_scene extends Phaser.Scene {
     return this.cameras.main;
   }
 
-  add_card(card: GlobalCard, { load } = { load: false }) {
+  add_card(card: GlobalCard, { load = false, trust = false, i = null }: { trust?: boolean; load?: boolean; i?: number } = { load: false, trust: false, i: null }) {
     const card_key = get_card_key(card.set, card.id);
-    if (!this.textures.list[card_key]) {
+    if (i >= 0 && i < this.card_count) {
+      return;
+    }
+    if (!this.textures.list[card_key] && !trust) {
       if (load) {
-        this.load.image(card_key, `assets/cards/${card.set}/${card.id}.png`);
-        this.load.once('complete', () => this.add_card(card));
+        this.load.image(card_key, `assets/cards/${card.set}/${card.id}.jpg`);
+        this.load.once('complete', () => this.add_card(card, { trust: true, i: this.card_count }));
         this.load.start();
       } else {
-        setTimeout(() => this.add_card(card), 100);
+        setTimeout(() => this.add_card(card, { load: true, i: this.card_count }), 100);
       }
       return;
     }
     const x = viewport_width - 100 + this.card_count;
-    const y =  viewport_height - 100 + this.card_count;
+    const y = viewport_height - 100 + this.card_count;
     this.card_count++;
     const sprite = this.add.sprite(x, y, card_key).setScale(0.1);
     sprite.setInteractive({ cursor: 'pointer' });
