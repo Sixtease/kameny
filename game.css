@@ -105,6 +105,10 @@ body {
   padding: 0.5em 1em;
 }
 
+a {
+  cursor: pointer;
+}
+
 button {
   background: inherit;
   border: 2px solid gray;
@@ -124,6 +128,7 @@ button:hover {
   height: 100%;
   justify-content: space-evenly;
   width: 100%;
+  width: calc(100% - 0.8cm);
 }
 .card-detail-buttons {
   margin: auto 0;
