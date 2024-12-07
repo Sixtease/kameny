@@ -170,12 +170,13 @@ export function add_evt<T extends Game_event>(e: T): T {
 };
 ;;; (window as any).hist = hist;
 
-export function find_event_backward<T extends Game_event>(discriminator: (evt: Game_event) => evt is T, starting_point?: number | Game_event): T {
+export function find_event_backward<T extends Game_event>(discriminator: (evt: Game_event) => evt is T, starting_point?: number | Game_event, include_self = false): T {
   const start_idx
     = typeof starting_point === 'number'  ? starting_point
     : starting_point                      ? hist.lastIndexOf(starting_point)
     :                                       hist.length;
-  for (let i = start_idx - 1; i >= 0; i--) {
+  const start = include_self && start_idx < hist.length ? start_idx : start_idx - 1;
+  for (let i = start; i >= 0; i--) {
     const evt = hist[i];
     if (discriminator(evt)) {
       return evt;
