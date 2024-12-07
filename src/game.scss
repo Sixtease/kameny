@@ -140,6 +140,7 @@ button {
   height: 100%;
   justify-content: space-evenly;
   width: 100%;
+  width: calc(100% - 0.8cm);
 
   &-buttons {
     margin: auto 0;
