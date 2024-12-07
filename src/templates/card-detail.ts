@@ -10,18 +10,29 @@ interface Card_detail_props {
   url: string;
   card_id: string;
   on_accept: () => void;
+  query?: string;
+  buttons?: { text: string, on_click: () => void, close: boolean }[];
 }
 
 function get_card_exegesis(card_id: string): string {
   return card_meta[card_id]?.exegesis ?? null;
 }
 
-function close() {
+function closeWindow() {
   document.getElementById('preact-root').classList.remove('recap-shown');
 }
 
 class Card_detail extends Component<Card_detail_props> {
-  render({ url, card_id, on_accept }: Card_detail_props) {
+  render({
+    url,
+    card_id,
+    on_accept,
+    query = 'Chceš tuto kartu?',
+    buttons = [
+      { text: 'Ano', on_click: on_accept, close: true },
+      { text: 'Ne', on_click: () => {}, close: true },
+    ],
+  }: Card_detail_props) {
     const exegesis = get_card_exegesis(card_id);
     return html`
       <${Overlay}>
@@ -30,9 +41,12 @@ class Card_detail extends Component<Card_detail_props> {
           <div class="card-detail-sidebar">
             <p class="card-detail-exegesis">${exegesis}</p>
             <div class="card-detail-buttons">
-              <p>Chceš tuto kartu?</p>
-              <button class="card-detail-yes" onClick=${() => { on_accept(); close(); }}>Ano</button>
-              <button class="card-detail-no" onClick=${close}>Ne</button>
+              <p>${query}</p>
+              ${buttons.map(({ text, on_click, close }) => html`
+                <button class="card-detail-button" onClick=${() => { on_click(); if (close) closeWindow(); }}>
+                  ${text}
+                </button>
+              `)}
             </div>
           </div>
         </div>
@@ -41,10 +55,18 @@ class Card_detail extends Component<Card_detail_props> {
   }
 }
 
-export const card_detail = ({ url, card_id, on_accept }: Card_detail_props) => {
+export const card_detail = ({ url, card_id, on_accept, query, buttons }: Card_detail_props) => {
   const root = document.getElementById('preact-root');
   render(
-    html`<${Card_detail} url=${url} on_accept=${on_accept} card_id=${card_id} />`,
+    html`
+      <${Card_detail}
+        url=${url}
+        on_accept=${on_accept}
+        card_id=${card_id}
+        query=${query}
+        buttons=${buttons}
+      />
+    `,
     root
   );
   root.classList.add('recap-shown');
