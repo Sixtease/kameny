@@ -25,7 +25,7 @@ export const gates: Record<Places.Gate_name, Coord> = {
 export const crossroads: Record<Places.Standard_crossroad_name, Coord> = {
   [Places.crossroad_1 ]: { x: 2020, y:  964 },
   [Places.crossroad_2 ]: { x: 1184, y: 2592 },
-  [Places.crossroad_3 ]: { x:  528, y: 1732 },
+  [Places.crossroad_3 ]: { x:  534, y: 1732 },
   [Places.crossroad_4 ]: { x: 3388, y: 1680 },
   [Places.crossroad_5 ]: { x: 1888, y:  736 },
   [Places.crossroad_6 ]: { x:  916, y:  936 },
