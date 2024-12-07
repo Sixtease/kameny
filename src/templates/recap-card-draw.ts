@@ -15,22 +15,17 @@ import { Overlay } from './overlay';
 import { Card_draw_pick } from './recap-card-draw-pick';
 import { Card_draw_select } from './recap-card-draw-select';
 
-interface Card_draw_state {
-  draw_event: Draw_event;
-}
-interface Card_draw_props extends Card_draw_state {
+interface Card_draw_props {
   set: CARD_SET;
   onOverlayClose: () => void;
+  draw_event: Draw_event;
 }
 
 const html = htm.bind(h);
 
 
 class Card_draw extends Component<Card_draw_props> {
-  state: Card_draw_state = { draw_event: null };
-
-  render(props: Card_draw_props, state: Card_draw_state) {
-    const draw_event: Draw_event = state.draw_event || props.draw_event;
+  render({ draw_event }: Card_draw_props) {
     const prev_draw_event = find_event_backward<Draw_event>(is_Draw_event, draw_event);
     const next_draw_event = find_event_forward<Draw_event>(is_Draw_event, draw_event);
     
@@ -38,11 +33,11 @@ class Card_draw extends Component<Card_draw_props> {
       <${Overlay} on_close=${() => this.setState({ draw_event: null })}>
         <div class="recap-root">
           ${ prev_draw_event
-            ? html`<a class="recap-link recap-link-left" onClick=${() => this.setState({ ...this.state, draw_event: prev_draw_event })}>🢔 předchozí</a>` 
+            ? html`<a class="recap-link recap-link-left" onClick=${() => recap_last_card_draw(prev_draw_event)}>🢔 předchozí</a>`
             : null
           }
           ${ next_draw_event
-            ? html`<a class="recap-link recap-link-right" onClick=${() => this.setState({ ...this.state, draw_event: next_draw_event })}>další 🢖</a>` 
+            ? html`<a class="recap-link recap-link-right" onClick=${() => recap_last_card_draw(next_draw_event)}>další 🢖</a>`
             : null
           }
           ${
@@ -57,7 +52,7 @@ class Card_draw extends Component<Card_draw_props> {
 }
 
 export const recap_last_card_draw = (evt?: Game_event) => {
-  const draw_event = find_event_backward(is_Draw_event, evt) as Select_from_presented_cards;
+  const draw_event = find_event_backward(is_Draw_event, evt, true) as Select_from_presented_cards;
   const root = document.getElementById('preact-root');
   render(
     html`<${Card_draw } draw_event=${draw_event} />`,

@@ -1,4 +1,4 @@
-import { h, Component } from 'preact';
+import { h, Component, render } from 'preact';
 import htm from 'htm';
 
 import { Card } from '../constants/cards';
@@ -17,6 +17,7 @@ import { get_current_place, get_current_position } from '../game/logic';
 import { DIRECTION, is_crossroad, place_language_expression, road_language_expression } from '../game/place_info';
 import { Road_name } from '../constants/places';
 import { Picked_card_list } from './pick-cards';
+import { recap_last_card_draw } from './recap-card-draw';
 
 interface Card_draw_pick_props {
   draw_event: Pick_cards;
@@ -28,7 +29,7 @@ export class Card_draw_pick extends Component<Card_draw_pick_props> {
   render({ draw_event }: Card_draw_pick_props) {
     const { cards, set } = draw_event.payload;
     if (cards.length === 1) {
-      const [ card ] = cards;
+      const [card] = cards;
       const { exegesis, name_cs } = card_meta[card];
       const drawing_place = get_current_place(draw_event);
       const drawing_position = get_current_position();
@@ -46,8 +47,8 @@ export class Card_draw_pick extends Component<Card_draw_pick_props> {
       }
       else {
         const get_direction_stating_event = (evt: Game_event): evt is (Enter_road | Field_progress) => is_Enter_road(evt) || is_Field_progress(evt);
-	const direction_stating_event = find_event_backward(get_direction_stating_event, draw_event);
-	const direction = direction_stating_event ? direction_stating_event.payload.direction : DIRECTION.FORWARD
+        const direction_stating_event = find_event_backward(get_direction_stating_event, draw_event);
+        const direction = direction_stating_event ? direction_stating_event.payload.direction : DIRECTION.FORWARD
         return html`
           <div class="recap-card-offer recap-card-offer-single">
             <p class="recap-picked-card">
@@ -70,7 +71,23 @@ export class Card_draw_pick extends Component<Card_draw_pick_props> {
           url,
         };
       });
-      return html`<${Picked_card_list} cards=${cards_render_info} />`;
+      return html`
+        <${Picked_card_list}
+          cards=${cards_render_info}
+          return_from_detail=${() => {
+            recap_last_card_draw(draw_event);
+          }}
+        />
+      `;
     }
   }
 }
+
+export const card_draw_pick = ({ draw_event }: Card_draw_pick_props) => {
+  const root = document.getElementById('preact-root');
+  render(
+    html`<${Card_draw_pick} draw_event=${draw_event} />`,
+    root
+  );
+  root.classList.add('recap-shown');
+};
