@@ -30,7 +30,7 @@ class Card_detail extends Component<Card_detail_props> {
     query = 'Chceš tuto kartu?',
     buttons = [
       { text: 'Ano', on_click: on_accept, close: true },
-      { text: 'Ne', on_click: () => {}, close: true },
+      { text: 'Ne', on_click: () => { }, close: true },
     ],
   }: Card_detail_props) {
     const exegesis = get_card_exegesis(card_id);
@@ -72,3 +72,23 @@ export const card_detail = ({ url, card_id, on_accept, query, buttons }: Card_de
   root.classList.add('recap-shown');
 };
 
+interface Recapping_card_detail_props extends Pick<Card_detail_props, 'url' | 'card_id'> {
+  return_from_detail: () => void;
+}
+export const recapping_card_detail = ({ url, card_id, return_from_detail }: Recapping_card_detail_props) => {
+  card_detail({
+    url,
+    card_id,
+    on_accept: () => { },
+    query: null,
+    buttons: [
+      {
+        text: 'zpět',
+        on_click: () => {
+          return_from_detail();
+        },
+        close: false,
+      }
+    ]
+  });
+}

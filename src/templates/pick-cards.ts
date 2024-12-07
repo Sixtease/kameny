@@ -3,7 +3,7 @@ import htm from 'htm';
 
 import { GlobalCard } from '../constants/cards';
 import card_meta from '../constants/card_meta.json';
-import { card_detail } from './card-detail';
+import { recapping_card_detail } from './card-detail';
 import { Overlay } from './overlay';
 
 const html = htm.bind(h);
@@ -51,20 +51,10 @@ export class Picked_card_list extends Component<Picked_card_list_props> {
               <li key=${card_id}>
                 <a
                   onClick=${
-                    () => card_detail({
+                    () => recapping_card_detail({
                       url,
                       card_id,
-                      on_accept: () => {},
-                      query: null,
-                      buttons: [
-                        {
-                          text: 'zpět',
-                          on_click: () => {
-                            return_from_detail();
-                          },
-                          close: false,
-                        }
-                      ]
+                      return_from_detail,
                     })
                   }
                 >

@@ -24,6 +24,8 @@ import {
 import card_meta from '../constants/card_meta.json';
 import { birth_gate_names } from '../constants/guide';
 import { Grammatical_case } from '../constants/lingua';
+import { recapping_card_detail } from './card-detail';
+import { recap_last_card_draw } from './recap-card-draw';
 
 interface Card_draw_select_props {
   draw_event: Select_from_presented_cards;
@@ -110,18 +112,48 @@ export class Card_draw_select extends Component<Card_draw_select_props> {
       you_picked,
       by_which,
     } = get_wording(draw_event);
+    const return_from_detail = () => {
+      recap_last_card_draw(draw_event);
+    };
+    const picked_url = `assets/cards/${set}/${picked}.jpg`;
     return html`
       <div class="recap-card-offer">
         <p>${from_these_cards}</p>
         <ul>
-          ${offer.map((card: Card) => html`
-            <li key=${card}><img src="assets/cards/${set}/${card}.jpg" alt="" />${card_meta[card].name_cs}</li>
-          `)}
+          ${offer.map((card: Card) => {
+            const url = `assets/cards/${set}/${card}.jpg`;
+            return html`
+              <li key=${card}>
+                <a
+                  onClick=${
+                    () => recapping_card_detail({
+                      url,
+                      card_id: card,
+                      return_from_detail,
+                    })
+                  }
+                >
+                  <img src="${url}" alt="" />${card_meta[card].name_cs}
+                </a>
+              </li>
+            `;
+          })}
         </ul>
       </div>
       <div class="recap-picked-card">
         <p>${you_picked}</p>
-        <img src="assets/cards/${set}/${picked}.jpg" alt="" />${picked_meta.name_cs}
+        <a
+          onClick=${
+            () => recapping_card_detail({
+              url: picked_url,
+              card_id: picked,
+              return_from_detail,
+            })
+          }
+        >
+          <img src="${picked_url}" alt="" />
+        </a>
+        ${picked_meta.name_cs}
         <p class="recap-exegesis">${picked_meta.exegesis}.</p>
         ${by_which}
       </div>

@@ -13,9 +13,10 @@ import {
   is_Field_progress,
   Pick_cards,
 } from '../game/events';
-import { get_current_place, get_current_position } from '../game/logic';
+import { get_current_place } from '../game/logic';
 import { DIRECTION, is_crossroad, place_language_expression, road_language_expression } from '../game/place_info';
 import { Road_name } from '../constants/places';
+import { recapping_card_detail } from './card-detail';
 import { Picked_card_list } from './pick-cards';
 import { recap_last_card_draw } from './recap-card-draw';
 
@@ -28,18 +29,23 @@ const html = htm.bind(h);
 export class Card_draw_pick extends Component<Card_draw_pick_props> {
   render({ draw_event }: Card_draw_pick_props) {
     const { cards, set } = draw_event.payload;
+    const return_from_detail = () => {
+      recap_last_card_draw(draw_event);
+    };
     if (cards.length === 1) {
       const [card] = cards;
       const { exegesis, name_cs } = card_meta[card];
       const drawing_place = get_current_place(draw_event);
-      const drawing_position = get_current_position();
-      console.log('drawing_position', drawing_position);
+      const url = `assets/cards/${set}/${card}.jpg`;
       if (is_crossroad(drawing_place)) {
         return html`
           <div class="recap-card-offer recap-card-offer-single">
             <p class="recap-picked-card">
               Dostal's tuto kartu náležící ke ${place_language_expression(drawing_place)(Grammatical_case.dative)}:
-              <img src="assets/cards/${set}/${card}.jpg" alt="" />${name_cs}
+              <a onClick=${() => recapping_card_detail({ card_id: card, url, return_from_detail })}>
+                <img src="${url}" alt="" />
+              </a>
+              ${name_cs}
             </p>
             <p class="card-detail-accompanying-text">${exegesis}</p>
           </div>
@@ -53,7 +59,10 @@ export class Card_draw_pick extends Component<Card_draw_pick_props> {
           <div class="recap-card-offer recap-card-offer-single">
             <p class="recap-picked-card">
               Na ${road_language_expression(drawing_place as Road_name, direction, Grammatical_case.locative)} jsi dostal tuto kartu:
-              <img src="assets/cards/${set}/${card}.jpg" alt="" />${name_cs}
+              <a onClick=${() => recapping_card_detail({ card_id: card, url, return_from_detail })}>
+                <img src="assets/cards/${set}/${card}.jpg" alt="" />
+              </a>
+              ${name_cs}
             </p>
             <p class="card-detail-accompanying-text">${exegesis}</p>
           </div>
@@ -74,9 +83,7 @@ export class Card_draw_pick extends Component<Card_draw_pick_props> {
       return html`
         <${Picked_card_list}
           cards=${cards_render_info}
-          return_from_detail=${() => {
-            recap_last_card_draw(draw_event);
-          }}
+          return_from_detail=${return_from_detail}
         />
       `;
     }
