@@ -2,7 +2,7 @@ import { h, Component, render } from 'preact';
 import htm from 'htm';
 import { game_intro } from './game-intro';
 import { Overlay } from './overlay';
-import { load_game, clear_saved_game, check_saved_game } from '../game/manage';
+import { get_game_id, load_game, clear_saved_game, check_saved_game } from '../game/manage';
 
 const html = htm.bind(h);
 
@@ -17,6 +17,7 @@ function load() {
 
 function start_new() {
   clear_saved_game();
+  get_game_id();
   game_intro();
 }
 
@@ -34,7 +35,10 @@ class Offer_load_game extends Component {
 }
 
 export const offer_load_game = () => {
-  if (!check_saved_game()) { return false; }
+  if (!check_saved_game()) {
+    get_game_id();
+    return false;
+  }
   const root = document.getElementById('preact-root');
   render(
     html`<${Offer_load_game} />`,

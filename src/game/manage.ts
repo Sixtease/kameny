@@ -1,3 +1,7 @@
+import { initializeApp } from 'firebase/app';
+import { getFirestore, doc, setDoc } from 'firebase/firestore';
+
+import { firebaseConfig } from '../constants';
 import { CARD_SET } from '../constants/cards';
 import {
   get_player_deck,
@@ -36,40 +40,98 @@ export function restore_game(history: Game_event[], { cards, set, cursor }: { ca
 }
 
 export function load_game() {
-  const saved_history = localStorage.getItem('hist');
-  const saved_deck = localStorage.getItem('deck');
-  if (!saved_history || !saved_deck) {
+  const saved_game = localStorage.getItem('game');
+  if (!saved_game) {
     alert('No saved game found');
     return;
   }
-  const history = JSON.parse(saved_history);
-  const { cards, set, cursor } = JSON.parse(saved_deck);
+  const { hist: history, deck } = JSON.parse(saved_game);
 
-  restore_game(history, { cards, set, cursor });
+  restore_game(history, deck);
+}
+
+function get_game() {
+  const player_deck = get_player_deck();
+  if (!player_deck) {
+    return null;
+  }
+  const game = {
+    hist,
+    deck: { cards: player_deck.cards, set: player_deck.set, cursor: player_deck.cursor },
+  };
+  return game;
 }
 
 function save_game() {
-  const player_deck = get_player_deck();
-  if (!player_deck) {
-    return;
+  const game = get_game();
+  if (!game) {
+    return null;
   }
-  localStorage.setItem('hist', JSON.stringify(hist));
-  localStorage.setItem('deck', JSON.stringify({ cards: player_deck.cards, set: player_deck.set, cursor: player_deck.cursor }));
+  const game_json = JSON.stringify(game);
+  localStorage.setItem('game', game_json);
 }
 
 export function check_saved_game() {
+  const saved_game = localStorage.getItem('game');
+
+  /* TODO: remove legacy save format */
   const saved_history = localStorage.getItem('hist');
   const saved_deck = localStorage.getItem('deck');
-  return !!(saved_history && saved_deck);
+  if (!saved_game && saved_history && saved_deck) {
+    localStorage.setItem('game', JSON.stringify({ hist: JSON.parse(saved_history), deck: JSON.parse(saved_deck) }));
+    localStorage.removeItem('hist');
+    localStorage.removeItem('deck');
+    return true;
+  }
+
+  return !!saved_game;
 }
 
 export function clear_saved_game() {
   localStorage.removeItem('hist');
   localStorage.removeItem('deck');
+  localStorage.removeItem('game_id');
 }
 
 export function add_evt<T extends Game_event>(e: T): T {
   _add_evt<T>(e);
   save_game();
   return e;
+}
+
+function get_user_id() {
+  let user_id = localStorage.getItem('user_id');
+  if (!user_id) {
+    const new_user_id = crypto.randomUUID();
+    localStorage.setItem('user_id', new_user_id);
+    user_id = new_user_id;
+  }
+  return user_id;
+}
+
+export function get_game_id() {
+  let game_id = localStorage.getItem('game_id');
+  if (!game_id) {
+    const new_game_id = new Date().toISOString();
+    localStorage.setItem('game_id', new_game_id);
+    game_id = new_game_id;
+  }
+  return game_id;
+}
+
+export async function harvest_game() {
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const user_id = get_user_id();
+  const game_id = get_game_id();
+  const end_time = new Date().toISOString();
+  const document_id = `games/${user_id}/${game_id}-${end_time}`;
+  const game = get_game();
+  try {
+    const docRef = doc(db, 'games', document_id);
+    await setDoc(docRef, game);
+    console.log("Document written successfully!");
+  } catch (error) {
+    console.error("Error adding document: ", error);
+  }
 }

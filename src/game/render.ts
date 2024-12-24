@@ -22,6 +22,7 @@ import {
   get_main_scene,
   set_player_deck,
 } from '../game';
+import { harvest_game } from '../game/manage';
 import { update_guide } from '../guide/lookup';
 import { recap_game } from '../templates/recap-game';
 
@@ -50,6 +51,7 @@ function process_event(evt: Game_event) {
   } else if (is_Present_cards(evt)) {
     present_cards(evt.payload.cards, evt.payload.set, evt.payload.on_select);
   } else if (is_End_game(evt)) {
+    harvest_game();
     go_to_spot(world_center);
     get_controls_scene().scene.sendToBack();
   } else if (is_Present_avatars(evt)) {

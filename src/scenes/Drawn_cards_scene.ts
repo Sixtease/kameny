@@ -33,7 +33,7 @@ export class Drawn_cards_scene extends Phaser.Scene {
 
   add_card(card: GlobalCard, { load = false, trust = false, i = null }: { trust?: boolean; load?: boolean; i?: number } = { load: false, trust: false, i: null }) {
     const card_key = get_card_key(card.set, card.id);
-    if (i >= 0 && i < this.card_count) {
+    if (i !== null && i < this.card_count) {
       return;
     }
     if (!this.textures.list[card_key] && !trust) {

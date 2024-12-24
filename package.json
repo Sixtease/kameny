@@ -19,6 +19,7 @@
     },
     "homepage": "https://github.com/Sixtease/kameny",
     "dependencies": {
+        "firebase": "^11.1.0",
         "htm": "^3.1.1",
         "phaser": "^3.55.2",
         "phaser3-rex-plugins": "^1.1.59",
