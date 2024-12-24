@@ -8,7 +8,7 @@ export class About_to_teleport extends Component<{}> {
     return html`
       <div class="guide-page guide-page--on-teleport guide-page--about-to-teleport">
         <p>
-          Stojís na teleportu.
+          Stojíš na teleportu.
           Vytáhneš si zde karty, každou pro jeden teleport, do kterého se můžeš dostat.
           Medituj nad každou kartou a vyber si tu, která tě nejvíce osloví.
           Tím se rozhodne, kterým směrem se vydáš.

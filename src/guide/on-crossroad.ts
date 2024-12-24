@@ -15,7 +15,7 @@ export class On_crossroad extends Component<{}> {
     return html`
       <div class="guide-page guide-page--on-crossroad">
         <p>
-          Stojís na křižovatce. Pojí se k ní karta <strong>${card_info.name_cs}</strong>, kterou dostáváš automaticky.
+          Stojíš na křižovatce. Pojí se k ní karta <strong>${card_info.name_cs}</strong>, kterou dostáváš automaticky.
         </p>
         <p>
           Na křižovatce si vytáhneš karty, každou pro jeden směr, kterým se lze vydat.
