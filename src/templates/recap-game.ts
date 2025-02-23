@@ -76,6 +76,7 @@ class Recap_game extends Component {
           <h2>Rekapitulace hry</h2>
 
           <dl class="recap-game__gate recap-game__birth-gate">
+            <dt>Začátek</dt>
             <dt>Brána odhodlání</dt>
             <dd>${birth_gate.number}: ${birth_gate.name}</dd>
           </dl>
@@ -84,6 +85,7 @@ class Recap_game extends Component {
             <p>${avatar_names[deck.set]}</p>
           </div>
           <dl class="recap-game__gate recap-game__end-gate">
+            <dt>Konec</dt>
             <dt>Brána pochopení</dt>
             <dd>${end_gate.number}: ${end_gate.name}</dd>
           </dl>
