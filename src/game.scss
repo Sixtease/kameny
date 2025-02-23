@@ -35,10 +35,18 @@ body {
   height: 100%;
 }
 
+.recap-back-button {
+  position: absolute;
+  top: 0;
+  left: 0.5em;
+  font-size: 50px;
+  cursor: pointer;
+}
+
 .recap-close-button {
   position: absolute;
   top: 0;
-  right: 0;
+  right: 0.5em;
   font-size: 50px;
   cursor: pointer;
 }
@@ -95,15 +103,120 @@ body {
 }
 
 .recap-game {
-  p {
+  overflow-y: auto;
+  grid-template-columns: auto 1fr 1fr 1fr auto;
+  grid-template-areas:
+    'h h h h h'
+    'a1 g1 av g2 a2'
+    'a1 c c c a2'
+    'm m m m m'
+    'f f f f f';
+
+  h2 {
+    grid-area: h;
+  }
+
+  &__gate {
+    height: 20vh;
+    min-height: 4cm;
+    border-radius: 10px;
+    border: 2px solid gray;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+    * {
+      margin-left: 0;
+    }
+  }
+
+  &__birth-gate {
+    grid-area: g1;
+  }
+
+  &__death-gate {
+    grid-area: g2;
+  }
+
+  &__avatar {
+    grid-area: av;
+    height: 20vh;
+    min-height: 4cm;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    img {
+      grid-row: 1;
+      max-width: 100%;
+      max-height: 100%;
+      height: auto;
+      width: auto;
+      align-self: start;
+      margin: auto;
+    }
+
+    p {
+      grid-row: 2;
+      margin: 0;
+      align-self: end;
+    }
+  }
+
+  &__cards {
+    grid-area: c;
+    width: 85vw;
+    margin: 0 auto;
+    overflow: auto;
+    white-space: nowrap;
+    height: calc(4em + 10px);
+    display: flex;
+    justify-content: space-evenly;
+
+    span {
+      display: inline-block;
+      margin: auto;
+      height: 100%;
+      width: auto;
+    }
+
+    img {
+      height: 100%;
+    }
+  }
+
+  &__card-binding {
+    &--down {
+      grid-area: a1;
+    }
+
+    &--up {
+      grid-area: a2;
+    }
+  }
+
+  &__minimap {
+    grid-area: m;
+    img {
+      max-height: 10cm;
+      max-width: 100%;
+    }
+  }
+
+  &__footer {
+    grid-area: f;
     display: flex;
     margin: auto;
     justify-content: space-evenly;
-    font-size: 3vh;
+    // font-size: 3vh;
     width: 90%;
-  }
-  a {
-    margin: auto;
+
+    a {
+      margin: auto;
+    }
   }
 }
 

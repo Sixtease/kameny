@@ -9,7 +9,7 @@ export class Controls_scene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('step_button', 'assets/step-button.png');
+    this.load.image('step_button', 'assets/ui/step-button.png');
   }
 
   create() {

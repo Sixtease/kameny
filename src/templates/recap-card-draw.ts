@@ -14,6 +14,7 @@ import {
 import { Overlay } from './overlay';
 import { Card_draw_pick } from './recap-card-draw-pick';
 import { Card_draw_select } from './recap-card-draw-select';
+import { recap_game } from './recap-game';
 
 interface Card_draw_props {
   set: CARD_SET;
@@ -30,7 +31,7 @@ class Card_draw extends Component<Card_draw_props> {
     const next_draw_event = find_event_forward<Draw_event>(is_Draw_event, draw_event);
     
     return html`
-      <${Overlay} on_close=${() => this.setState({ draw_event: null })}>
+      <${Overlay} on_close=${() => this.setState({ draw_event: null })} on_back=${recap_game}>
         <div class="recap-root">
           ${ prev_draw_event
             ? html`<a class="recap-link recap-link-left" onClick=${() => recap_last_card_draw(prev_draw_event)}>🢔 předchozí</a>`

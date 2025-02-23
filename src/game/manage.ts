@@ -7,14 +7,17 @@ import {
   get_player_deck,
   restore_player_deck,
   get_card_scene,
+  get_controls_scene,
   get_main_scene,
 } from '../game';
 import { init_guide_off } from '../guide/init';
+import { recap_game } from '../templates/recap-game';
 import {
   EMPTY_EVENT,
   Game_event,
   add_evt as _add_evt,
   hist,
+  is_End_game,
   is_Present_cards,
 } from './events';
 import { get_current_position } from './logic';
@@ -37,6 +40,15 @@ export function restore_game(history: Game_event[], { cards, set, cursor }: { ca
   get_main_scene().instant_move_avatar(last_coord);
   restore_player_deck(set, cards, cursor);
   init_guide_off();
+
+  for (let i = history.length - 1; i >= 0; i--) {
+    if (is_End_game(history[i])) {
+      console.log('restoring recap');
+      get_controls_scene().scene.sendToBack();
+      setTimeout(recap_game, 0);
+      break;
+    }
+  }
 }
 
 export function load_game() {
@@ -90,6 +102,7 @@ export function check_saved_game() {
 export function clear_saved_game() {
   localStorage.removeItem('hist');
   localStorage.removeItem('deck');
+  localStorage.removeItem('game');
   localStorage.removeItem('game_id');
 }
 
@@ -125,11 +138,12 @@ export async function harvest_game() {
   const user_id = get_user_id();
   const game_id = get_game_id();
   const end_time = new Date().toISOString();
-  const document_id = `games/${user_id}/${game_id}-${end_time}`;
+  const document_id = `${user_id}/${game_id}-${end_time}`;
   const game = get_game();
   try {
     const docRef = doc(db, 'games', document_id);
-    await setDoc(docRef, game);
+    const pruned_game = JSON.parse(JSON.stringify(game));
+    await setDoc(docRef, pruned_game);
     console.log("Document written successfully!");
   } catch (error) {
     console.error("Error adding document: ", error);
