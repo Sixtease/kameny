@@ -99,9 +99,7 @@ class Recap_game extends Component {
             `)}
           </div>
 
-          <div class="recap-game__minimap">
-            <img src="assets/world.jpg" />
-          </div>
+          <img src="assets/world.jpg" class="recap-game__minimap" />
           <p class="recap-game__footer">
             <a href="javascript:;" onClick=${recap_last_card_draw}>Rekapitulovat.</a>
             <a href="javascript:;" onClick=${() => { clear_saved_game(); location.reload(); }}>Hrát znovu.</a>
