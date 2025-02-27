@@ -34,7 +34,7 @@ export interface Movement_event extends Game_event {
     place_name: Places.Place_name;
   }
 }
-export function is_Movement_event(evt: Game_event): evt is Movement_event {
+export function is_movement_event(evt: Game_event): evt is Movement_event {
   return evt.payload.hasOwnProperty('place_name');
 }
 

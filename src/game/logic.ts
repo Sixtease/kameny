@@ -27,7 +27,7 @@ import {
   is_Field_progress,
   is_Game_event,
   is_Landed,
-  is_Movement_event,
+  is_movement_event,
 } from './events';
 
 enum AVATAR_STATE {
@@ -50,7 +50,7 @@ export function get_current_position(epoch?: Game_event | number): { place_name:
   for (let i = epoch_index; i >= 0; i--) {
     const evt = hist[i];
     if (is_Landed(evt)) landed = true;
-    if (is_Movement_event(evt)) {
+    if (is_movement_event(evt)) {
       const { place_name }  = evt.payload;
       if (is_Field_progress(evt)) {
         return {
@@ -88,7 +88,7 @@ export function get_previous_place(): Places.Place_name | null {
   let saw_current_place = false;
   for (let i = hist.length - 1; i >= 0; i--) {
     const evt = hist[i];
-    if (is_Movement_event(evt) && !is_Field_progress(evt)) {
+    if (is_movement_event(evt) && !is_Field_progress(evt)) {
       if (saw_current_place) {
         return evt.payload.place_name;
       } else {
@@ -113,7 +113,7 @@ export function go_to_next_field(): Field_progress | null {
       } else {
         field_index = evt.payload.field_index - 1;
       }
-    } else if (is_Movement_event(evt)) {
+    } else if (is_movement_event(evt)) {
       if (is_Enter_road(evt)) {
         if (field_index === undefined) {
           if (evt.payload.direction === DIRECTION.FORWARD) {
@@ -156,7 +156,7 @@ export function go_to_next_field(): Field_progress | null {
 export function get_avatar_state(): AVATAR_STATE {
   for (let i = hist.length - 1; i >= 0; i--) {
     const evt = hist[i];
-    if (is_Movement_event(evt)) {
+    if (is_movement_event(evt)) {
       return AVATAR_STATE.AT_FIELD;
     }
   }
