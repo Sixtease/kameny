@@ -102,10 +102,14 @@ body {
   right: 1rem;
 }
 
+.recap-game svg.recap-game__minimap {
+  height: 100%;
+}
+
 .recap-game {
   height: 100vh;
   overflow-y: auto;
-  grid-template-rows: minmax(min-content, max-content) minmax(min-content, max-content) auto minmax(min-content, max-content) 1fr minmax(min-content, max-content);
+  grid-template-rows: minmax(min-content, max-content) minmax(min-content, max-content) auto 1fr minmax(min-content, max-content);
   grid-template-columns: auto 1fr 1fr 1fr auto;
   grid-template-areas:
     'h h h h h'
@@ -215,9 +219,14 @@ body {
     grid-area: m;
     min-height: 10cm;
     max-height: 100%;
-    max-width: 100%;
-    object-fit: contain;
+    overflow: hidden;
     margin: auto;
+    object-fit: contain;
+
+    &__highlight {
+      grid-area: m;
+      position: absolute;
+    }
   }
 
   &__footer {
