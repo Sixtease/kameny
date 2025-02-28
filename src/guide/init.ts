@@ -4,9 +4,12 @@ import { update_guide } from './lookup';
 function init_guide() {
   if ((window as any).GUIDE_INITIALIZED) return;
   const gsw = document.getElementById('guide-switch');
+  const grt = document.getElementById('guide-root');
   gsw.addEventListener('click', () => document.getElementById('guide-container').classList.toggle('guide-on'));
   gsw.addEventListener('mousedown', (evt) => evt.stopPropagation());
   gsw.addEventListener('mouseup', (evt) => evt.stopPropagation());
+  grt.addEventListener('mousedown', (evt) => evt.stopPropagation());
+  grt.addEventListener('mouseup', (evt) => evt.stopPropagation());
   (window as any).GUIDE_INITIALIZED = true;
 }
 
