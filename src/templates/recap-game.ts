@@ -140,7 +140,10 @@ class Recap_game extends Component {
           <img class="recap-game__card-binding recap-game__card-binding--down" src="assets/ui/gate-arrow-down.svg" />
           <img class="recap-game__card-binding recap-game__card-binding--up" src="assets/ui/gate-arrow-up.svg" />
 
-          <div class="recap-game__cards">
+          <div
+            class="recap-game__cards"
+            onMouseLeave=${() => this.setState({ hovered_card_index: null })}
+          >
             ${acquired_cards.map(({ evt, name, path }, i) => html`
               <span>
                 <img
@@ -148,7 +151,6 @@ class Recap_game extends Component {
                   title="${name}"
                   onClick=${() => recap_last_card_draw(evt)}
                   onMouseEnter=${() => this.setState({ hovered_card_index: i })}
-                  onMouseLeave=${() => this.setState({ hovered_card_index: null })}
                 />
               </span>
             `)}
