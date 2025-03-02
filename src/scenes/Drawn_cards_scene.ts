@@ -1,6 +1,6 @@
 import 'phaser';
 
-import { viewport_width, viewport_height } from '../constants';
+import { step_button_layout_breakpoint, viewport_width, viewport_height } from '../constants';
 import { GlobalCard, get_card_key } from '../constants/cards';
 import { hist, is_Pick_cards, is_Select_from_presented_cards } from '../game/events';
 import { recap_last_card_draw } from '../templates/recap-card-draw';
@@ -46,10 +46,13 @@ export class Drawn_cards_scene extends Phaser.Scene {
       }
       return;
     }
-    const x = viewport_width - 100 + this.card_count;
-    const y = viewport_height - 100 + this.card_count;
+    const narrow_layout = viewport_width < step_button_layout_breakpoint
+    const offset = narrow_layout ? 0 : -100 + this.card_count;
+    const x = viewport_width + offset;
+    const y = viewport_height + offset;
     this.card_count++;
     const sprite = this.add.sprite(x, y, card_key).setScale(0.1);
+    if (narrow_layout) sprite.setOrigin(1, 1);
     sprite.setInteractive({ cursor: 'pointer' });
     sprite.on('pointerup', () => recap_last_card_draw());
   }

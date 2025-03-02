@@ -47,14 +47,13 @@ interface Acquired_card {
 function get_visited(): { acquired_cards: Acquired_card[], visited_coords: Coord[] } {
   const acs: Acquired_card[] = [];
   const coords: Coord[] = [ get_coord(world_center, null) ];
-  hist.forEach((evt: Game_event, i: number) => {
+  hist.forEach((evt: Game_event) => {
     if (is_movement_event(evt)) {
       coords.push(get_coord(evt.payload.place_name, (evt as Field_progress).payload.field_index));
     }
     const coord = coords.at(-1);
     if (is_Pick_cards(evt)) {
       const { cards, set } = evt.payload;
-      console.log('pick cards', evt, cards, set);
       acs.push(...cards.map(card => {
         const { name_cs } = card_meta[card];
         return {
@@ -169,7 +168,6 @@ class Recap_game extends Component {
           </svg>
 
           <p class="recap-game__footer">
-            <a href="javascript:;" onClick=${recap_last_card_draw}>Rekapitulovat.</a>
             <a href="javascript:;" onClick=${() => { clear_saved_game(); location.reload(); }}>Hrát znovu.</a>
           </p>
         </div>

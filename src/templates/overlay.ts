@@ -1,10 +1,8 @@
 import { h, Component } from 'preact';
 import htm from 'htm';
 
-import { event_occurred } from '../game/events';
-
 interface OverlayProps {
-  on_close: () => void;
+  on_close: () => boolean | void;
   on_back?: () => void;
 }
 
@@ -34,9 +32,8 @@ export class Overlay extends Component<OverlayProps> {
               title="Zavřít"
               onClick=${
                 () => {
-                  if (event_occurred('End_game')) location.reload();
-                  document.getElementById('preact-root').classList.remove('recap-shown');
-                  on_close();
+                  const proceedWithDefault = on_close();
+                  if (proceedWithDefault !== false) document.getElementById('preact-root').classList.remove('recap-shown');
                 }
               }
             >×</div>`

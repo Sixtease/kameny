@@ -86,21 +86,21 @@ export class Card_scene extends Phaser.Scene {
 
   show_images<T extends ImageObj>(options: T[], label_text: string): Promise<(LoadedImageObj & T)[]> {
     const me = this;
-    return new Promise<(LoadedImageObj & T)[]>((resolve, reject) => {
+    return new Promise<(LoadedImageObj & T)[]>((resolve) => {
       me.initialize();
       me.load.image(options);
 
       me.label = this.add.text(
-        viewport_center.x / 2, 20, label_text, {
+        viewport_center.x, 20, label_text, {
           color: 'black',
           align: 'left',
-          fontSize: '30px',
+          fontSize: 'calc(min(7vw, 30px))',
           strokeThickness: 4,
           shadow: {
             offsetX: 0, offsetY: 0, color: 'white', blur: 2, stroke: true, fill: true,
           },
         }
-      );
+      ).setOrigin(0.5, 0);
 
       me.load.once('complete', function on_load() {
         const loaded_ok = options.every(img => me.textures.list[img.key]);

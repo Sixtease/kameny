@@ -5,10 +5,12 @@ import { CARD_SET } from '../constants/cards';
 import {
   Draw_event,
   Game_event,
+  Recap_game,
   Select_from_presented_cards,
   find_event_backward,
   find_event_forward,
   is_Draw_event,
+  is_Recap_game,
   is_Select_from_presented_cards,
 } from '../game/events';
 import { Overlay } from './overlay';
@@ -27,11 +29,14 @@ const html = htm.bind(h);
 
 class Card_draw extends Component<Card_draw_props> {
   render({ draw_event }: Card_draw_props) {
+    const game_ended = find_event_forward<Recap_game>(is_Recap_game, draw_event);
     const prev_draw_event = find_event_backward<Draw_event>(is_Draw_event, draw_event);
     const next_draw_event = find_event_forward<Draw_event>(is_Draw_event, draw_event);
+
+    const on_close = game_ended ? () => { recap_game(); return false; } : () => this.setState({ draw_event: null });
     
     return html`
-      <${Overlay} on_close=${() => this.setState({ draw_event: null })} on_back=${recap_game}>
+      <${Overlay} on_close=${on_close}>
         <div class="recap-root">
           ${ prev_draw_event
             ? html`<a class="recap-link recap-link-left" onClick=${() => recap_last_card_draw(prev_draw_event)}>🢔 předchozí</a>`
