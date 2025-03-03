@@ -14,7 +14,7 @@ export class Game_over extends Component<{}> {
     return html`
       <div class="guide-page guide-page--exiting-world">
         <p>
-          Tvoje pouť skončila. Ze světa's odešel branou
+          Tvoje pouť končí. Ze světa odcházíš branou
         </p>
         <p>
           <strong>${exit_gate_name}</strong>.

@@ -29,7 +29,7 @@ class Pick_card extends Component<Card_detail_props> {
         <div class="card-detail">
           <img src="${url}" />
           <div class="card-detail-sidebar">
-            <h1 class="card-pick-header">Dostal's tuto kartu:</h1>
+            <h1 class="card-pick-header">Dostáváš tuto kartu:</h1>
             <p class="card-detail-exegesis">${exegesis}</p>
             <div class="card-detail-buttons">
               <button class="card-detail-yes" onClick=${() => { on_close(); close(); }}>OK</button>

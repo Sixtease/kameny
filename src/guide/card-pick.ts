@@ -8,7 +8,7 @@ export class Card_pick extends Component<{}> {
     return html`
       <div class="guide-page guide-page--card-pick">
         <p>
-          Dostal's kartu. V životě ses setkal s kvalitou, kterou reprezentuje.
+          Dostáváš kartu. V životě se setkáváš s kvalitou, kterou reprezentuje.
         </p>
         <p>
           Můžeš se k ní vrátit kliknutím na štůsek karet v pravém dolním rohu.

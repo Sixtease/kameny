@@ -15,7 +15,7 @@ export class Birth_gate_drawn extends Component<{}> {
     return html`
       <div class="guide-page guide-page--birth-gate-selected">
         <p>
-          Pro vstup do světa sis vybral bránu
+          Pro vstup do světa si vybíráš bránu
         </p>
         <p>
           <strong>${gate_name}</strong>.

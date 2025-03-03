@@ -44,7 +44,7 @@ export class Picked_card_list extends Component<Picked_card_list_props> {
   render({ cards, return_from_detail }: Picked_card_list_props ) {
     return html`
       <div class="recap-card-offer recap-card-offer-multiple">
-        <p>Dostal's tyto karty:</p>
+        <p>Dostáváš tyto karty:</p>
         <ul>
           ${cards.map(({url, card_id, exegesis, name_cs}: Card_render_info) => {
             return html`
