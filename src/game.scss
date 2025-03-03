@@ -288,7 +288,7 @@ button {
   width: calc(100% - 0.8cm);
 
   @media (orientation: portrait) {
-    flex-direction: column;
+    display: block;
   }
 
   &-buttons {
