@@ -7,6 +7,7 @@ export const golden_ratio = 1.61803398875;
 export const max_card_size = 1167;
 export const second = 1000;
 export const step_button_layout_breakpoint = 550;
+export const minimum_initial_world_display = { w: 1510, h: 1260 };
 
 export const firebaseConfig = {
   apiKey: "AIzaSyDPr6i0xdtdD6Hc_ijtkLpiO4ZOP5aRri8",

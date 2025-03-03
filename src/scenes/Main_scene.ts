@@ -6,6 +6,7 @@ import {
   world_width,
   viewport_height,
   viewport_width,
+  minimum_initial_world_display,
 } from '../constants';
 import { CARD_SET } from '../constants/cards';
 import { Coord, world_center } from '../constants/coords';
@@ -39,6 +40,10 @@ export class Main_scene extends Phaser.Scene {
     me.input.addPointer();
 
     me.add.image(0, 0, 'world').setOrigin(0);
+
+    if (viewport_width < minimum_initial_world_display.w || viewport_height < minimum_initial_world_display.h) {
+      me.cam().setZoom(Math.min(viewport_width / minimum_initial_world_display.w, viewport_height / minimum_initial_world_display.h));
+    }
 
     me.input.on('pointerdown', (pointer: Phaser.Input.Pointer, objects) => {
       me.check_pointers_distance();
