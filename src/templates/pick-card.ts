@@ -17,6 +17,7 @@ function get_card_exegesis(card_id: string): string {
 }
 
 function close() {
+  document.querySelector('.recap-overlay')?.scrollTo(0, 0);
   document.getElementById('preact-root').classList.remove('recap-shown');
 }
 
