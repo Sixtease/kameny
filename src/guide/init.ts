@@ -8,8 +8,12 @@ function init_guide() {
   gsw.addEventListener('click', () => document.getElementById('guide-container').classList.toggle('guide-on'));
   gsw.addEventListener('mousedown', (evt) => evt.stopPropagation());
   gsw.addEventListener('mouseup', (evt) => evt.stopPropagation());
+  gsw.addEventListener('touchstart', (evt) => evt.stopPropagation());
+  gsw.addEventListener('touchend', (evt) => evt.stopPropagation());
   grt.addEventListener('mousedown', (evt) => evt.stopPropagation());
   grt.addEventListener('mouseup', (evt) => evt.stopPropagation());
+  grt.addEventListener('touchstart', (evt) => evt.stopPropagation());
+  grt.addEventListener('touchend', (evt) => evt.stopPropagation());
   (window as any).GUIDE_INITIALIZED = true;
 }
 

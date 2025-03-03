@@ -15,6 +15,8 @@ export class Overlay extends Component<OverlayProps> {
         class="recap-overlay"
         onMouseDown=${(evt) => evt.stopPropagation()}
         onMouseUp=${(evt) => evt.stopPropagation()}
+        onTouchStart=${(evt) => evt.stopPropagation()}
+        onTouchEnd=${(evt) => evt.stopPropagation()}
       >
         ${
           on_back && (
