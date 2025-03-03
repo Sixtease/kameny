@@ -26,14 +26,26 @@ body {
 
 .recap-overlay {
   height: 100%;
+  overflow: auto;
+}
+
+.recap-back-button {
+  position: absolute;
+  top: 0;
+  left: 0.5em;
+  font-size: 50px;
+  cursor: pointer;
 }
 
 .recap-close-button {
-  position: absolute;
-  top: 0;
-  right: 0;
-  font-size: 50px;
+  background: white;
   cursor: pointer;
+  font-size: 50px;
+  line-height: 1;
+  padding: 0 0.1em;
+  position: absolute;
+  right: 0.5em;
+  top: 0;
 }
 
 .recap-card-offer ul {
@@ -82,14 +94,118 @@ body {
   right: 1rem;
 }
 
-.recap-game p {
+.recap-game svg.recap-game__minimap {
+  height: 100%;
+}
+
+.recap-game {
+  height: 100vh;
+  overflow-y: auto;
+  grid-template-rows: minmax(min-content, max-content) minmax(min-content, max-content) auto 1fr minmax(min-content, max-content);
+  grid-template-columns: auto 1fr 1fr 1fr auto;
+  grid-template-areas: "h h h h h" "a1 g1 av g2 a2" "a1 c c c a2" "m m m m m" "f f f f f";
+}
+.recap-game h2 {
+  grid-area: h;
+  padding-top: 0.5em;
+}
+.recap-game__gate {
+  height: 20vh;
+  min-height: 4cm;
+  border-radius: 10px;
+  border: 2px solid gray;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+.recap-game__gate dt:first-child {
+  font-weight: bold;
+}
+.recap-game__gate * {
+  margin-left: 0;
+}
+.recap-game__birth-gate {
+  grid-area: g1;
+}
+.recap-game__death-gate {
+  grid-area: g2;
+}
+.recap-game__avatar {
+  grid-area: av;
+  height: 20vh;
+  min-height: 4cm;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.recap-game__avatar img {
+  grid-row: 1;
+  max-width: 100%;
+  max-height: 100%;
+  height: auto;
+  width: auto;
+  align-self: start;
+  margin: auto;
+}
+.recap-game__avatar p {
+  grid-row: 2;
+  margin: 0;
+  align-self: end;
+}
+.recap-game__cards {
+  grid-area: c;
+  width: 100%;
+  margin: 0 auto;
+  white-space: nowrap;
+  height: calc(4em + 10px);
+  display: flex;
+  justify-content: space-evenly;
+}
+.recap-game__cards span {
+  display: inline-block;
+  margin: auto;
+  height: 100%;
+  width: auto;
+  overflow: hidden;
+}
+.recap-game__cards span:hover {
+  overflow: visible;
+}
+.recap-game__cards img {
+  height: 100%;
+}
+.recap-game__card-binding {
+  margin: auto 0 2em 0;
+}
+.recap-game__card-binding--down {
+  grid-area: a1;
+}
+.recap-game__card-binding--up {
+  grid-area: a2;
+}
+.recap-game__minimap {
+  grid-area: m;
+  min-height: 10cm;
+  max-height: 100%;
+  overflow: hidden;
+  margin: auto;
+  object-fit: contain;
+}
+.recap-game__minimap__highlight {
+  grid-area: m;
+  position: absolute;
+}
+.recap-game__footer {
+  grid-area: f;
   display: flex;
   margin: auto;
   justify-content: space-evenly;
-  font-size: 3vh;
   width: 90%;
 }
-.recap-game a {
+.recap-game__footer a {
   margin: auto;
 }
 
@@ -98,7 +214,7 @@ body {
 }
 
 .game-intro {
-  font-size: 3vh;
+  font-size: max(3vh, 0.35cm);
 }
 .game-intro button {
   font-size: 120%;
@@ -127,15 +243,21 @@ button:hover {
   display: flex;
   height: 100%;
   justify-content: space-evenly;
+  margin: 0 auto;
   width: 100%;
   width: calc(100% - 0.8cm);
+}
+@media (orientation: portrait) {
+  .card-detail {
+    display: block;
+  }
 }
 .card-detail-buttons {
   margin: auto 0;
 }
 .card-detail-exegesis {
   padding: 0 2vw;
-  font-size: 2vh;
+  font-size: max(2vh, 0.35cm);
 }
 .card-detail img {
   margin: auto 0;
@@ -207,21 +329,23 @@ button:hover {
   display: grid;
   font-size: 4vh;
   justify-content: space-evenly;
-  padding: min(10vh, 10vw);
+  padding: 0.8cm;
 }
 
 .guide-page--avatar-choice {
   font-size: 2.5vh;
 }
 .guide-page--avatar-choice img {
-  width: 15vh;
-  height: 15vh;
+  width: 15vmin;
+  height: 15vmin;
   vertical-align: middle;
-  margin: 2vh 4vh 2vh 0;
+  margin: 2vmin 4vmin 2vmin 0;
 }
 .guide-page--avatar-choice ul {
   text-align: left;
   list-style-type: none;
+  padding: 0 0 0 19vmin;
+  text-indent: -19vmin;
 }
 
 @keyframes pulse {
