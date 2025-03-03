@@ -153,7 +153,7 @@ export class Main_scene extends Phaser.Scene {
 
   handle_pinch() {
     const delta = this.starting_pointers_distance - this.get_pointers_distance()
-    this.zoom(delta);
+    this.zoom(delta / 20);
   }
 
   handle_mousewheel(pointer, objs, dx, dy, dz) {
