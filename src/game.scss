@@ -1,6 +1,7 @@
 body {
   margin: 0;
   overflow: hidden;
+  font-family: sans-serif;
 }
 
 @mixin overlay {
@@ -341,8 +342,10 @@ button {
   box-shadow: 0 0 20px 0px purple;
   cursor: pointer;
 
-  &:hover {
-    background-color: #FBF;
+  @media (hover: hover) {
+    &:hover {
+      background-color: #FBF;
+    }
   }
 
   .guide-switch--turn-off {
