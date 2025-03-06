@@ -4,6 +4,11 @@ body {
   font-family: sans-serif;
 }
 
+@media (max-width: 20cm) {
+  .wide-screen-only {
+    display: none;
+  }
+}
 .recap {
   position: fixed;
   width: 100%;
@@ -75,9 +80,10 @@ body {
   margin: auto;
 }
 
-.recap-picked-card img {
-  display: block;
+.recap-picked-card > * {
   margin: auto;
+}
+.recap-picked-card img {
   width: 30vh;
 }
 
@@ -85,14 +91,19 @@ body {
   position: absolute;
   top: 50%;
   line-height: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
 }
-
 .recap-link-left {
   left: 1rem;
 }
-
 .recap-link-right {
   right: 1rem;
+}
+.recap-link__icon {
+  font-size: 2cm;
+  padding-bottom: 0.2em;
 }
 
 .recap-game svg.recap-game__minimap {
