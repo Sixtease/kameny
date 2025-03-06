@@ -142,17 +142,19 @@ export class Card_draw_select extends Component<Card_draw_select_props> {
       </div>
       <div class="recap-picked-card">
         <p>${you_picked}</p>
-        <a
-          onClick=${
-            () => recapping_card_detail({
-              url: picked_url,
-              card_id: picked,
-              return_from_detail,
-            })
-          }
-        >
-          <img src="${picked_url}" alt="" />
-        </a>
+        <div>
+          <a
+            onClick=${
+              () => recapping_card_detail({
+                url: picked_url,
+                card_id: picked,
+                return_from_detail,
+              })
+            }
+          >
+            <img src="${picked_url}" alt="" />
+          </a>
+        </div>
         ${picked_meta.name_cs}
         <p class="recap-exegesis">${picked_meta.exegesis}.</p>
         ${by_which}

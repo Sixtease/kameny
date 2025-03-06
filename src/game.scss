@@ -12,6 +12,12 @@ body {
   text-align: center;
 }
 
+@media (max-width: 20cm) {
+  .wide-screen-only {
+    display: none;
+  }
+}
+
 .recap {
   @include overlay;
 
@@ -88,9 +94,10 @@ body {
 }
 
 .recap-picked-card {
-  img {
-    display: block;
+  > * {
     margin: auto;
+  }
+  img {
     width: 30vh;
   }
 }
@@ -99,12 +106,22 @@ body {
   position: absolute;
   top: 50%;
   line-height: 0;
-}
-.recap-link-left {
-  left: 1rem;
-}
-.recap-link-right {
-  right: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+
+  &-left {
+    left: 1rem;
+  }
+
+  &-right {
+    right: 1rem;
+  }
+
+  &__icon {
+    font-size: 2cm;
+    padding-bottom: 0.2em;
+  }
 }
 
 .recap-game svg.recap-game__minimap {

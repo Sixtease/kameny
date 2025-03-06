@@ -91,11 +91,21 @@ class Card_draw extends Component<Card_draw_props> {
       <${Overlay} on_close=${on_close}>
         <div class="recap-root" data-on-swipe-left data-on-swipe-right>
           ${ prev_draw_event
-            ? html`<a class="recap-link recap-link-left" onClick=${() => recap_last_card_draw(prev_draw_event)}>${String.fromCharCode(9664)} předchozí</a>`
+            ? html`
+              <a class="recap-link recap-link-left" onClick=${() => recap_last_card_draw(prev_draw_event)}>
+                <span class="recap-link__icon" title="předchozí">〈</span>
+                <span class="wide-screen-only"> předchozí</span>
+              </a>
+            `
             : null
           }
           ${ next_draw_event
-            ? html`<a class="recap-link recap-link-right" onClick=${() => recap_last_card_draw(next_draw_event)}>další ${String.fromCharCode(9654)}</a>`
+            ? html`
+              <a class="recap-link recap-link-right" onClick=${() => recap_last_card_draw(next_draw_event)}>
+                <span class="wide-screen-only">další </span>
+                <span class="recap-link__icon" title="další">〉</span>
+              </a>
+            `
             : null
           }
           ${

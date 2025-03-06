@@ -39,12 +39,14 @@ export class Card_draw_pick extends Component<Card_draw_pick_props> {
       const url = `assets/cards/${set}/${card}.jpg`;
       if (is_crossroad(drawing_place)) {
         return html`
-          <div class="recap-card-offer recap-card-offer-single">
+          <div>
             <p class="recap-picked-card">
               Dostáváš tuto kartu náležící ke ${place_language_expression(drawing_place)(Grammatical_case.dative)}:
-              <a onClick=${() => recapping_card_detail({ card_id: card, url, return_from_detail })}>
-                <img src="${url}" alt="" />
-              </a>
+              <div>
+                <a onClick=${() => recapping_card_detail({ card_id: card, url, return_from_detail })}>
+                  <img src="${url}" alt="" />
+                </a>
+              </div>
               ${name_cs}
             </p>
             <p class="card-detail-accompanying-text">${exegesis}</p>
@@ -56,12 +58,14 @@ export class Card_draw_pick extends Component<Card_draw_pick_props> {
         const direction_stating_event = find_event_backward(get_direction_stating_event, draw_event);
         const direction = direction_stating_event ? direction_stating_event.payload.direction : DIRECTION.FORWARD
         return html`
-          <div class="recap-card-offer recap-card-offer-single">
+          <div>
             <p class="recap-picked-card">
               Na ${road_language_expression(drawing_place as Road_name, direction, Grammatical_case.locative)} dostáváš tuto kartu:
-              <a onClick=${() => recapping_card_detail({ card_id: card, url, return_from_detail })}>
-                <img src="assets/cards/${set}/${card}.jpg" alt="" />
-              </a>
+              <div>
+                <a onClick=${() => recapping_card_detail({ card_id: card, url, return_from_detail })}>
+                  <img src="assets/cards/${set}/${card}.jpg" alt="" />
+                </a>
+              </div>
               ${name_cs}
             </p>
             <p class="card-detail-accompanying-text">${exegesis}</p>
