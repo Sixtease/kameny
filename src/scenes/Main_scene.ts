@@ -67,6 +67,8 @@ export class Main_scene extends Phaser.Scene {
       }
     });
     me.input.on('wheel', (pointer, objs, dx, dy, dz) => this.handle_mousewheel(pointer, objs, dx, dy, dz));
+
+    window.addEventListener('resize', () => this.handle_resize());
   }
 
   update() {
@@ -249,5 +251,30 @@ export class Main_scene extends Phaser.Scene {
       x: this.cam().scrollX + delta.x,
       y: this.cam().scrollY + delta.y,
     });
+  }
+
+  handle_resize() {
+    const me = this;
+    const cam = me.cam();
+    const { avatar } = me;
+    
+    // Get new viewport size
+    const new_width = window.innerWidth;
+    const new_height = window.innerHeight;
+    console.log('resize', new_width, new_height);
+    
+    // Update camera viewport
+    cam.setViewport(0, 0, new_width, new_height);
+    cam.setBounds(0, 0, new_width, new_height);
+
+    // Adjust zoom if necessary
+    const min_h = new_height / world_height;
+    const min_w = new_width / world_width;
+    const min_zoom = Math.min(min_h, min_w);
+    const max_zoom = 1;
+    cam.setZoom(Math.max(cam.zoom, min_zoom, max_zoom));
+
+    // Recenter camera if needed
+    cam.centerOn(avatar.x, avatar.y);
   }
 }

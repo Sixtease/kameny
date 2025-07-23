@@ -3,6 +3,11 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" type="text/css" href="game.css" />
   </head>
   <body>
@@ -10,13 +15,21 @@
       <div id="guide-root"></div>
       <div id="guide-switch">
         <div class="guide-switch--turn-on">
-          <svg viewBox="0 0 4 10" stroke="gray" fill="none">
-            <path d="M 3, 2 L 2, 5 L 3, 8" />
+          <svg viewBox="0 0 10 10" stroke="black" fill="none">
+            <path d="M3,3 C3,1 7,1 7,3 C7,5 5,5 5,6.5" />
+            <path d="M5,6.5 L5,7.5" />
+            <circle cx="5" cy="9" r="0.7" fill="black" stroke="none"/>
           </svg>
+          <!--svg viewBox="0 -1 4 9" stroke="black" fill="none">
+            <path d="M1,2 C1,0.5 3,0.5 3,2 C3,3 2,3 2,4" />
+            <path d="M2,4 L2,5" />
+            <circle cx="2" cy="7" r="0.5" fill="black" stroke="none"/>
+          </svg-->
         </div>
         <div class="guide-switch--turn-off">
-          <svg viewBox="0 0 4 10" stroke="gray" fill="none">
-            <path d="M 2, 2 L 3, 5 L 2, 8" />
+          <svg viewBox="0 0 10 10" stroke="black" fill="none">
+            <path d="M2,2 L8,8" />
+            <path d="M2,8 L8,2" />
           </svg>
         </div>
       </div>

@@ -1,7 +1,10 @@
 body {
   margin: 0;
   overflow: hidden;
-  font-family: sans-serif;
+  font-family: EB Garamond, serif;
+  color: #2C4CA3;
+  background-color: #E9E3D7;
+  font-size: calc(max(3vh, 0.35cm));
 }
 
 @mixin overlay {
@@ -345,16 +348,14 @@ button {
 
 #guide-switch {
   position: fixed;
-  top: 50%;
+  bottom: 0;
   right: 0;
-  transform: translate(0, -50%);
-  width: 0.8cm;
+  width: 2cm;
   height: 2cm;
   border: 2px solid gray;
   border-right: 0 none;
-  border-radius: 20px;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
+  border-bottom: 0 none;
+  border-radius: 2cm;
   background-color: rgba(255, 255, 255, 0.8);
   box-shadow: 0 0 20px 0px purple;
   cursor: pointer;
@@ -450,9 +451,26 @@ button {
   display: flex;
   justify-content: center;
 
-  .cover-page__text {
+  &__text {
     align-self: flex-end;
     padding-bottom: 5vh;
+  }
+
+  &__explanation {
+    max-width: 100%;
+    width: 25cm;
+    margin: 0 auto;
+  }
+
+  &__world-preview {
+    max-width: 100%;
+    width: 12cm;
+  }
+
+  &__card-preview {
+    max-width: 40%;
+    width: 5cm;
+    margin: 0 1em;
   }
 
   h1 {
@@ -482,10 +500,16 @@ button {
   }
 
   .status-line {
-    color: white;
     font-size: 20%;
     height: 2vh;
     margin-top: 1vh;
+
+    button {
+      color: white;
+      padding: 0 2em;
+      background-color: rgba(0,0,0,0.5);
+      font-size: 100%;
+    }
   }
 
   output {
