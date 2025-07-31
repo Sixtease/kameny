@@ -21,7 +21,7 @@ function pageDown() {
 
 function scrolledToBottom() {
   const el = document.querySelector('.recap-overlay');
-  const atBottom = el.scrollTop + el.clientHeight >= el.scrollHeight;
+  const atBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 10;
   return atBottom;
 }
 
