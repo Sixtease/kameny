@@ -447,6 +447,7 @@ button:hover {
   background-color: rgba(0, 0, 0, 0.8);
   font-size: 100%;
   margin-bottom: 0;
+  height: 5vh;
 }
 .cover-page .status-line button:hover {
   background-color: black;
