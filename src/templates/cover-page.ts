@@ -1,7 +1,6 @@
 import { h, Component, render } from 'preact';
 import htm from 'htm';
 
-// import { second } from '../constants';
 import { game_intro } from './game-intro';
 import { offer_load_game } from './load-game';
 import { Overlay } from './overlay';
@@ -10,43 +9,33 @@ function next() {
   offer_load_game() || game_intro();
 }
 
-interface Cover_page_props {
-  green_to_go: boolean;
-}
-
-interface Cover_page_state {
-  phase: number;
-}
-
-const stati = [
-  { duration: 2, line: 'inicializuji' },
-  { duration: 3, line: 'nahrávám' },
-  { duration: 1, line: 'spouštím' },
-];
-
 const html = htm.bind(h);
 
-class Cover_page extends Component<Cover_page_props> {
-  state: Cover_page_state = {
-    phase: 0,
+function pageDown() {
+  document.querySelector('.recap-overlay').scrollBy({
+    top: window.innerHeight,
+    left: 0,
+    behavior: 'smooth',
+  });
+}
+
+function scrolledToBottom() {
+  const el = document.querySelector('.recap-overlay');
+  const atBottom = el.scrollTop + el.clientHeight >= el.scrollHeight;
+  return atBottom;
+}
+
+function continueHandler() {
+  if (scrolledToBottom()) {
+    next();
   }
+  else {
+    pageDown();
+  }
+}
 
-  render({ green_to_go }: Cover_page_props) {
-    const { phase } = this.state;
-    if (!stati[phase] && green_to_go) {
-      next();
-      return null;
-    }
-
-    /*
-    if (stati[phase + 1] || green_to_go) {
-      setTimeout(
-        () => this.setState({ phase: phase + 1 }),
-        duration * second
-      );
-    }
-    */
-
+class Cover_page extends Component<{}> {
+  render() {
     return html`
       <${Overlay}>
         <div class="cover-page">
@@ -55,24 +44,28 @@ class Cover_page extends Component<Cover_page_props> {
             <h2 class="author">Jiřina Lockerová</h2>
             <h2 class="subtitle">sebepoznávací hra</h2>
             <div class="status-line">
-              <button onClick=${next}>hrát</button>
+              <button onClick=${continueHandler}>pokračovat</button>
             </div>
           </div>
         </div>
         <div class="cover-page__explanation">
           <h1>Moudrost v síle kamenů</h1>
           <p>Sebepoznávací hra</p>
-          <h2>Jak hrát</h2>
+          <h2>O hře</h2>
           <p>
             Moudrost v síle kamenů je meditativní hra, kterou můžete využít pro získání vhledu
             do situace, kterou procházíte, do svého života nebo pro usebrání.
           </p>
+
+          <h3>Hrací pole</h3>
           <img src="assets/world.jpg" alt="" class="cover-page__world-preview" />
           <p>
             Hrací pole zobrazuje „labyrint světa“ a „ráj srdce“. Střed hracího pole je
             stav před stvořením, před vstupem do života nebo do situace a také stav po vyřešení situace, po ukončení životního cyklu.
             Bludiště kolem středové části symbolizuje svět a život v něm.
           </p>
+
+          <h3>Karty kamenů</h3>
           <img src="assets/cards/mother/jade.jpg" alt="" class="cover-page__card-preview" />
           <img src="assets/cards/mother/topaz.jpg" alt="" class="cover-page__card-preview" />
           <p>
@@ -84,7 +77,13 @@ class Cover_page extends Component<Cover_page_props> {
             Sada karet, které si vytáhnete v průběhu hry, spolu s jejich výklady, je pak hlavním výstupem hry,
             který vám může pomoci ke kýženému vhledu do situace.
           </p>
-          <p><button onClick=${next}>hrát</button></p>
+
+          <h2>Jak hrát</h2>
+          <p>
+            Na začátku si zvolíte, v jaké rovině chcete na svoji situaci nahlížet.
+            Podle toho si vyberete hrací kámen. Ten pak představuje vaši pozici v labyrintu.
+            Krok za krokem se posouváte po hracím poli, až se vrátíte do středu.
+          </p>
         </div>
       </Overlay>
     `;
@@ -94,7 +93,7 @@ class Cover_page extends Component<Cover_page_props> {
 export const cover_page = () => {
   const root = document.getElementById('preact-root');
   render(
-    html`<${Cover_page} status_line="nahrávám" green_to_go />`,
+    html`<${Cover_page} />`,
     root
   );
   root.classList.add('recap-shown');
