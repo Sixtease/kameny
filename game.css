@@ -302,8 +302,8 @@ button:hover {
 
 #guide-switch {
   position: fixed;
-  bottom: 0;
-  right: 0;
+  bottom: 10px;
+  right: 10px;
   width: 2cm;
   height: 2cm;
   border: 2px solid gray;
@@ -401,6 +401,7 @@ button:hover {
   max-width: 100%;
   width: 25cm;
   margin: 0 auto;
+  padding-bottom: 4rem;
 }
 .cover-page__world-preview {
   max-width: 100%;
@@ -434,14 +435,21 @@ button:hover {
 }
 .cover-page .status-line {
   font-size: 20%;
-  height: 2vh;
-  margin-top: 1vh;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+  width: 100%;
 }
 .cover-page .status-line button {
   color: white;
   padding: 0 2em;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.8);
   font-size: 100%;
+  margin-bottom: 0;
+}
+.cover-page .status-line button:hover {
+  background-color: black;
 }
 .cover-page output {
   font-family: monospace;
