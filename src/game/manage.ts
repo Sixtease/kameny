@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, doc, setDoc } from 'firebase/firestore';
+import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
 
 import { firebaseConfig } from '../constants';
 import { CARD_SET } from '../constants/cards';
@@ -138,14 +138,31 @@ export async function harvest_game() {
   const user_id = get_user_id();
   const game_id = get_game_id();
   const end_time = new Date().toISOString();
-  const document_id = `${user_id}/${game_id}-${end_time}`;
+  const document_id = `${user_id}/games/${game_id}-${end_time}`;
   const game = get_game();
   try {
-    const docRef = doc(db, 'games', document_id);
+    const docRef = doc(db, 'users', document_id);
     const pruned_game = JSON.parse(JSON.stringify(game));
     await setDoc(docRef, pruned_game);
     console.log("Document written successfully!");
   } catch (error) {
     console.error("Error adding document: ", error);
   }
+}
+
+export function load_game_from_db(user_id: string, game_id: string) {
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const document_id = `${user_id}/games/${game_id}`;
+  const docRef = doc(db, 'users', document_id);
+  getDoc(docRef).then((docSnap) => {
+    if (docSnap.exists()) {
+      const { hist: history, deck } = docSnap.data() as { hist: Game_event[], deck: { cards: string[], set: CARD_SET, cursor: number } };
+      restore_game(history, deck);
+    } else {
+      console.error("No such document!");
+    }
+  }).catch((error) => {
+    console.error("Error getting document:", error);
+  });
 }

@@ -7,6 +7,7 @@ import { Drawn_cards_scene } from './scenes/Drawn_cards_scene';
 import { Controls_scene } from './scenes/Controls_scene';
 import { get_game_config } from './game/config';
 import { add_evt as _add_evt } from './game/events';
+import { load_game_from_db } from './game/manage';
 import { CardDeck } from './cards';
 import { CARD_SET, MotherCardPackage, ChildCardPackage, MelchisedechCardPackage } from './constants/cards';
 import { SceneName } from './constants/scenes';
@@ -55,4 +56,11 @@ export function restore_player_deck(set: CARD_SET, cards: string[], cursor: numb
   }
 }
 
-cover_page();
+let matches: RegExpExecArray;
+if (matches = /users\/([^\/]+)\/games\/([^\/]+)/.exec(window.location.hash)) {
+  const [, user_id, game_id] = matches;
+  load_game_from_db(user_id, game_id);
+}
+else {
+  cover_page();
+}
