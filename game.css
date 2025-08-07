@@ -224,6 +224,18 @@ body {
   margin: auto;
 }
 
+.user-feedback section {
+  margin: 1em;
+}
+.user-feedback textarea {
+  min-width: 50vw;
+  field-sizing: normal;
+}
+.user-feedback .buttonlike {
+  color: black;
+  padding: 0.3em;
+}
+
 .recap-exegesis {
   font-style: italic;
 }
@@ -240,7 +252,7 @@ a {
   cursor: pointer;
 }
 
-button {
+button, .buttonlike {
   background: inherit;
   border: 2px solid gray;
   cursor: pointer;
@@ -249,7 +261,7 @@ button {
   margin: 10px;
   text-transform: uppercase;
 }
-button:hover {
+button:hover, .buttonlike:hover {
   box-shadow: 0 0 1px 1px gold;
 }
 
