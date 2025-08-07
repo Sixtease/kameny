@@ -25,6 +25,7 @@ import { clear_saved_game } from '../game/manage';
 import { get_coord } from '../game/place_info';
 import { Overlay } from './overlay';
 import { recap_last_card_draw } from './recap-card-draw';
+import { order_board_game, request_interpretation } from './feedback';
 
 const html = htm.bind(h);
 
@@ -167,9 +168,15 @@ class Recap_game extends Component {
             }
           </svg>
 
-          <p class="recap-game__footer">
-            <a href="javascript:;" onClick=${() => { clear_saved_game(); location.reload(); }}>Hrát znovu.</a>
-          </p>
+          ${/user.*gaame/.test(window.location.hash) ? null : html`<p class="recap-game__footer">
+            <button type="button" onClick=${order_board_game}>
+              Objednat deskovou verzi hry
+            </button>
+            <button type="button" onClick=${request_interpretation}>
+              Požádat o výklad průběhu hry
+            </button>
+            <button type="button" onClick=${() => { clear_saved_game(); location.reload(); }}>Hrát znovu</button>
+          </p>`}
         </div>
       </Overlay>
     `;

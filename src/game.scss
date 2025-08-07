@@ -268,6 +268,22 @@ body {
   }
 }
 
+.user-feedback {
+  section {
+    margin: 1em;
+  }
+
+  textarea {
+    min-width: 50vw;
+    field-sizing: normal;
+  }
+
+  .buttonlike {
+    color: black;
+    padding: 0.3em;
+  }
+}
+
 .recap-exegesis {
   font-style: italic;
 }
@@ -285,7 +301,7 @@ a {
   cursor: pointer;
 }
 
-button {
+button, .buttonlike {
   background: inherit;
   border: 2px solid gray;
   cursor: pointer;
