@@ -1,4 +1,5 @@
 import { CardPackage, card_sets } from './constants/cards';
+import { prefetch } from './utils/prefetch';
 
 export class CardDeck<T extends CardPackage = CardPackage> {
   cards: T['Card'][] = [];
@@ -28,6 +29,12 @@ export class CardDeck<T extends CardPackage = CardPackage> {
       drawn.push(this.cards[this.cursor]);
       this.cursor = (this.cursor + 1) % this.cards.length;
     }
+    this.prefetch(2);
     return drawn;
+  }
+  prefetch(n = 1): void {
+    for (let i = 0; i < n; i++) {
+      prefetch(this.set, this.cards, (this.cursor + i) % this.cards.length);
+    }
   }
 }

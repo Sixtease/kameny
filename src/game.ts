@@ -45,6 +45,7 @@ export function set_player_deck(set: CARD_SET) {
     case CARD_SET.melchisedech: player_deck = new CardDeck<MelchisedechCardPackage>(set); break;
     default: throw new Error('unexpected card set for player deck');
   }
+  player_deck.prefetch(6);
 }
 
 export function restore_player_deck(set: CARD_SET, cards: string[], cursor: number) {
@@ -54,6 +55,7 @@ export function restore_player_deck(set: CARD_SET, cards: string[], cursor: numb
     case CARD_SET.melchisedech: player_deck = new CardDeck<MelchisedechCardPackage>(set, cards as MelchisedechCardPackage['Card'][], cursor); break;
     default: throw new Error('unexpected card set for player deck');
   }
+  player_deck.prefetch();
 }
 
 let matches: RegExpExecArray;
