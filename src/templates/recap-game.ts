@@ -168,7 +168,7 @@ class Recap_game extends Component {
             }
           </svg>
 
-          ${/user.*gaame/.test(window.location.hash) ? null : html`<p class="recap-game__footer">
+          ${/users.*games/.test(window.location.hash) ? null : html`<p class="recap-game__footer">
             <button type="button" onClick=${order_board_game}>
               Objednat deskovou verzi hry
             </button>

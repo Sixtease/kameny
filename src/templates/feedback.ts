@@ -19,6 +19,8 @@ class User_feedback extends Component<Feedback_props> {
       <${Overlay}>
         <div class="recap-root user-feedback">
           <form action="https://kameny.life/feedback.php" method="post" target="_blank">
+            <input type="hidden" name="game_ref" value="${localStorage.getItem('saved_game_ref')}" />
+
             <section>
               <h2>Objednat:</h2>
 

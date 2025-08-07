@@ -1,7 +1,6 @@
 <?php
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $user_id = htmlspecialchars($_POST["user_id"] ?? "", ENT_QUOTES, 'UTF-8');
-    $game_id = htmlspecialchars($_POST["game_id"] ?? "", ENT_QUOTES, 'UTF-8');
+    $game_ref = htmlspecialchars($_POST["game_ref"] ?? "", ENT_QUOTES, 'UTF-8');
     $email   = htmlspecialchars($_POST["email"] ?? "", ENT_QUOTES, 'UTF-8');
     $message = htmlspecialchars($_POST["message"] ?? "", ENT_QUOTES, 'UTF-8');
     $wants_interpretation = isset($_POST["request_interpretation"]);
@@ -27,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     } else {
       $body .= "Ne.";
     }
-    $body .= "\nPrůběh hry: https://kameny.life/#user/$user_id/game/$game_id";
+    $body .= "\nPrůběh hry: https://kameny.life/#$game_ref";
     $body .= "\n\nVlastní zpráva:\n$message\n";
 
     $headers  = "From: no-reply@kameny.life\r\n";

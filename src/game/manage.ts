@@ -139,6 +139,7 @@ export async function harvest_game() {
   const game_id = get_game_id();
   const end_time = new Date().toISOString();
   const document_id = `${user_id}/games/${game_id}-${end_time}`;
+  localStorage.setItem('saved_game_ref', `/users/${document_id}`);
   const game = get_game();
   try {
     const docRef = doc(db, 'users', document_id);
