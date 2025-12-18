@@ -315,6 +315,10 @@ a {
   cursor: pointer;
 }
 
+.buttonlike {
+  display: inline-block;
+}
+
 button, .buttonlike {
   background: inherit;
   border: 2px solid gray;
