@@ -149,7 +149,13 @@ class Recap_game extends Component {
                 <img
                   src="${path}"
                   title="${name}"
-                  onClick=${() => recap_last_card_draw(evt)}
+                  onClick=${() => {
+                    if (this.state.hovered_card_index !== i) {
+                      this.setState({ hovered_card_index: i });
+                      return;
+                    }
+                    recap_last_card_draw(evt);
+                  }}
                   onMouseEnter=${() => this.setState({ hovered_card_index: i })}
                 />
               </span>
