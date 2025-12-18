@@ -1,8 +1,22 @@
+:root {
+  --color-card-purple: #92137e;
+  --color-card-blue:   #2c4ca3;
+  --color-card-red:    #d3004f;
+  --color-highlight:   #ffbd3a;
+  --color-standout:    #73e66e;
+
+
+  --color-bluish-black: #000e57;
+  --color-greenish-black: #002a00;
+
+  --color-yellowish-white: #ffefcf;
+}
+
 body {
   margin: 0;
   overflow: hidden;
-  font-family: EB Garamond, serif;
-  color: #2C4CA3;
+  font-family: "EB Garamond", serif;
+  color: var(--color-card-blue);
   background-color: #E9E3D7;
   font-size: calc(max(3vh, 0.35cm));
 }
@@ -311,7 +325,7 @@ button, .buttonlike {
   text-transform: uppercase;
 
   &:hover {
-    box-shadow: 0 0 1px 1px gold;
+    box-shadow: 0 0 1px 1px var(--color-highlight);
   }
 }
 
@@ -373,7 +387,7 @@ button, .buttonlike {
   border-bottom: 0 none;
   border-radius: 2cm;
   background-color: rgba(255, 255, 255, 0.8);
-  box-shadow: 0 0 20px 0px purple;
+  box-shadow: 0 0 20px 0px var(--color-card-purple);
   cursor: pointer;
 
   @media (hover: hover) {
@@ -438,16 +452,16 @@ button, .buttonlike {
 
 @keyframes pulse {
   0% {
-    box-shadow: 0 0 20px 0px purple;
+    box-shadow: 0 0 20px 0px var(--color-card-purple);
   }
   60% {
-    box-shadow: 0 0 20px 0px purple;
+    box-shadow: 0 0 20px 0px var(--color-card-purple);
   }
   80% {
-    box-shadow: 0 0 25px 10px purple;
+    box-shadow: 0 0 25px 10px var(--color-card-purple);
   }
   100% {
-    box-shadow: 0 0 20px 0px purple;
+    box-shadow: 0 0 20px 0px var(--color-card-purple);
   }
 }
 
