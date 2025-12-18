@@ -52,7 +52,7 @@ export class Drawn_cards_scene extends Phaser.Scene {
     const y = offset;
     this.card_count++;
     const sprite = this.add.sprite(x, y, card_key).setScale(0.1);
-    if (narrow_layout) sprite.setOrigin(1, 1);
+    if (narrow_layout) sprite.setOrigin(0, 0);
     sprite.setInteractive({ cursor: 'pointer' });
     sprite.on('pointerup', () => recap_last_card_draw());
   }
